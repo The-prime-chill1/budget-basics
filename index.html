@@ -3,15 +3,86 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0f172a" />
-    <meta name="author" content="Team PixelForge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)" />
+
+    <!-- Primary SEO Meta Tags -->
+    <title>BudgetBasics | NextGen BudgetBee — Smart Financial Literacy for Students</title>
+    <meta name="title" content="BudgetBasics | NextGen BudgetBee — Smart Financial Literacy for Students" />
     <meta
       name="description"
-      content="BudgetBasics — NextGen BudgetBee. Built and powered by Team PixelForge. An interactive, educational personal-finance and budgeting platform designed for students, college learners, and beginners."
+      content="BudgetBasics is an interactive, educational personal-finance platform built for college students. Master the 50/30/20 rule, plan student expenses, forecast savings goals, and get instant financial guidance."
     />
-    <meta name="keywords" content="Team PixelForge, budgeting, student finance, 50-30-20 rule, savings goals, money management, needs vs wants, Aptech TechWiz" />
-    
+    <meta name="keywords" content="BudgetBasics, NextGen BudgetBee, student budgeting, 50-30-20 rule calculator, college finance, savings goals, student expense planner, financial literacy, needs vs wants, Aptech TechWiz 7, Team PixelForge" />
+    <meta name="author" content="Team PixelForge" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://budgetbasics-two.vercel.app/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://budgetbasics-two.vercel.app/" />
+    <meta property="og:site_name" content="BudgetBasics" />
+    <meta property="og:title" content="BudgetBasics — NextGen BudgetBee | Student Financial Literacy Platform" />
+    <meta property="og:description" content="Free student-centric budgeting and personal finance platform. Interactive 50/30/20 calculators, semester expense planner, savings goal simulators, and smart learning tools." />
+    <meta property="og:image" content="https://budgetbasics-two.vercel.app/hero.jpg" />
+    <meta property="og:image:alt" content="BudgetBasics Platform Preview" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://budgetbasics-two.vercel.app/" />
+    <meta name="twitter:title" content="BudgetBasics — Smart Student Budgeting Without the Stress" />
+    <meta name="twitter:description" content="Interactive 50/30/20 calculator, student expense planner, savings timeline simulator, and empathetic financial guidance. 100% free for students." />
+    <meta name="twitter:image" content="https://budgetbasics-two.vercel.app/hero.jpg" />
+
+    <!-- AI & Search Engine Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://budgetbasics-two.vercel.app/#webapp",
+          "url": "https://budgetbasics-two.vercel.app/",
+          "name": "BudgetBasics",
+          "alternateName": "NextGen BudgetBee",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "All modern browsers, iOS, Android, macOS, Windows",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "An interactive, educational personal-finance and budgeting platform designed for students, college learners, and beginners.",
+          "featureList": [
+            "50/30/20 Rule Budget Calculator with Interactive Donut Chart",
+            "Student Expense Planner with Temporary Session Storage",
+            "Milestone-based Savings Goals Timeline Forecaster",
+            "Needs vs. Wants Interactive Classification Challenge",
+            "Common Student Money Mistakes & Habit Audit",
+            "Visual Infographics Gallery for Financial Literacy",
+            "BeeWise Interactive Financial Guidance Assistant"
+          ],
+          "creator": {
+            "@type": "Organization",
+            "name": "Team PixelForge"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://budgetbasics-two.vercel.app/#website",
+          "url": "https://budgetbasics-two.vercel.app/",
+          "name": "BudgetBasics",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Team PixelForge"
+          }
+        }
+      ]
+    }
+    </script>
+
     <!-- Google Fonts: Plus Jakarta Sans for body & Outfit for headings -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,8 +90,6 @@
       href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
       rel="stylesheet"
     />
-    
-    <title>BudgetBasics | NextGen BudgetBee — Smart Financial Literacy for Students</title>
   </head>
   <body>
     <div id="root"></div>

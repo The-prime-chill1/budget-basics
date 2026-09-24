@@ -60,6 +60,17 @@
   flex-shrink: 0;
 }
 
+.tab-label {
+  font-size: 0.62rem;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  line-height: 1.1;
+}
+
+.tab-item:active {
+  transform: scale(0.92);
+}
+
 .tab-item:hover {
   color: var(--primary-gold);
 }

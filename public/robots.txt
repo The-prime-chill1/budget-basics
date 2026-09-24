@@ -1,0 +1,34 @@
+# Allow all search engines and AI crawlers to discover and index BudgetBasics
+User-agent: *
+Allow: /
+
+# Specifically welcome major AI search and reasoning engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# Sitemap
+Sitemap: https://budgetbasics-two.vercel.app/sitemap.xml

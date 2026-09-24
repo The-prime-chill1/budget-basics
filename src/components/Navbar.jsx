@@ -516,25 +516,20 @@ export default function Navbar({ theme, toggleTheme }) {
               <span>{session.userId}</span>
             </span>
 
-            {/* Theme Toggle */}
+            {/* Theme Toggle Icon Button */}
             <button
               type="button"
-              className="navbar-avatar-btn"
+              className="navbar-theme-toggle-btn"
               onClick={toggleTheme}
               title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
-              aria-label="Toggle theme mode"
+              aria-label={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
             >
-              <img
-                src="/human.jpg"
-                alt="Student Avatar"
-                className="navbar-avatar-img"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = '/mascot-bee.png';
-                }}
-              />
-              <span className="theme-toggle-floating-icon">
-                {theme === 'dark' ? <Sun size={11} /> : <Moon size={11} />}
+              <span className={`theme-toggle-icon-wrap ${theme === 'dark' ? 'is-dark' : 'is-light'}`}>
+                {theme === 'dark' ? (
+                  <Sun size={18} className="theme-toggle-svg sun" />
+                ) : (
+                  <Moon size={18} className="theme-toggle-svg moon" />
+                )}
               </span>
             </button>
 

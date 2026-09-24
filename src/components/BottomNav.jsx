@@ -8,13 +8,12 @@ export default function BottomNav() {
     <nav className="bottom-nav-bar" aria-label="Mobile Bottom Navigation">
       <div className="bottom-nav-inner">
         <NavLink
-          to="/"
+          to="/cockpit"
           className={({ isActive }) => (isActive ? 'tab-item active' : 'tab-item')}
-          end
-          title="Student Cockpit Home"
+          title="Student Cockpit Dashboard"
         >
           <Home size={19} className="tab-icon" />
-          <span className="tab-label">Home</span>
+          <span className="tab-label">Cockpit</span>
         </NavLink>
 
         <NavLink
@@ -32,7 +31,7 @@ export default function BottomNav() {
           title="Needs vs Wants Analyzer"
         >
           <Scale size={19} className="tab-icon" />
-          <span className="tab-label">Needs/Wants</span>
+          <span className="tab-label">Needs</span>
         </NavLink>
 
         <NavLink
