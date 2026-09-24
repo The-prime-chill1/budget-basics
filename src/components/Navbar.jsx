@@ -432,9 +432,6 @@ export default function Navbar({ theme, toggleTheme }) {
             <div className="navbar-brand-text">
               <div className="brand-heading-row">
                 <span className="brand-main-title">BudgetBasics</span>
-                <span className="bee-pill bee-pill-gold brand-edition-pill" title="NextGen BudgetBee">
-                  NextGen BudgetBee
-                </span>
               </div>
               <span className="brand-route-subtitle" title={subtitle}>
                 {subtitle}
