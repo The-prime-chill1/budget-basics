@@ -436,7 +436,7 @@ export default function Landing() {
         <div className="hero-micro-badge-wrap">
           <div className="hero-micro-badge">
             <span className="hero-pulse-dot"></span>
-            <span className="hero-badge-text">NextGen BudgetBee Engine &bull; Free for Campus Students</span>
+            <span className="hero-badge-text">NextGen BudgetBee Engine &bull; Free for College Students</span>
           </div>
         </div>
 
@@ -445,7 +445,7 @@ export default function Landing() {
           <div className="hero-copy-col">
             <h1 className="hero-title">
               Smart Student Budgeting <br className="hidden sm:inline" />
-              <span className="text-gold">Without The Stress.</span>
+              <span className="text-gold">Without the Stress</span>
             </h1>
 
             <p className="hero-lead-text">
