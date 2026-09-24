@@ -1,0 +1,546 @@
+/* Planner & Goals Styles (Screenshot 6) */
+.planner-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* 1. Lab Hero Card */
+.planner-hero-card {
+  padding: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .planner-hero-card {
+    padding: 1.75rem 2rem;
+  }
+}
+
+.lab-header-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.lab-mascot-frame {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #fef3c7;
+  flex-shrink: 0;
+}
+
+.lab-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.lab-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lab-name {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.lab-pill-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  background-color: #6cf8bb;
+  color: #004d34;
+}
+
+.lab-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Responsive Grid Layout Container */
+.planner-desktop-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.planner-col-left,
+.planner-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 960px) {
+  .planner-desktop-layout {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 1.75rem;
+    align-items: flex-start;
+  }
+
+  .planner-col-left {
+    position: sticky;
+    top: 5rem;
+  }
+}
+
+/* 2. Savings Goal Estimator */
+.goal-estimator-card {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.goal-estimator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.estimator-title-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.orange-indicator-dot {
+  width: 6px;
+  height: 18px;
+  border-radius: 3px;
+  background-color: #f59e0b;
+}
+
+.estimator-title {
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.real-time-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background-color: var(--surface-low);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+}
+
+.goal-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.input-with-end-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.end-icon {
+  position: absolute;
+  right: 1rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.fields-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.slider-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.monthly-rate-pill {
+  font-size: 0.725rem;
+  font-weight: 800;
+  color: #855300;
+  background-color: #fef3c7;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.slider-input-combo {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.monthly-slider {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  accent-color: #f59e0b;
+  cursor: pointer;
+}
+
+.slider-val-box {
+  width: 52px;
+  padding: 0.5rem;
+  background-color: var(--surface-low);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* Goal Calculation Result Box */
+.goal-result-box {
+  background-color: var(--surface-low);
+  border-radius: var(--radius-lg);
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.goal-metrics-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.res-label {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15rem;
+}
+
+.res-amount {
+  font-size: 1.6rem;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.res-time-box {
+  text-align: right;
+}
+
+.res-months {
+  font-size: 1.6rem;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  color: #006c49;
+}
+
+.months-unit {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.finish-progress-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.progress-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.finish-track {
+  width: 100%;
+  height: 8px;
+  background-color: var(--surface-container);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.finish-fill {
+  height: 100%;
+  background-color: #f59e0b;
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease;
+}
+
+.star-callout-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.85rem;
+  background-color: var(--surface-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.star-icon {
+  color: #f59e0b;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}
+
+.callout-text {
+  font-size: 0.775rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* 3. Session Expense Planner */
+.expense-planner-card {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.planner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.planner-title-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.green-indicator-dot {
+  width: 6px;
+  height: 18px;
+  border-radius: 3px;
+  background-color: #006c49;
+}
+
+.planner-title {
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.add-expense-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-full);
+  background-color: #006c49;
+  color: #ffffff;
+  border: none;
+  font-size: 0.775rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.add-expense-btn:hover {
+  background-color: #00875a;
+}
+
+.planner-stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.plan-stat-card {
+  padding: 1rem;
+  background-color: var(--surface-low);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stat-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.stat-amount {
+  font-size: 1.4rem;
+  font-family: var(--font-mono);
+  font-weight: 800;
+}
+
+.stat-emerald {
+  color: #006c49;
+}
+
+[data-theme='dark'] .stat-emerald {
+  color: #34d399;
+}
+
+.stat-helper {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.on-track-pill {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+  background-color: #6cf8bb;
+  color: #004d34;
+}
+
+/* Expenses List */
+.logged-expenses-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.logged-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.logged-count-badge {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  background-color: var(--surface-low);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.expenses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.expense-row-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.85rem;
+  background-color: var(--surface-low);
+  border-radius: var(--radius-md);
+}
+
+.expense-icon-frame {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background-color: #e0e7ff;
+  color: #4338ca;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.expense-meta-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.expense-name {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expense-sub {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.expense-right-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.expense-cost {
+  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.action-icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-icon-btn:hover {
+  color: var(--text-primary);
+}
+
+.btn-delete:hover {
+  color: #dc2626;
+}
+
+/* Privacy Notice */
+.privacy-assurance-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.85rem;
+  background-color: #eef2ff;
+  border-radius: var(--radius-md);
+  margin-top: 0.5rem;
+}
+
+.shield-icon {
+  color: #494bd6;
+  margin-top: 0.1rem;
+  flex-shrink: 0;
+}
+
+.privacy-text {
+  font-size: 0.725rem;
+  color: #2b29bb;
+  line-height: 1.4;
+  margin: 0;
+}

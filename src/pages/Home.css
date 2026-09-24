@@ -1,0 +1,1120 @@
+/* ==========================================================================
+   BudgetBasics — Student Cockpit / Home Dashboard Styles
+   High-Fidelity Modern Card Layout (Fulfills UI Mockup & SRS Specifications)
+   ========================================================================== */
+
+.cockpit-home-screen {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .cockpit-home-screen {
+    gap: 1.5rem;
+  }
+}
+
+/* Toast Notification */
+.cockpit-toast {
+  position: fixed;
+  bottom: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #0f172a;
+  color: #f8fafc;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.toast-icon {
+  color: var(--secondary-emerald);
+}
+
+/* Base Cockpit Card */
+.cockpit-card {
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .cockpit-card {
+    padding: 1.5rem;
+  }
+}
+
+/* 1. Welcome Card */
+.welcome-card {
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, var(--surface-card) 0%, var(--surface-low) 100%);
+}
+
+.welcome-glow-orb {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.18) 0%, rgba(245, 158, 11, 0) 70%);
+  pointer-events: none;
+  filter: blur(20px);
+}
+
+.welcome-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 2;
+}
+
+.welcome-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.welcome-badges-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.term-badge {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.live-ping-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--secondary-emerald);
+  animation: pingAnimation 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes pingAnimation {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.campus-name-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.welcome-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.welcome-subhead {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.fire-streak-badge {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+  color: #ea580c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(234, 88, 12, 0.2);
+  border: 1px solid rgba(234, 88, 12, 0.25);
+}
+
+[data-theme='dark'] .fire-streak-badge {
+  background: linear-gradient(135deg, rgba(234, 88, 12, 0.25) 0%, rgba(245, 158, 11, 0.3) 100%);
+  color: #fdba74;
+}
+
+/* Daily Community Pulse */
+.community-pulse-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+.pulse-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.students-pulse {
+  background-color: var(--surface-low);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--secondary-emerald);
+  animation: liveBlink 1.5s infinite;
+}
+
+.sage-rank-badge {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+[data-theme='dark'] .sage-rank-badge {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: #fde68a;
+}
+
+.rank-icon {
+  color: #d97706;
+}
+
+/* Motivational Quote Carousel Box */
+.quote-cycle-box {
+  background-color: var(--surface-low);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 0.85rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.quote-icon-frame {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-md);
+  background-color: #fef3c7;
+  color: #d97706;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+[data-theme='dark'] .quote-icon-frame {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: #fde68a;
+}
+
+.quote-content-frame {
+  flex: 1;
+  min-width: 0;
+}
+
+.quote-body {
+  font-size: 0.825rem;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.45;
+  transition: opacity 0.18s ease;
+}
+
+.quote-author {
+  display: block;
+  font-size: 0.725rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+  transition: opacity 0.18s ease;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
+}
+
+.quote-cycle-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-card);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.quote-cycle-btn:hover {
+  background-color: var(--primary-gold-light);
+  color: #92400e;
+}
+
+.quote-cycle-btn:active {
+  transform: rotate(90deg) scale(0.95);
+}
+
+/* 2. Monthly Spend Cockpit Card */
+.cockpit-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-header-icon-box {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-gold-tint {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+[data-theme='dark'] .bg-gold-tint {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: #fde68a;
+}
+
+.card-main-heading {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.month-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.6rem;
+}
+
+/* Two-column Metrics Grid */
+.metrics-two-col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.metric-stat-card {
+  background-color: var(--surface-low);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.725rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.stat-value-row {
+  margin: 0.25rem 0;
+}
+
+.stat-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+.stat-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.725rem;
+  font-weight: 700;
+}
+
+/* 50-30-20 Multi-Segment Bar */
+.budget-bar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+.bar-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.bar-title {
+  color: var(--text-primary);
+}
+
+.bar-remaining-pill {
+  color: var(--text-muted);
+}
+
+.segmented-progress-track {
+  width: 100%;
+  height: 14px;
+  background-color: var(--surface-container);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  display: flex;
+}
+
+.segment-bar {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.seg-needs {
+  background-color: #006c49;
+}
+
+.seg-wants {
+  background-color: #f59e0b;
+}
+
+.seg-savings {
+  background-color: #494bd6;
+}
+
+.segments-legend-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-needs { background-color: #006c49; }
+.dot-wants { background-color: #f59e0b; }
+.dot-savings { background-color: #494bd6; }
+
+.legend-texts {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.legend-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.legend-sub {
+  font-size: 0.675rem;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+/* 3. Interactive Learning Pods */
+.learning-pods-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.pods-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.25rem;
+}
+
+.pods-section-heading {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.pods-subtitle-hint {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary-gold);
+}
+
+.pods-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 1024px) {
+  .pods-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+}
+
+.pod-card {
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.pod-card:hover {
+  background-color: var(--surface-low);
+  transform: translateY(-2px);
+  border-color: var(--border-focus);
+}
+
+.pod-card:active {
+  transform: scale(0.98);
+}
+
+.pod-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.bg-gold-box { background-color: #fef3c7; color: #92400e; }
+.bg-emerald-box { background-color: #d1fae5; color: #065f46; }
+.bg-indigo-box { background-color: #e0e7ff; color: #3730a3; }
+.bg-amber-box { background-color: #ffedd5; color: #9a3412; }
+
+[data-theme='dark'] .bg-gold-box { background-color: rgba(245, 158, 11, 0.2); color: #fde68a; }
+[data-theme='dark'] .bg-emerald-box { background-color: rgba(16, 185, 129, 0.2); color: #a7f3d0; }
+[data-theme='dark'] .bg-indigo-box { background-color: rgba(73, 75, 214, 0.25); color: #c0c1ff; }
+[data-theme='dark'] .bg-amber-box { background-color: rgba(234, 88, 12, 0.2); color: #fdba74; }
+
+.pod-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.pod-badge {
+  font-size: 0.675rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pod-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-top: 0.2rem;
+  line-height: 1.25;
+}
+
+.pod-desc {
+  font-size: 0.775rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pod-action-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.775rem;
+  font-weight: 800;
+  margin-top: 0.85rem;
+}
+
+.pod-arrow {
+  transition: transform 0.15s ease;
+}
+
+.pod-card:hover .pod-arrow {
+  transform: translateX(3px);
+}
+
+/* 4. BeeWise Daily Bite Card */
+.ai-tip-card {
+  gap: 0.85rem;
+}
+
+.ai-tip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ai-tip-title-box {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.ai-robot-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #fef3c7;
+  color: #d97706;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+[data-theme='dark'] .ai-robot-avatar {
+  background-color: rgba(245, 158, 11, 0.25);
+  color: #fde68a;
+}
+
+.ai-tip-brand-name {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.ai-tip-subtitle {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.tip-new-pill {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.45rem;
+}
+
+.ai-speech-bubble {
+  background-color: var(--surface-low);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 0.95rem;
+  position: relative;
+}
+
+.ai-speech-text {
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.ai-tip-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.ask-beewise-btn {
+  flex: 1;
+  height: 44px;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.bookmark-tip-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-low);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.bookmark-tip-btn:hover {
+  background-color: var(--surface-container);
+}
+
+.bookmark-tip-btn.active {
+  background-color: var(--primary-gold-light);
+  color: #92400e;
+  border-color: var(--primary-gold);
+}
+
+/* 5. Money Mistakes Alert Spotlight */
+.mistake-radar-card {
+  background-color: #ffe4e6;
+  border: 1.5px solid rgba(225, 29, 72, 0.35);
+  border-radius: var(--radius-xl);
+  padding: 1.15rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+[data-theme='dark'] .mistake-radar-card {
+  background-color: rgba(225, 29, 72, 0.15);
+  border-color: rgba(225, 29, 72, 0.4);
+}
+
+.mistake-radar-icon-frame {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background-color: #e11d48;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.mistake-radar-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.mistake-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mistake-badge-label {
+  font-size: 0.675rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #e11d48;
+}
+
+.mistake-trend-tag {
+  font-size: 0.7rem;
+  color: #9f1239;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+[data-theme='dark'] .mistake-trend-tag {
+  color: #fda4af;
+}
+
+.mistake-headline {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #881337;
+  margin-top: 0.2rem;
+  line-height: 1.25;
+}
+
+[data-theme='dark'] .mistake-headline {
+  color: #ffe4e6;
+}
+
+.mistake-body {
+  font-size: 0.8rem;
+  color: #4c0519;
+  margin-top: 0.25rem;
+  line-height: 1.45;
+}
+
+[data-theme='dark'] .mistake-body {
+  color: #fecdd3;
+}
+
+.mistake-fix-link {
+  display: inline-block;
+  font-size: 0.775rem;
+  font-weight: 800;
+  color: #e11d48;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  transition: transform 0.15s ease;
+}
+
+.mistake-fix-link:hover {
+  transform: translateX(3px);
+}
+
+/* 6. Gamification Badges Card */
+.badges-unlocked-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.badges-grid-three {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.badge-item {
+  background-color: var(--surface-low);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 0.85rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.15s ease;
+}
+
+.badge-item.unlocked:hover {
+  transform: translateY(-2px);
+}
+
+.badge-item.locked {
+  opacity: 0.7;
+}
+
+.badge-emblem-frame {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+}
+
+.bg-emerald-tint {
+  background-color: #d1fae5;
+  color: #059669;
+}
+
+[data-theme='dark'] .bg-emerald-tint {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #6ee7b7;
+}
+
+.bg-locked-tint {
+  background-color: var(--surface-container);
+  color: var(--text-muted);
+}
+
+.badge-check-icon {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background-color: #006c49;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 900;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.badge-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-top: 0.5rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.badge-status-text {
+  font-size: 0.675rem;
+  font-weight: 700;
+  margin-top: 0.15rem;
+}
+
+/* 7. Campus Culture Card */
+.campus-culture-card {
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.campus-culture-img {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.campus-culture-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.campus-club-tag {
+  font-size: 0.675rem;
+  font-weight: 800;
+  color: var(--primary-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.campus-club-heading {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-top: 0.15rem;
+  line-height: 1.25;
+}
+
+.campus-club-desc {
+  font-size: 0.775rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.campus-join-link {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--primary-gold);
+  text-decoration: none;
+  margin-top: 0.35rem;
+}
+
+.campus-join-link:hover {
+  text-decoration: underline;
+}
+
+/* 8. Disclaimer Notice Block */
+.cockpit-disclaimer-card {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+  padding: 0.75rem;
+}
+
+.disclaimer-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text-muted);
+}
+
+.disclaimer-icon {
+  color: var(--text-muted);
+}
+
+.disclaimer-heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.disclaimer-text {
+  font-size: 0.725rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  max-width: 480px;
+  margin: 0;
+}
+
+.disclaimer-links-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.725rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+.disclaimer-links-row a {
+  color: var(--primary-gold);
+  text-decoration: none;
+}
+
+.disclaimer-links-row a:hover {
+  text-decoration: underline;
+}
+
+.sep {
+  color: var(--text-light);
+}
+
+/* Interactive Animations & Micro-Interactions */
+.cockpit-card {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+}
+
+.cockpit-card:hover {
+  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08);
+}
+
+.fire-streak-badge {
+  animation: flameFlicker 3s infinite ease-in-out;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.fire-streak-badge:hover {
+  transform: scale(1.08) rotate(4deg);
+}
+
+@keyframes flameFlicker {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.25));
+  }
+  50% {
+    transform: scale(1.05);
+    filter: drop-shadow(0 4px 14px rgba(245, 158, 11, 0.45));
+  }
+}
+
+.welcome-title-sparkle {
+  animation: sparkleTwinkle 2.5s infinite ease-in-out;
+}
+
+@keyframes sparkleTwinkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.2) rotate(15deg);
+    opacity: 1;
+  }
+}
+
+.metric-stat-card {
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.metric-stat-card:hover {
+  transform: translateY(-2px);
+  background-color: var(--surface-low);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 640px) {
+  .welcome-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .fire-streak-badge {
+    align-self: flex-start;
+  }
+
+  .community-pulse-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .metrics-two-col-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pods-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .campus-culture-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .campus-culture-img {
+    width: 100%;
+    height: 140px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+  .pods-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

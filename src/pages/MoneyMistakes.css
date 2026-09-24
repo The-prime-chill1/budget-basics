@@ -1,0 +1,263 @@
+/* Money Mistakes Styles */
+.mistakes-accordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 3.5rem;
+}
+
+.accordion-item {
+  background-color: var(--surface-card);
+  border: 1.5px solid var(--border-outline);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.accordion-item:hover,
+.accordion-item.is-open {
+  border-color: rgba(245, 158, 11, 0.45);
+  box-shadow: var(--shadow-float);
+}
+
+.accordion-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
+}
+
+.accordion-trigger:hover {
+  background-color: var(--surface-low);
+}
+
+.accordion-content {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.trigger-left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.mistake-number-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background-color: var(--accent-light);
+  color: var(--accent-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+.mistake-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.2rem;
+}
+
+.mistake-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.trigger-arrow {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.scenario-block {
+  background-color: var(--bg-surface);
+  border-left: 3px solid var(--accent);
+  padding: 1rem 1.25rem;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  margin: 1.25rem 0;
+}
+
+.block-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+
+.scenario-text {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.signs-action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.column-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.signs-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sign-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.sign-bullet {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.action-box {
+  background-color: var(--success-light);
+  border: 1px solid rgba(5, 150, 105, 0.25);
+  padding: 1rem 1.15rem;
+  border-radius: var(--radius-md);
+}
+
+.action-text {
+  font-size: 0.85rem;
+  color: var(--success-text);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Habit Audit */
+.audit-card {
+  padding: 2.5rem;
+  border: 1px solid var(--border-strong);
+}
+
+.audit-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.audit-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background-color: var(--accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.audit-title {
+  font-size: 1.35rem;
+  margin-bottom: 0.25rem;
+}
+
+.audit-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.audit-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 2rem;
+}
+
+.audit-check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.85rem 1.15rem;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.audit-check-item:hover {
+  background-color: var(--bg-subtle);
+  border-color: var(--accent);
+}
+
+.audit-checkbox {
+  margin-top: 0.25rem;
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+}
+
+.check-text {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.audit-results-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-subtle);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.audit-result-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.result-clean { color: var(--success); font-weight: 600; }
+.result-flagged { color: var(--text-primary); }
+
+@media (max-width: 992px) {
+  .signs-action-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .audit-card {
+    padding: 1.5rem;
+  }
+}

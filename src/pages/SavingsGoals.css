@@ -1,0 +1,235 @@
+/* Savings Goals Styles */
+.preset-goals-bar {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  flex-wrap: wrap;
+}
+
+.preset-bar-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.preset-cards-list {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.preset-goal-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  font-size: 0.825rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.preset-goal-chip:hover {
+  background-color: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.chip-name {
+  font-weight: 600;
+}
+
+.chip-target {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Goals Workspace */
+.goals-workspace-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 2rem;
+}
+
+.goal-input-card,
+.goal-forecast-card {
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header-clean {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.header-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-heading {
+  font-size: 1.25rem;
+  margin-bottom: 0.2rem;
+}
+
+.card-subtext {
+  font-size: 0.825rem;
+  color: var(--text-muted);
+}
+
+.status-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+}
+
+.status-in-progress {
+  background-color: var(--accent-light);
+  color: var(--accent-text);
+  border: 1px solid rgba(217, 119, 6, 0.3);
+}
+
+.status-completed {
+  background-color: var(--success-light);
+  color: var(--success-text);
+  border: 1px solid rgba(5, 150, 105, 0.3);
+}
+
+.progress-section-block {
+  margin-bottom: 2rem;
+}
+
+.forecast-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.metric-box {
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metric-label {
+  font-size: 0.775rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.metric-val {
+  font-size: 1.5rem;
+  font-family: var(--font-mono);
+  font-weight: 800;
+}
+
+.text-remaining { color: #2563eb; }
+.text-months { color: var(--accent); }
+
+.metric-sub {
+  font-size: 0.775rem;
+  color: var(--text-secondary);
+}
+
+.celebration-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  background-color: var(--success-light);
+  border: 1px solid rgba(5, 150, 105, 0.3);
+  border-radius: var(--radius-md);
+  color: var(--success-text);
+  margin-bottom: 2rem;
+}
+
+.trophy-icon {
+  color: #f59e0b;
+  flex-shrink: 0;
+}
+
+.celebration-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+  color: var(--success-text);
+}
+
+.celebration-text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--success-text);
+}
+
+.goal-tip-box {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 2rem;
+}
+
+.tip-box-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+
+.tip-zap-icon {
+  color: var(--accent);
+}
+
+.tip-box-body {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.forecast-footer-action {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 1024px) {
+  .goals-workspace-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .forecast-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}

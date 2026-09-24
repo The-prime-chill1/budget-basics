@@ -1,0 +1,132 @@
+/* Formatted Chat Message Typography & Rich Markdown Styles */
+.formatted-chat-message {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  font-size: 0.925rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.formatted-chat-message.msg-rtl {
+  direction: rtl;
+  text-align: right;
+  font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+}
+
+.msg-paragraph {
+  margin: 0;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.msg-bold {
+  font-weight: 800;
+  color: #0F172A;
+}
+
+[data-theme='dark'] .msg-bold {
+  color: #F8FAFC;
+}
+
+.msg-italic {
+  font-style: italic;
+  color: var(--text-secondary);
+  opacity: 0.95;
+}
+
+/* Callout Header */
+.msg-callout-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.85rem;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: var(--radius-md);
+  font-weight: 800;
+  font-size: 0.975rem;
+  color: #855300;
+  margin-bottom: 0.25rem;
+}
+
+[data-theme='dark'] .msg-callout-header {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(16, 185, 129, 0.15) 100%);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #FDE68A;
+}
+
+/* Bullet Lists */
+.msg-bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.msg-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  line-height: 1.55;
+}
+
+.msg-bullet-marker {
+  color: var(--primary-gold);
+  font-size: 1.15rem;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.msg-bullet-content {
+  flex: 1;
+}
+
+/* Numbered Steps */
+.msg-ordered-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.35rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.msg-ordered-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.45rem 0.65rem;
+  background-color: var(--surface-low);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.msg-step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: var(--primary-gold);
+  color: #0F172A;
+  font-weight: 800;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.msg-step-content {
+  flex: 1;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.formatted-chat-message.msg-rtl .msg-bullet-item,
+.formatted-chat-message.msg-rtl .msg-ordered-item {
+  text-align: right;
+}

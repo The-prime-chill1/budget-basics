@@ -1,0 +1,309 @@
+/* ==========================================================================
+   Visual Sitemap & Information Architecture Flowchart Styles
+   Matching exact BudgetBasics Specification Diagram
+   ========================================================================== */
+
+.sitemap-canvas-frame {
+  padding: 2.5rem;
+  border-radius: 24px;
+  border: 1.5px solid var(--border-subtle);
+  background-color: var(--surface-card);
+  box-shadow: var(--shadow-card);
+  overflow-x: auto;
+}
+
+/* Tree Grid Structure */
+.sitemap-tree-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  min-width: 820px;
+  padding: 1rem 0;
+}
+
+/* 1. Root Node: Landing Page */
+.tree-root-col {
+  flex-shrink: 0;
+  width: 200px;
+}
+
+.tree-root-card {
+  border: 1.5px solid #00513F;
+  background-color: var(--surface-lowest);
+  border-radius: 16px;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 81, 63, 0.08);
+}
+
+.tree-root-title {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #00513F;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin-bottom: 0.35rem;
+}
+
+[data-theme='dark'] .tree-root-title {
+  color: #00C4B4;
+}
+
+.tree-root-sub {
+  font-size: 0.775rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+/* 2. Connectors Column */
+.tree-connectors-col {
+  width: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.tree-connectors-col::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  bottom: 15%;
+  width: 2px;
+  background-color: #00513F;
+  opacity: 0.4;
+}
+
+/* 3. Pillars Column */
+.tree-pillars-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.tree-pillar-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Green/Teal Header Pill */
+.pillar-header-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #00513F 0%, #006C49 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(0, 81, 63, 0.2);
+  white-space: nowrap;
+  min-width: 190px;
+}
+
+[data-theme='dark'] .pillar-header-pill {
+  background: linear-gradient(135deg, #00513F 0%, #0F3634 100%);
+  border: 1px solid #00C4B4;
+}
+
+.pillar-arrow {
+  color: #00513F;
+  font-size: 1.25rem;
+  font-weight: 800;
+  opacity: 0.6;
+}
+
+[data-theme='dark'] .pillar-arrow {
+  color: #00C4B4;
+}
+
+/* Leaf Nodes */
+.pillar-leaves-flow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.flow-arrow {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.pillar-leaves-stack {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.tree-leaf-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem;
+  background-color: var(--surface-lowest);
+  border: 1.5px solid #00804C;
+  border-radius: 12px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 0.885rem;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.tree-leaf-card:hover {
+  background-color: rgba(0, 128, 76, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 128, 76, 0.15);
+}
+
+.tree-leaf-card.wide {
+  min-width: 210px;
+}
+
+.leaf-dot {
+  font-size: 0.65rem;
+  color: #00804C;
+}
+
+/* Utility Divider */
+.sitemap-utility-divider {
+  border-top: 1.5px dotted var(--border-subtle);
+  margin: 2.5rem 0 1.5rem;
+}
+
+/* Utility Buttons Bar */
+.sitemap-utility-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.sitemap-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  border: 1.5px solid #00513F;
+  background-color: var(--surface-lowest);
+  color: #00513F;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+[data-theme='dark'] .sitemap-pill-btn {
+  border-color: #00C4B4;
+  color: #00C4B4;
+}
+
+.sitemap-pill-btn:hover {
+  background-color: #00513F;
+  color: #D8E64C;
+  transform: translateY(-1px);
+}
+
+[data-theme='dark'] .sitemap-pill-btn:hover {
+  background-color: #00C4B4;
+  color: #0A2A2A;
+}
+
+.sitemap-pill-btn.active {
+  background-color: #00513F;
+  color: #ffffff;
+}
+
+.back-top-pill {
+  background: linear-gradient(135deg, #00513F, #1E488F);
+  color: #ffffff !important;
+  border: none;
+}
+
+/* Data Note Box Callout */
+.sitemap-data-note-box {
+  margin-top: 2rem;
+  display: flex;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-lowest);
+}
+
+.data-note-accent-bar {
+  width: 14px;
+  background-color: #00C4B4;
+  flex-shrink: 0;
+}
+
+.data-note-body {
+  padding: 1.25rem 1.5rem;
+}
+
+.data-note-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.data-note-desc {
+  font-size: 0.925rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Modal Content */
+.disclaimer-modal-content {
+  text-align: center;
+  padding: 0.5rem 0;
+}
+
+.disclaimer-icon-badge {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(0, 81, 63, 0.1);
+  color: #00513F;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 1rem;
+}
+
+.disclaimer-icon-badge.bg-emerald {
+  background-color: rgba(0, 128, 76, 0.1);
+  color: #00804C;
+}
+
+.disclaimer-modal-content h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.disclaimer-modal-content p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .sitemap-canvas-frame {
+    padding: 1.25rem;
+  }
+}

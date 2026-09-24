@@ -1,0 +1,58 @@
+/* ==========================================================================
+   BrandLogo Component Styles — Clean Vector Brand Rendering (Brand v2)
+   ========================================================================== */
+
+.brand-logo-svg {
+  display: block;
+  user-select: none;
+  overflow: visible;
+  transition: transform 0.2s ease;
+}
+
+.brand-logo-svg:hover {
+  transform: translateY(-1px);
+}
+
+/* Honeycomb 50/30/20 Cell */
+.brand-hex-cell {
+  fill: #00513F;
+  stroke: #00513F;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.brand-stripes-503020 rect {
+  fill: #D8E64C;
+}
+
+/* Wordmark: Budget + Basics */
+.brand-text-budget {
+  fill: #0F172A;
+  transition: fill 0.2s ease;
+}
+
+.brand-text-basics {
+  fill: #0D9488;
+  transition: fill 0.2s ease;
+}
+
+.brand-tagline-text {
+  fill: #64748B;
+  transition: fill 0.2s ease;
+}
+
+/* Dark Mode Theme Adjustment */
+[data-theme='dark'] .brand-text-budget {
+  fill: #F8FAFC;
+}
+
+[data-theme='dark'] .brand-text-basics {
+  fill: #14B8A6;
+}
+
+[data-theme='dark'] .brand-tagline-text {
+  fill: #94A3B8;
+}
+
+.brand-logo-mark {
+  filter: drop-shadow(0 3px 8px rgba(15, 118, 110, 0.28));
+}

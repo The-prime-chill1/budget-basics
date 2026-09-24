@@ -1,0 +1,134 @@
+.tips-ticker-bar {
+  width: 100%;
+  background-color: var(--surface-card);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.35rem 1rem;
+  font-size: 0.775rem;
+  overflow: hidden;
+  position: relative;
+  z-index: 90;
+}
+
+[data-theme='dark'] .tips-ticker-bar {
+  background-color: var(--surface-low);
+  border-bottom-color: var(--border-subtle);
+}
+
+.ticker-inner {
+  width: 100%;
+  max-width: var(--app-max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ticker-badge-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  font-weight: 800;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+[data-theme='dark'] .ticker-badge-box {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.3) 100%);
+  color: #fde68a;
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.ticker-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #f59e0b;
+  animation: pulseDot 1.5s infinite;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.8; }
+}
+
+.ticker-sparkle {
+  color: #d97706;
+}
+
+.ticker-content-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  animation: tickerSlideIn 0.35s ease-out;
+}
+
+@keyframes tickerSlideIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ticker-tag-chip {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--surface-low);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ticker-text {
+  color: var(--text-secondary);
+  font-size: 0.775rem;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.ticker-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.ticker-ctrl-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-low);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.15s ease;
+}
+
+.ticker-ctrl-btn:hover {
+  background: var(--surface-container);
+  color: var(--primary-gold);
+}
+
+@media (max-width: 600px) {
+  .ticker-tag-chip {
+    display: none;
+  }
+  .ticker-badge-label {
+    display: none;
+  }
+}
