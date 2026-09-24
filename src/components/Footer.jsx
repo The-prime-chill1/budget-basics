@@ -28,7 +28,7 @@ import './Footer.css';
 
 export default function Footer() {
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const { liveCount, totalVisits } = useVisitorCount();
+  const { liveCount } = useVisitorCount();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,8 +41,6 @@ export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
-  const cumulativeVisitors = 14820 + (totalVisits || 1);
 
   return (
     <footer className="bee-global-footer" role="contentinfo">
@@ -225,12 +223,6 @@ export default function Footer() {
               <span className="footer-ping-dot"></span>
               <span className="live-num">{liveCount}</span>
               <span>{liveCount === 1 ? 'learner live' : 'learners live'}</span>
-            </div>
-
-            {/* Total platform visitors */}
-            <div className="footer-total-badge" title="Total cumulative visits across campus learners">
-              <Users size={13} className="text-gold" />
-              <span>Visitors: <strong>{cumulativeVisitors.toLocaleString()}</strong></span>
             </div>
           </div>
         </div>

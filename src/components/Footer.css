@@ -367,29 +367,6 @@
   font-weight: 800;
 }
 
-.footer-total-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: var(--radius-full);
-  background-color: var(--surface-low);
-  border: 1px solid var(--border-subtle);
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-}
-
-[data-theme='dark'] .footer-total-badge {
-  background-color: #1e293b;
-  border-color: #334155;
-}
-
-.footer-total-badge strong {
-  color: var(--primary-gold);
-  font-family: var(--font-mono);
-  font-weight: 800;
-}
-
 /* 6. Floating Back to Top Button */
 .floating-back-top {
   position: fixed;
