@@ -7,7 +7,6 @@ import {
   Target,
   FileSpreadsheet,
   AlertTriangle,
-  Image as ImageIcon,
   Bot,
   Search,
   Info,
@@ -17,41 +16,25 @@ import {
   ShieldCheck,
   Award,
   Sparkles,
-  Heart,
-  Users
+  Users,
+  Compass,
+  CheckCircle2,
+  ExternalLink,
+  Layers
 } from 'lucide-react';
 import BrandLogo from './BrandLogo';
+import { useVisitorCount } from '../utils/visitorCounter';
 import './Footer.css';
 
 export default function Footer() {
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [visitorCount, setVisitorCount] = useState(14820);
-
-  useEffect(() => {
-    // Session-based visitor count tracker (SRS Section 1.6 Requirement)
-    try {
-      const stored = localStorage.getItem('budgetbee_visitor_counter');
-      let count = stored ? parseInt(stored, 10) : 14820;
-      if (!sessionStorage.getItem('budgetbee_counted_session')) {
-        count += 1;
-        localStorage.setItem('budgetbee_visitor_counter', count.toString());
-        sessionStorage.setItem('budgetbee_counted_session', 'true');
-      }
-      setVisitorCount(count);
-    } catch {
-      setVisitorCount(14820);
-    }
-  }, []);
+  const { liveCount, totalVisits } = useVisitorCount();
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setShowBackToTop(true);
-      } else {
-        setShowBackToTop(false);
-      }
+      setShowBackToTop(window.scrollY > 320);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -59,173 +42,211 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const cumulativeVisitors = 14820 + (totalVisits || 1);
+
   return (
-    <footer className="bee-global-footer">
+    <footer className="bee-global-footer" role="contentinfo">
       <div className="footer-inner-container">
-        {/* Top Section: Brand Info + Competition Tag */}
-        <div className="footer-top-grid">
-          <div className="footer-brand-column">
-            <Link to="/" className="footer-brand-header" aria-label="BudgetBasics Home">
-              <BrandLogo height={42} showTagline={true} idPrefix="appFooter" />
+        
+        {/* Top Header Strip: Brand + Quick Back to Top */}
+        <div className="footer-hero-strip">
+          <div className="footer-brand-lockup">
+            <Link to="/" className="footer-brand-link" aria-label="BudgetBasics Homepage">
+              <BrandLogo height={38} showTagline={true} idPrefix="ftrLogo" />
             </Link>
-            <p className="footer-mission-p">
-              An educational student-first financial literacy platform built and powered by <strong>Team PixelForge</strong> for the Aptech TechWiz 7 Competition under the Web Innovation Unleashed category.
+            <span className="footer-tagline-chip">
+              NextGen BudgetBee &bull; Aptech TechWiz 7
+            </span>
+          </div>
+
+          <div className="footer-action-controls">
+            <button
+              type="button"
+              className="footer-back-to-top-btn"
+              onClick={scrollToTop}
+              title="Scroll to top of page"
+              aria-label="Back to Top"
+            >
+              <ArrowUp size={16} />
+              <span>Back to Top</span>
+            </button>
+          </div>
+        </div>
+
+        {/* 4-Column Navigation & Resource Directory */}
+        <div className="footer-columns-grid">
+          
+          {/* Column 1: Mission & Competition Focus */}
+          <div className="footer-col footer-col-about">
+            <h4 className="footer-col-title">
+              <Award size={16} className="text-gold" />
+              <span>About Project</span>
+            </h4>
+            <p className="footer-mission-text">
+              An interactive, student-centric financial literacy and budgeting web application developed for the{' '}
+              <strong>Aptech TechWiz 7 Competition</strong> under the theme <em>NextGen BudgetBee</em>.
             </p>
-            <div className="footer-award-badge">
-              <Award size={16} className="award-icon" />
-              <span>Built &amp; Powered by Team PixelForge &bull; TechWiz 7</span>
+            <div className="footer-meta-pill-group">
+              <span className="footer-meta-pill">Web Innovation Unleashed</span>
+              <span className="footer-meta-pill">100% Client-Side SPA</span>
+              <span className="footer-meta-pill">Zero Server Storage</span>
             </div>
           </div>
 
-          {/* Links Column 1: Learning Curriculum */}
-          <div className="footer-links-column">
-            <h4 className="footer-column-heading">
-              <BookOpen size={15} />
+          {/* Column 2: Financial Literacy Curriculum */}
+          <div className="footer-col">
+            <h4 className="footer-col-title">
+              <BookOpen size={16} className="text-emerald" />
               <span>Curriculum</span>
             </h4>
-            <ul className="footer-nav-list">
+            <ul className="footer-links-list">
               <li>
-                <Link to="/budgeting-basics">Budgeting Basics</Link>
+                <Link to="/budgeting-basics">Budgeting Basics 101</Link>
               </li>
               <li>
-                <Link to="/needs-vs-wants">Needs vs Wants Analyzer</Link>
+                <Link to="/needs-vs-wants">Needs vs. Wants Challenge</Link>
               </li>
               <li>
-                <Link to="/50-30-20">50/30/20 Rule Allocator</Link>
+                <Link to="/50-30-20">50/30/20 Rule Formula</Link>
               </li>
               <li>
-                <Link to="/money-mistakes">Money Mistakes Guide</Link>
+                <Link to="/money-mistakes">5 Student Money Mistakes</Link>
               </li>
               <li>
-                <Link to="/infographics">Visual Infographics</Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Links Column 2: Tools & AI */}
-          <div className="footer-links-column">
-            <h4 className="footer-column-heading">
-              <Calculator size={15} />
-              <span>Tools & AI</span>
-            </h4>
-            <ul className="footer-nav-list">
-              <li>
-                <Link to="/savings-goals">Savings Goal Estimator</Link>
-              </li>
-              <li>
-                <Link to="/expense-planner">Session Expense Planner</Link>
-              </li>
-              <li>
-                <Link to="/chatbot">BeeWise AI Assistant</Link>
-              </li>
-              <li>
-                <Link to="/search">Search Resources</Link>
+                <Link to="/infographics">Visual Infographics Gallery</Link>
               </li>
             </ul>
           </div>
 
-          {/* Links Column 3: Platform & Support */}
-          <div className="footer-links-column">
-            <h4 className="footer-column-heading">
-              <Info size={15} />
-              <span>Support & Docs</span>
+          {/* Column 3: Interactive Calculators & AI */}
+          <div className="footer-col">
+            <h4 className="footer-col-title">
+              <Calculator size={16} className="text-blue" />
+              <span>Tools &amp; AI</span>
             </h4>
-            <ul className="footer-nav-list">
+            <ul className="footer-links-list">
               <li>
-                <Link to="/about">About Project & Team</Link>
+                <Link to="/50-30-20">50/30/20 Calculator</Link>
               </li>
               <li>
-                <Link to="/feedback">Feedback Form</Link>
+                <Link to="/savings-goals">Savings Goal Forecaster</Link>
               </li>
               <li>
-                <Link to="/contact">Contact Campus Help</Link>
+                <Link to="/expense-planner">Student Expense Planner</Link>
               </li>
               <li>
-                <Link to="/sitemap" className="footer-sitemap-highlight">
-                  Visual Sitemap &rarr;
+                <Link to="/chatbot">BeeWise AI Tutor Assistant</Link>
+              </li>
+              <li>
+                <Link to="/search">Global Content Search</Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Team PixelForge & Support */}
+          <div className="footer-col">
+            <h4 className="footer-col-title">
+              <Users size={16} className="text-purple" />
+              <span>Team PixelForge</span>
+            </h4>
+            <ul className="footer-links-list">
+              <li>
+                <Link to="/about">Project Work Division</Link>
+              </li>
+              <li>
+                <Link to="/about">Meet the Developers</Link>
+              </li>
+              <li>
+                <Link to="/feedback">Student Feedback Form</Link>
+              </li>
+              <li>
+                <Link to="/contact">Contact Campus Support</Link>
+              </li>
+              <li>
+                <Link to="/sitemap" className="footer-sitemap-link">
+                  <Compass size={14} />
+                  <span>Visual Sitemap Directory &rarr;</span>
                 </Link>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Middle Notice: Educational & Privacy Disclaimers */}
-        <div className="footer-disclaimers-row">
-          <div className="disclaimer-item">
-            <ShieldCheck size={16} className="disclaimer-icon icon-shield" />
+        {/* Project Work Division Team Badge Row */}
+        <div className="footer-team-strip">
+          <span className="team-strip-label">
+            <Layers size={14} className="text-gold" />
+            <span>Team PixelForge Division:</span>
+          </span>
+          <div className="team-members-chips">
+            <Link to="/about" className="team-chip" title="Enioluwafe Gbadamosi — Main Structure & Integration">
+              <strong>Enioluwafe Gbadamosi</strong> (Main Structure)
+            </Link>
+            <Link to="/about" className="team-chip" title="Hamid — Budgeting Basics & Needs vs Wants">
+              <strong>Hamid</strong> (Budgeting)
+            </Link>
+            <Link to="/about" className="team-chip" title="Tammy — 50/30/20 & Savings Calculators">
+              <strong>Tammy</strong> (Calculators)
+            </Link>
+            <Link to="/about" className="team-chip" title="Lawal Abiodun — Expense Planner & Mistakes">
+              <strong>Lawal Abiodun</strong> (Expenses)
+            </Link>
+            <Link to="/about" className="team-chip" title="Lam Abdulhameed Olawale — AI Chatbot & Search">
+              <strong>Lam Abdulhameed Olawale</strong> (AI &amp; Search)
+            </Link>
+          </div>
+        </div>
+
+        {/* Middle Notice: Educational & Privacy Assurances */}
+        <div className="footer-trust-box">
+          <div className="trust-item">
+            <ShieldCheck size={18} className="trust-icon text-blue" />
             <div>
-              <strong>Educational Disclaimer:</strong> BudgetBasics is strictly an educational awareness platform. It does not behave like a banking service, loan platform, payment processor, or financial investment system. All calculations are client-side estimates for learning purposes.
+              <strong>Strictly Educational:</strong> BudgetBasics does not connect to real banking accounts, payment processors, or transaction APIs. All calculations and simulations are strictly client-side educational models for collegiate learning.
             </div>
           </div>
-          <div className="disclaimer-item">
-            <Sparkles size={16} className="disclaimer-icon icon-sparkles" />
+          <div className="trust-item">
+            <Sparkles size={18} className="trust-icon text-gold" />
             <div>
-              <strong>Client-Side Privacy:</strong> No personal financial records, accounts, or cookies are stored on or sent to remote servers. All demonstration logs remain solely in your browser session.
+              <strong>Client-Side Data Privacy:</strong> No sensitive financial credentials or cookies are stored on or sent to remote servers. All session calculations remain entirely private in your local browser window.
             </div>
           </div>
         </div>
 
-        {/* Sitemap Flow Utility Buttons Bar (Exact Diagram Match) */}
-        <div className="sitemap-utility-bar" style={{ margin: '1.75rem 0 1.25rem' }}>
-          <Link to="/sitemap" className="sitemap-pill-btn">
-            <span>Sitemap</span>
-          </Link>
-          <Link to="/feedback" className="sitemap-pill-btn">
-            <span>Feedback</span>
-          </Link>
-          <Link to="/contact" className="sitemap-pill-btn">
-            <span>Contact Us</span>
-          </Link>
-          <Link to="/about" className="sitemap-pill-btn">
-            <span>About Us</span>
-          </Link>
-          <Link to="/about" className="sitemap-pill-btn">
-            <span>Educational Disclaimer</span>
-          </Link>
-          <Link to="/about" className="sitemap-pill-btn">
-            <span>Privacy Note</span>
-          </Link>
-          <button type="button" className="sitemap-pill-btn back-top-pill" onClick={scrollToTop}>
-            <span>Back-to-Top &uarr;</span>
-          </button>
-        </div>
-
-        {/* Data Note Box Callout */}
-        <div className="sitemap-data-note-box card" style={{ marginBottom: '1.75rem' }}>
-          <div className="data-note-accent-bar" aria-hidden="true"></div>
-          <div className="data-note-body">
-            <h4 className="data-note-title" style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>Data note</h4>
-            <p className="data-note-desc" style={{ fontSize: '0.85rem' }}>
-              Values displayed in examples, calculators, tips, and the AI Chatbot assistant may be hard-coded or retrieved from pre-populated JSON/TXT files. Form submissions do not require to be saved to a server.
-            </p>
-          </div>
-        </div>
-
-        {/* Bottom Row: Copyright & Credentials & Visitor Counter */}
+        {/* Bottom Bar: Copyright, Live Presence, and Total Visitors */}
         <div className="footer-bottom-bar">
           <div className="footer-copy-text">
             &copy; {new Date().getFullYear()} <strong>BudgetBasics</strong> &bull; Built and powered by <strong>Team PixelForge</strong> &bull; Aptech TechWiz 7.
           </div>
 
-          <div className="footer-visitor-counter-box" title="Total collegiate visitors on platform">
-            <span className="live-ping-dot"></span>
-            <Users size={14} className="text-gold" />
-            <span>Visitors: <strong>{visitorCount.toLocaleString()}</strong></span>
+          <div className="footer-metrics-group">
+            {/* Real-time active devices */}
+            <div className="footer-live-badge" title="Active learners currently browsing on site">
+              <span className="footer-ping-dot"></span>
+              <span className="live-num">{liveCount}</span>
+              <span>{liveCount === 1 ? 'learner live' : 'learners live'}</span>
+            </div>
+
+            {/* Total platform visitors */}
+            <div className="footer-total-badge" title="Total cumulative visits across campus learners">
+              <Users size={13} className="text-gold" />
+              <span>Visitors: <strong>{cumulativeVisitors.toLocaleString()}</strong></span>
+            </div>
           </div>
         </div>
+
       </div>
 
-      {/* Floating Back to Top Control */}
+      {/* Floating Back-to-Top (Appears on scroll) */}
       {showBackToTop && (
         <button
           type="button"
-          className="back-to-top-btn animate-fade-in"
+          className="floating-back-top animate-fade-in"
           onClick={scrollToTop}
-          aria-label="Back to Top of Page"
-          title="Back to Top"
+          aria-label="Back to top"
+          title="Scroll back to top"
         >
-          <ArrowUp size={20} />
-          <span className="back-top-label">Top</span>
+          <ArrowUp size={18} />
         </button>
       )}
     </footer>
