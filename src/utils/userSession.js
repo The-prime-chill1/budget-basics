@@ -1,6 +1,7 @@
 
 const STORAGE_KEY = 'budgetbasics_student_session';
 
+// Generates or retrieves an anonymous local session ID (STU-XXXX) so students can use the platform without signup
 export function getOrCreateStudentSession() {
   try {
     const existing = localStorage.getItem(STORAGE_KEY);

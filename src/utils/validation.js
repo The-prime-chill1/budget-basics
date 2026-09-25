@@ -1,4 +1,5 @@
 
+// Sanitizes user input: strips formatted commas, prevents NaN/Infinity, and validates ranges
 export function validateAmount(value, { allowZero = false, min = 0, max = 100000000 } = {}) {
   if (value === undefined || value === null || value === '') {
     return { isValid: false, error: 'Please enter an amount.', value: 0 };

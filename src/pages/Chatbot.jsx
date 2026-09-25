@@ -40,6 +40,7 @@ const INITIAL_MESSAGES_MAP = {
   'ar-SA': "مرحباً بك! 🐝 أنا **BeeWise**، مرشدك المالي الشخصي للطلاب. اسألني عن ميزانيتك، قاعدة 50/30/20، أو كيفية التوفير الذكي!"
 };
 
+// Client-side financial assistant: matches keywords against local curated responses with speech synthesis & multilingual support
 export default function Chatbot() {
   const [selectedLang, setSelectedLang] = useState('en-GB');
   const [autoSpeak, setAutoSpeak] = useState(false);

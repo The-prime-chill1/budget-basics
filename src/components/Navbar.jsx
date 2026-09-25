@@ -158,6 +158,7 @@ export default function Navbar({ theme, toggleTheme }) {
 
   const currentSectionObj = NAV_SECTIONS.find((s) => s.id === activeMobileSection);
 
+  // Portaled to document.body to bypass header backdrop-filter containing block on mobile WebKit
   const renderMobileDrawer = () => {
     if (!mobileMenuOpen || typeof document === 'undefined') return null;
 

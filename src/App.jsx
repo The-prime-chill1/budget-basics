@@ -22,6 +22,7 @@ import Search from './pages/Search';
 import Sitemap from './pages/Sitemap';
 import Landing from './pages/Landing';
 
+// Resets viewport scroll to top on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -33,12 +34,15 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  // Theme state synced with documentElement data-theme attribute
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem('budgetbee_theme');
     return saved || 'light';
   });
 
   const location = useLocation();
+
+  // Landing page renders its own custom header and hero layout without global chrome
   const isLandingPage =
     location.pathname === '/' ||
     location.pathname === '/landing' ||

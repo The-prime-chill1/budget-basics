@@ -57,6 +57,7 @@ const INITIAL_SAMPLE_EXPENSES = [
   }
 ];
 
+// In-memory student expense tracker initialized with realistic campus costs for interactive practice
 export default function ExpensePlanner() {
   const [budgetBase, setBudgetBase] = useState(50000);
   const [isEditingBudget, setIsEditingBudget] = useState(false);

@@ -1,4 +1,5 @@
 
+// Standard 50/30/20 breakdown: 50% Needs, 30% Wants, 20% Savings
 export function calculate503020(income) {
   const safeIncome = Math.max(0, Number(income) || 0);
 
@@ -16,6 +17,7 @@ export function calculate503020(income) {
   };
 }
 
+// Custom split ratio (e.g. 60/20/20) for students with atypical living costs
 export function calculateCustomBudget(income, needsRatio = 50, wantsRatio = 30, savingsRatio = 20) {
   const safeIncome = Math.max(0, Number(income) || 0);
   const totalRatio = needsRatio + wantsRatio + savingsRatio;
@@ -31,6 +33,7 @@ export function calculateCustomBudget(income, needsRatio = 50, wantsRatio = 30, 
   };
 }
 
+// Estimates completion months and percentage toward a target savings milestone
 export function calculateSavingsGoal(targetAmount, currentSavings, monthlyContribution) {
   const target = Number(targetAmount) || 0;
   const current = Number(currentSavings) || 0;
@@ -80,6 +83,7 @@ export function calculateSavingsGoal(targetAmount, currentSavings, monthlyContri
   };
 }
 
+// Aggregates total spent, category sub-totals, and calculates remaining allowance balance
 export function calculateExpenseSummary(initialIncome, expenses = []) {
   const income = Math.max(0, Number(initialIncome) || 0);
 

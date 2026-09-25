@@ -29,6 +29,7 @@ const FINANCIAL_TICKER_TIPS = [
   }
 ];
 
+// Rotates quick finance tips every 5s; pauses on hover so users have time to read
 export default function TipsTicker() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);

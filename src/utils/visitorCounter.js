@@ -32,6 +32,7 @@ function recordTotalVisit() {
   }
 }
 
+// Hybrid presence counter: pings /api/presence endpoint, falling back to BroadcastChannel and localStorage when offline
 export function useVisitorCount() {
   const [liveCount, setLiveCount] = useState(1);
   const [totalVisits, setTotalVisits] = useState(1);
