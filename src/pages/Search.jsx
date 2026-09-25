@@ -21,7 +21,6 @@ import { moneyMistakes } from '../data/mistakes';
 import { infographicsData } from '../data/gallery';
 import './Search.css';
 
-// Combine all searchable learning items into a unified index
 const ALL_SEARCHABLE_ITEMS = [
   ...featuredTips.map((t) => ({
     id: t.id,
@@ -80,18 +79,15 @@ const FILTER_TOPICS = ['All', 'Budgeting', 'Saving', 'Spending', 'Goals', 'Needs
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTopic, setSelectedTopic] = useState('All');
-  const [sortBy, setSortBy] = useState('relevant'); // 'relevant' | 'az'
+  const [sortBy, setSortBy] = useState('relevant');
 
-  // Filter & Sort Pipeline
   const searchResults = useMemo(() => {
     let list = ALL_SEARCHABLE_ITEMS;
 
-    // 1. Topic filter
     if (selectedTopic !== 'All') {
       list = list.filter((item) => item.category.toLowerCase() === selectedTopic.toLowerCase());
     }
 
-    // 2. Keyword query filter
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
       list = list.filter(
@@ -104,7 +100,6 @@ export default function Search() {
       );
     }
 
-    // 3. Sorting
     if (sortBy === 'az') {
       list = [...list].sort((a, b) => a.title.localeCompare(b.title));
     }
@@ -121,14 +116,12 @@ export default function Search() {
   return (
     <div className="search-page page-wrapper animate-fade-in">
       <div className="app-container">
-        {/* Header */}
         <SectionHeading
-          badge="Module 09 &bull; Global Search"
+          badge="Resource Search & Filter"
           title="Search Educational Resources"
           subtitle="Quickly discover financial concepts, mistake prevention guides, actionable tips, and infographics across the BudgetBasics platform."
         />
 
-        {/* 1. SEARCH INPUT & FILTER BAR */}
         <div className="search-controls-card card">
           <div className="search-input-wrapper">
             <SearchIcon size={20} className="search-bar-icon" />
@@ -148,7 +141,6 @@ export default function Search() {
           </div>
 
           <div className="filter-sort-row">
-            {/* Topic Filter Pills */}
             <div className="topic-filter-group">
               <span className="control-label">Topic:</span>
               <div className="topic-pills-list">
@@ -165,7 +157,6 @@ export default function Search() {
               </div>
             </div>
 
-            {/* Sort Selector */}
             <div className="sort-select-group">
               <span className="control-label">Sort By:</span>
               <select
@@ -181,7 +172,6 @@ export default function Search() {
           </div>
         </div>
 
-        {/* 2. RESULTS SUMMARY BAR */}
         <div className="results-status-bar">
           <span className="results-count-badge">
             Found <strong>{searchResults.length}</strong> result{searchResults.length !== 1 ? 's' : ''}
@@ -196,7 +186,6 @@ export default function Search() {
           )}
         </div>
 
-        {/* 3. RESULTS GRID OR EMPTY STATE */}
         {searchResults.length === 0 ? (
           <EmptyState
             icon={SearchIcon}

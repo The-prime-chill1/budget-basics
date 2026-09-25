@@ -1,16 +1,12 @@
-/* ==========================================================================
-   BudgetBee — Design System & Global Styles
-   Tactile Modernism & Card-Based UI Structure
-   Fully Responsive: Mobile (Phone), Tablet (iPad), and Desktop (Laptop/Monitor)
-   ========================================================================== */
+
 
 :root {
-  /* Typography */
+  
   --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'Space Grotesk', monospace;
 
-  /* Surfaces & Backgrounds */
+  
   --bg-primary: #faf8ff;
   --bg-canvas: #faf8ff;
   --surface: #faf8ff;
@@ -23,7 +19,7 @@
   --surface-highest: #dae2fd;
   --surface-card: #ffffff;
 
-  /* Text & Foreground */
+  
   --text-primary: #131b2e;
   --text-secondary: #534434;
   --text-muted: #64748b;
@@ -31,7 +27,7 @@
   --on-surface: #131b2e;
   --on-surface-variant: #534434;
 
-  /* Brand Accents - BudgetBee Warm Honey Gold & Deep Slate */
+  
   --primary: #855300;
   --primary-gold: #f59e0b;
   --primary-gold-hover: #d97706;
@@ -40,7 +36,7 @@
   --primary-container: #f59e0b;
   --on-primary-container: #613b00;
 
-  /* Secondary - Emerald Growth & Savings */
+  
   --secondary: #006c49;
   --secondary-emerald: #10b981;
   --secondary-container: #6cf8bb;
@@ -48,19 +44,19 @@
   --secondary-pill: #e6f9f0;
   --on-secondary-container: #00714d;
 
-  /* Tertiary - Electric Indigo (AI & Guidance) */
+  
   --tertiary: #494bd6;
   --tertiary-indigo: #6366f1;
   --tertiary-container: #a7a9ff;
   --tertiary-light: #eef2ff;
 
-  /* Borders & Outlines */
+  
   --border-subtle: rgba(226, 232, 240, 0.85);
   --border-strong: #d8c3ad;
   --border-outline: #e2e8f0;
   --border-focus: #f59e0b;
 
-  /* Need & Want Indicators */
+  
   --need-color: #0284c7;
   --need-bg: #e0f2fe;
   --need-text: #0369a1;
@@ -73,20 +69,20 @@
   --savings-bg: #d1fae5;
   --savings-text: #065f46;
 
-  /* Radii */
+  
   --radius-sm: 0.25rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
   --radius-full: 9999px;
 
-  /* Shadows (Tactile Modernism) */
+  
   --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.04);
   --shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.04), 0 1px 3px 0 rgba(15, 23, 42, 0.02);
   --shadow-float: 0 10px 25px -4px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
   --shadow-gold: 0 8px 20px -3px rgba(245, 158, 11, 0.25);
 
-  /* Theme Aliases & Utilities */
+  
   --bg-surface: #ffffff;
   --bg-subtle: #f8fafc;
   --accent: #f59e0b;
@@ -105,11 +101,10 @@
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s ease;
 
-  /* Layout Container Dimensions */
+  
   --app-max-width: 1240px;
 }
 
-/* Dark Mode Theme */
 [data-theme='dark'] {
   --bg-primary: #090d16;
   --bg-canvas: #090d16;
@@ -155,7 +150,6 @@
   --shadow-float: 0 10px 25px -4px rgba(0, 0, 0, 0.6);
 }
 
-/* Reset & Base Elements */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -178,7 +172,6 @@ body {
   margin: 0;
 }
 
-/* Fully Responsive Shell: Mobile, Tablet & Desktop */
 .app-shell {
   width: 100%;
   max-width: 100%;
@@ -216,7 +209,6 @@ body {
   }
 }
 
-/* Responsive 2-Column Grid on Tablet & Desktop */
 .desktop-2col-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -245,7 +237,6 @@ body {
   }
 }
 
-/* Typography Hierarchy */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   color: var(--text-primary);
@@ -264,7 +255,6 @@ p {
   line-height: 1.5;
 }
 
-/* Card System */
 .bee-card {
   background-color: var(--surface-card);
   border: 1px solid var(--border-subtle);
@@ -303,7 +293,6 @@ p {
   border-color: rgba(245, 158, 11, 0.3);
 }
 
-/* Buttons */
 .bee-btn {
   display: inline-flex;
   align-items: center;
@@ -354,7 +343,6 @@ p {
   background-color: var(--surface-container);
 }
 
-/* Badges & Pills */
 .bee-pill {
   display: inline-flex;
   align-items: center;
@@ -396,7 +384,6 @@ p {
   color: #a7f3d0;
 }
 
-/* Form Controls */
 .bee-input {
   width: 100%;
   padding: 0.85rem 1rem;
@@ -431,7 +418,6 @@ p {
   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
 }
 
-/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
@@ -441,7 +427,6 @@ p {
   animation: fadeIn 0.25s ease forwards;
 }
 
-/* Base HTML Form & Interactive Elements */
 input, textarea, select {
   font-family: var(--font-body);
   color: var(--text-primary);
@@ -464,7 +449,6 @@ button {
   cursor: pointer;
 }
 
-/* Universal Card System */
 .card {
   background-color: var(--surface-card);
   border: 1px solid var(--border-subtle);
@@ -485,7 +469,6 @@ button {
   border-color: rgba(245, 158, 11, 0.35);
 }
 
-/* Universal Form Controls */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -557,7 +540,6 @@ button {
   border-color: #ef4444 !important;
 }
 
-/* Universal Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -622,7 +604,6 @@ button {
   min-height: 32px;
 }
 
-/* Table System */
 .custom-table,
 table {
   width: 100%;
@@ -656,7 +637,6 @@ table tbody tr:hover {
   background-color: var(--surface-low);
 }
 
-/* Accordion Component */
 .accordion-item {
   background-color: var(--surface-card);
   border: 1px solid var(--border-subtle);
@@ -693,7 +673,6 @@ table tbody tr:hover {
   border-top: 1px solid var(--border-subtle);
 }
 
-/* Layout Helpers */
 .app-container {
   width: 100%;
   max-width: var(--app-max-width);
@@ -708,5 +687,4 @@ table tbody tr:hover {
   margin-top: 2.5rem;
   margin-bottom: 2.5rem;
 }
-
 

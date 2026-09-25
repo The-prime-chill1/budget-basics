@@ -1,8 +1,3 @@
-/**
- * User Session Manager (Auth-Free & Privacy-First)
- * Automatically provisions an anonymous unique Student ID for any visitor.
- * Persists in localStorage with zero authentication or backend requirements.
- */
 
 const STORAGE_KEY = 'budgetbasics_student_session';
 
@@ -19,7 +14,6 @@ export function getOrCreateStudentSession() {
     console.warn('LocalStorage error reading session:', e);
   }
 
-  // Generate anonymous student ID, e.g. STU-4829
   const randomNum = Math.floor(1000 + Math.random() * 9000);
   const newSession = {
     userId: `STU-${randomNum}`,

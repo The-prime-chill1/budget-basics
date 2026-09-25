@@ -1,13 +1,10 @@
-/* ==========================================================================
-   BudgetBasics — Global Footer Styling (Tactile Modernism & Responsive Layout)
-   Built & Powered by Team PixelForge for Aptech TechWiz 7
-   ========================================================================== */
+
 
 .bee-global-footer {
   width: 100%;
   background-color: var(--surface-card);
   border-top: 1px solid var(--border-subtle);
-  padding: 3rem 1.25rem 6.5rem 1.25rem; /* extra bottom padding clears mobile bottom nav */
+  padding: 3rem 1.25rem 6.5rem 1.25rem; 
   position: relative;
   z-index: 50;
   margin-top: auto;
@@ -34,7 +31,6 @@
   gap: 2rem;
 }
 
-/* 1. Header Strip: Brand + Inline Back to Top */
 .footer-hero-strip {
   display: flex;
   align-items: center;
@@ -108,7 +104,6 @@
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
 }
 
-/* 2. 4-Column Directory Grid */
 .footer-columns-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -205,7 +200,6 @@
   font-weight: 700;
 }
 
-/* 3. Team PixelForge Division Strip */
 .footer-team-strip {
   display: flex;
   flex-direction: column;
@@ -261,7 +255,6 @@
   color: var(--text-primary);
 }
 
-/* 4. Trust & Educational Assurance Box */
 .footer-trust-box {
   display: grid;
   grid-template-columns: 1fr;
@@ -293,7 +286,6 @@
   flex-shrink: 0;
 }
 
-/* 5. Bottom Bar: Copyright & Real-time Live Badge */
 .footer-bottom-bar {
   display: flex;
   flex-direction: column;
@@ -367,7 +359,6 @@
   font-weight: 800;
 }
 
-/* 6. Floating Back to Top Button */
 .floating-back-top {
   position: fixed;
   bottom: 5.5rem;

@@ -58,16 +58,13 @@ const INITIAL_SAMPLE_EXPENSES = [
 ];
 
 export default function ExpensePlanner() {
-  // Budget Base
   const [budgetBase, setBudgetBase] = useState(50000);
   const [isEditingBudget, setIsEditingBudget] = useState(false);
   const [tempBudgetInput, setTempBudgetInput] = useState('50000');
 
-  // Expenses State (Session Demonstration)
   const [expenses, setExpenses] = useState(INITIAL_SAMPLE_EXPENSES);
   const [categoryFilter, setCategoryFilter] = useState('All');
 
-  // Modal State for Add / Edit
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingExpenseId, setEditingExpenseId] = useState(null);
   const [formData, setFormData] = useState({
@@ -78,15 +75,12 @@ export default function ExpensePlanner() {
   });
   const [formErrors, setFormErrors] = useState({});
 
-  // Calculations
   const summary = calculateExpenseSummary(budgetBase, expenses);
 
-  // Filtered List
   const filteredExpenses = categoryFilter === 'All'
     ? expenses
     : expenses.filter((e) => e.category === categoryFilter);
 
-  // Open modal for new item
   const handleOpenAddModal = () => {
     setEditingExpenseId(null);
     setFormData({
@@ -99,7 +93,6 @@ export default function ExpensePlanner() {
     setIsModalOpen(true);
   };
 
-  // Open modal for editing existing item
   const handleOpenEditModal = (expense) => {
     setEditingExpenseId(expense.id);
     setFormData({
@@ -112,7 +105,6 @@ export default function ExpensePlanner() {
     setIsModalOpen(true);
   };
 
-  // Save Expense (Add or Edit)
   const handleSaveExpense = (e) => {
     e.preventDefault();
     const errors = {};
@@ -131,7 +123,6 @@ export default function ExpensePlanner() {
     }
 
     if (editingExpenseId) {
-      // Update existing
       setExpenses((prev) =>
         prev.map((item) =>
           item.id === editingExpenseId
@@ -146,7 +137,6 @@ export default function ExpensePlanner() {
         )
       );
     } else {
-      // Add new
       const newEntry = {
         id: `exp-${Date.now()}`,
         date: formData.date,
@@ -160,19 +150,16 @@ export default function ExpensePlanner() {
     setIsModalOpen(false);
   };
 
-  // Delete Expense
   const handleDeleteExpense = (id) => {
     setExpenses((prev) => prev.filter((item) => item.id !== id));
   };
 
-  // Reset to default demonstration state
   const handleResetPlanner = () => {
     setExpenses(INITIAL_SAMPLE_EXPENSES);
     setBudgetBase(50000);
     setCategoryFilter('All');
   };
 
-  // Update budget base
   const handleSaveBudgetBase = () => {
     const valid = validateAmount(tempBudgetInput, { allowZero: false, min: 1000, max: 50000000 });
     if (valid.isValid) {
@@ -184,16 +171,13 @@ export default function ExpensePlanner() {
   return (
     <div className="expense-planner-page page-wrapper animate-fade-in">
       <div className="app-container">
-        {/* Header */}
         <SectionHeading
-          badge="Module 05 &bull; Temporary Session Tracker"
-          title="Student Expense Planner (Demonstration)"
+          badge="Session Expense Tracker"
+          title="Student Expense Planner"
           subtitle="Record, categorize, and track daily campus outlays to prevent overspending. Operates completely in-browser without storing personal data."
         />
 
-        {/* 1. FINANCIAL SUMMARY METRIC CARDS */}
         <div className="planner-metrics-grid">
-          {/* Allowance Base */}
           <div className="planner-metric-card card">
             <div className="metric-head">
               <span className="metric-label">Monthly Allowance Base</span>
@@ -228,7 +212,6 @@ export default function ExpensePlanner() {
             <span className="metric-helper-text">Starting allowance for this demo session</span>
           </div>
 
-          {/* Total Spent */}
           <div className="planner-metric-card card">
             <div className="metric-head">
               <span className="metric-label">Total Planned Outlays</span>
@@ -238,7 +221,6 @@ export default function ExpensePlanner() {
             <span className="metric-helper-text">{expenses.length} logged student transactions</span>
           </div>
 
-          {/* Remaining Balance */}
           <div className={`planner-metric-card card ${summary.isOverBudget ? 'card-overbudget' : ''}`}>
             <div className="metric-head">
               <span className="metric-label">Remaining Safe Balance</span>
@@ -253,7 +235,6 @@ export default function ExpensePlanner() {
           </div>
         </div>
 
-        {/* Overbudget Warning Alert */}
         {summary.isOverBudget && (
           <div className="alert alert-warning animate-fade-in" role="alert">
             <AlertTriangle size={20} className="alert-icon" />
@@ -264,7 +245,6 @@ export default function ExpensePlanner() {
           </div>
         )}
 
-        {/* 2. TABLE CONTROLS & FILTER BAR */}
         <div className="table-controls-bar">
           <div className="filter-group">
             <Filter size={16} className="filter-icon" />
@@ -305,7 +285,6 @@ export default function ExpensePlanner() {
           </div>
         </div>
 
-        {/* 3. EXPENSES TABLE OR EMPTY STATE */}
         {filteredExpenses.length === 0 ? (
           <EmptyState
             icon={FileSpreadsheet}
@@ -374,14 +353,12 @@ export default function ExpensePlanner() {
           </div>
         )}
 
-        {/* Modal: Add or Edit Expense */}
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           title={editingExpenseId ? 'Edit Student Expense' : 'Add New Student Expense'}
         >
           <form onSubmit={handleSaveExpense} className="expense-modal-form">
-            {/* Date */}
             <div className="form-group">
               <label htmlFor="expense-date" className="form-label">Date</label>
               <input
@@ -395,7 +372,6 @@ export default function ExpensePlanner() {
               {formErrors.date && <div className="form-error-msg">{formErrors.date}</div>}
             </div>
 
-            {/* Category */}
             <div className="form-group">
               <label htmlFor="expense-category" className="form-label">Category</label>
               <select
@@ -412,7 +388,6 @@ export default function ExpensePlanner() {
               </select>
             </div>
 
-            {/* Description */}
             <div className="form-group">
               <label htmlFor="expense-desc" className="form-label">Description</label>
               <input
@@ -426,7 +401,6 @@ export default function ExpensePlanner() {
               {formErrors.description && <div className="form-error-msg">{formErrors.description}</div>}
             </div>
 
-            {/* Amount */}
             <div className="form-group">
               <label htmlFor="expense-amount" className="form-label">Amount (₦)</label>
               <div className="input-with-symbol">

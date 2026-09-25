@@ -1,20 +1,4 @@
-/**
- * Pure calculation functions for BudgetBasics educational modules.
- * Strictly separates mathematical/financial logic from React UI components.
- */
 
-/**
- * Calculates 50-30-20 breakdown from a given monthly income.
- * @param {number} income
- * @returns {{
- *   needs: number,
- *   wants: number,
- *   savings: number,
- *   needsPercentage: number,
- *   wantsPercentage: number,
- *   savingsPercentage: number
- * }}
- */
 export function calculate503020(income) {
   const safeIncome = Math.max(0, Number(income) || 0);
 
@@ -32,13 +16,6 @@ export function calculate503020(income) {
   };
 }
 
-/**
- * Calculates a custom ratio breakdown (e.g. 60-20-20 or 70-20-10) for students with custom circumstances.
- * @param {number} income
- * @param {number} needsRatio (e.g. 60)
- * @param {number} wantsRatio (e.g. 20)
- * @param {number} savingsRatio (e.g. 20)
- */
 export function calculateCustomBudget(income, needsRatio = 50, wantsRatio = 30, savingsRatio = 20) {
   const safeIncome = Math.max(0, Number(income) || 0);
   const totalRatio = needsRatio + wantsRatio + savingsRatio;
@@ -54,19 +31,6 @@ export function calculateCustomBudget(income, needsRatio = 50, wantsRatio = 30, 
   };
 }
 
-/**
- * Calculates remaining savings and estimated months to reach a target goal.
- * @param {number} targetAmount
- * @param {number} currentSavings
- * @param {number} monthlyContribution
- * @returns {{
- *   remainingAmount: number,
- *   estimatedMonths: number,
- *   progressPercentage: number,
- *   isCompleted: boolean,
- *   error: string | null
- * }}
- */
 export function calculateSavingsGoal(targetAmount, currentSavings, monthlyContribution) {
   const target = Number(targetAmount) || 0;
   const current = Number(currentSavings) || 0;
@@ -116,18 +80,6 @@ export function calculateSavingsGoal(targetAmount, currentSavings, monthlyContri
   };
 }
 
-/**
- * Calculates totals and balances for the expense planner.
- * @param {number} initialIncome
- * @param {Array<{ amount: number, category: string }>} expenses
- * @returns {{
- *   totalExpenses: number,
- *   remainingBalance: number,
- *   spentPercentage: number,
- *   categoryBreakdown: Record<string, number>,
- *   isOverBudget: boolean
- * }}
- */
 export function calculateExpenseSummary(initialIncome, expenses = []) {
   const income = Math.max(0, Number(initialIncome) || 0);
 

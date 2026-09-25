@@ -66,15 +66,13 @@ export default function Contact() {
   return (
     <div className="contact-page page-wrapper animate-fade-in">
       <div className="app-container">
-        {/* Header */}
         <SectionHeading
-          badge="Module 11 &bull; Reach Out"
+          badge="Campus Support Directory"
           title="Contact BudgetBasics"
           subtitle="Get in touch with the student development team behind the NextGen BudgetBee educational initiative."
         />
 
         <div className="contact-layout-grid">
-          {/* Left Column: Direct Channels & Information */}
           <div className="contact-info-col">
             <div className="contact-info-card card">
               <span className="section-badge">Academic Support</span>
@@ -124,7 +122,6 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Right Column: Validated Message Form */}
           <div className="contact-form-card card">
             <h3 className="form-title">Send a Demonstration Message</h3>
             <p className="form-sub">Tested and validated locally using client-side React state.</p>
@@ -210,7 +207,6 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* Confirmation Modal */}
         <Modal
           isOpen={isSuccessModalOpen}
           onClose={handleReset}

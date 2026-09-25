@@ -22,7 +22,6 @@
   border-top-color: var(--border-subtle);
 }
 
-/* Tablet & Desktop: Hide Bottom Nav since Header Nav is active */
 @media (min-width: 720px) {
   .bottom-nav-bar {
     display: none !important;

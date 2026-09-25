@@ -83,14 +83,12 @@ export default function NeedsVsWants() {
   const [drillScore, setDrillScore] = useState(0);
   const [drillFeedback, setDrillFeedback] = useState(null);
 
-  // 24-Hour Delay Flowchart checks
   const [flowChecks, setFlowChecks] = useState({
     check1: false,
     check2: false,
     check3: false
   });
 
-  // Accordion state
   const [openMistake, setOpenMistake] = useState('impulse');
 
   const currentItem = DRILL_ITEMS[drillIndex];
@@ -122,7 +120,6 @@ export default function NeedsVsWants() {
 
   return (
     <div className="needs-wants-screen animate-fade-in">
-      {/* 1. HERO MINDSET SHIFT CARD */}
       <div className="mindset-hero-card bee-card-hero">
         <div className="mindset-header-row">
           <div className="mindset-mascot-frame">
@@ -141,10 +138,8 @@ export default function NeedsVsWants() {
         </p>
       </div>
 
-      {/* RESPONSIVE LAYOUT CONTAINER (Mobile Stack, Tablet/Desktop 2-Col) */}
       <div className="needs-desktop-layout">
         <div className="needs-col-left">
-          {/* 2. QUICK SORT DRILL */}
           <div className="sort-drill-card bee-card">
             <div className="drill-header">
               <div className="drill-head-left">
@@ -160,7 +155,6 @@ export default function NeedsVsWants() {
               </span>
             </div>
 
-            {/* Mini progress line */}
             <div className="drill-progress-bar">
               <div
                 className="drill-progress-fill"
@@ -168,7 +162,6 @@ export default function NeedsVsWants() {
               />
             </div>
 
-            {/* Current Drill Item */}
             <div className="drill-item-box">
               <div className="drill-item-icon-frame">
                 <ShoppingCart size={22} className="cart-icon" />
@@ -178,7 +171,6 @@ export default function NeedsVsWants() {
               <p className="drill-item-desc">{currentItem.desc}</p>
             </div>
 
-            {/* 2 Big Action Buttons */}
             <div className="drill-btn-row">
               <button
                 type="button"
@@ -210,7 +202,6 @@ export default function NeedsVsWants() {
             )}
           </div>
 
-          {/* 4. MONEY MISTAKES SPOTLIGHT */}
           <div className="mistakes-spotlight-card bee-card">
             <div className="spotlight-header">
               <AlertTriangle size={20} className="spotlight-icon" />
@@ -221,7 +212,6 @@ export default function NeedsVsWants() {
             </div>
 
             <div className="mistakes-accordions">
-              {/* Mistake 1 */}
               <div className="mistake-acc-item">
                 <button
                   type="button"
@@ -246,7 +236,6 @@ export default function NeedsVsWants() {
                 )}
               </div>
 
-              {/* Mistake 2 */}
               <div className="mistake-acc-item">
                 <button
                   type="button"
@@ -271,7 +260,6 @@ export default function NeedsVsWants() {
                 )}
               </div>
 
-              {/* Mistake 3 */}
               <div className="mistake-acc-item">
                 <button
                   type="button"
@@ -300,7 +288,6 @@ export default function NeedsVsWants() {
         </div>
 
         <div className="needs-col-right">
-          {/* 3. 24-HOUR DELAY FLOWCHART */}
           <div className="flowchart-card bee-card">
             <div className="flowchart-header">
               <Hourglass size={20} className="flowchart-icon" />
@@ -367,7 +354,6 @@ export default function NeedsVsWants() {
             </div>
           </div>
 
-          {/* 5. MINDFUL SPENDING BANNER CARD */}
           <div className="mindful-banner-card bee-card">
             <div className="banner-visual-box">
               <img src="/human.jpg" alt="Student Studying" className="banner-img" />

@@ -1,4 +1,4 @@
-/* About Page Styles */
+
 .about-hero-card {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
@@ -148,7 +148,6 @@
   }
 }
 
-/* Team PixelForge Showcase Card */
 .pixelforge-card {
   padding: 2.5rem;
   background-color: var(--surface-card);

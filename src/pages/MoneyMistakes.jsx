@@ -20,10 +20,8 @@ import { moneyMistakes } from '../data/mistakes';
 import './MoneyMistakes.css';
 
 export default function MoneyMistakes() {
-  // Accordion State
   const [openAccordionId, setOpenAccordionId] = useState('mistake-1');
 
-  // Interactive Self-Check State
   const [checkedRisks, setCheckedRisks] = useState({});
 
   const toggleAccordion = (id) => {
@@ -91,14 +89,12 @@ Live Platform: https://budgetbasics-two.vercel.app/
   return (
     <div className="money-mistakes-page page-wrapper animate-fade-in">
       <div className="app-container">
-        {/* Header */}
         <SectionHeading
-          badge="Module 06 &bull; Pitfall Prevention"
+          badge="Pitfall Prevention"
           title="Common Student Money Mistakes"
           subtitle="Discover the 5 most common financial traps students encounter on campus, along with realistic scenarios, warning signs, and actionable solutions."
         />
 
-        {/* 1. INTERACTIVE MISTAKES ACCORDION */}
         <div className="mistakes-accordion-list">
           {moneyMistakes.map((mistake, index) => {
             const isOpen = openAccordionId === mistake.id;
@@ -128,13 +124,11 @@ Live Platform: https://budgetbasics-two.vercel.app/
 
                 {isOpen && (
                   <div className="accordion-content animate-fade-in">
-                    {/* Realistic Scenario */}
                     <div className="scenario-block">
                       <span className="block-label">Campus Scenario</span>
                       <p className="scenario-text">{mistake.scenario}</p>
                     </div>
 
-                    {/* Grid: Warning Signs & Corrective Action */}
                     <div className="signs-action-grid">
                       <div className="signs-column">
                         <div className="column-head text-warning">
@@ -168,7 +162,6 @@ Live Platform: https://budgetbasics-two.vercel.app/
           })}
         </div>
 
-        {/* 2. INTERACTIVE STUDENT HABIT AUDIT (Self-Assessment) */}
         <section className="section-spacing habit-audit-section">
           <div className="card audit-card">
             <div className="audit-header">

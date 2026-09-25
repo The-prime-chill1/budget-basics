@@ -1,11 +1,10 @@
-/* Needs vs Wants Styles (Screenshot 5) */
+
 .needs-wants-screen {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-/* 1. Mindset Hero Card */
 .mindset-hero-card {
   padding: 1.25rem;
   display: flex;
@@ -61,7 +60,6 @@
 .text-needs { color: #0284c7; }
 .text-wants { color: #f59e0b; }
 
-/* Responsive Grid Layout Container */
 .needs-desktop-layout {
   display: flex;
   flex-direction: column;
@@ -84,7 +82,6 @@
   }
 }
 
-/* 2. Quick Sort Drill */
 .sort-drill-card {
   padding: 1.25rem;
   display: flex;
@@ -241,7 +238,6 @@
 .drill-correct { background-color: #ecfdf5; color: #065f46; }
 .drill-incorrect { background-color: #fff1f2; color: #9f1239; }
 
-/* 3. 24-Hour Delay Flowchart */
 .flowchart-card {
   padding: 1.25rem;
   display: flex;
@@ -341,7 +337,6 @@
   color: #065f46;
 }
 
-/* 4. Money Mistakes Spotlight */
 .mistakes-spotlight-card {
   padding: 1.25rem;
   display: flex;
@@ -419,7 +414,6 @@
   margin: 0.25rem 0;
 }
 
-/* 5. Mindful Spending Banner */
 .mindful-banner-card {
   padding: 0.75rem;
   overflow: hidden;

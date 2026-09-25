@@ -1,11 +1,10 @@
-/* Planner & Goals Styles (Screenshot 6) */
+
 .planner-screen {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-/* 1. Lab Hero Card */
 .planner-hero-card {
   padding: 1.25rem;
 }
@@ -64,7 +63,6 @@
   margin: 0;
 }
 
-/* Responsive Grid Layout Container */
 .planner-desktop-layout {
   display: flex;
   flex-direction: column;
@@ -92,7 +90,6 @@
   }
 }
 
-/* 2. Savings Goal Estimator */
 .goal-estimator-card {
   padding: 1.25rem;
   display: flex;
@@ -211,7 +208,6 @@
   font-size: 0.85rem;
 }
 
-/* Goal Calculation Result Box */
 .goal-result-box {
   background-color: var(--surface-low);
   border-radius: var(--radius-lg);
@@ -313,7 +309,6 @@
   margin: 0;
 }
 
-/* 3. Session Expense Planner */
 .expense-planner-card {
   padding: 1.25rem;
   display: flex;
@@ -419,7 +414,6 @@
   color: #004d34;
 }
 
-/* Expenses List */
 .logged-expenses-head {
   display: flex;
   align-items: center;
@@ -521,7 +515,6 @@
   color: #dc2626;
 }
 
-/* Privacy Notice */
 .privacy-assurance-card {
   display: flex;
   align-items: flex-start;

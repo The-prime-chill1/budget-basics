@@ -6,7 +6,6 @@ const SESSION_VISITED_KEY = 'budgetbee_session_counted';
 const HEARTBEAT_INTERVAL_MS = 3500;
 const SESSION_TIMEOUT_MS = 14000;
 
-// Generate or retrieve persistent device/tab session ID
 function getSessionId() {
   if (typeof window === 'undefined') return 'server_session';
   let tabId = sessionStorage.getItem('budgetbee_tab_id');
@@ -17,7 +16,6 @@ function getSessionId() {
   return tabId;
 }
 
-// Record total visits count in localStorage
 function recordTotalVisit() {
   if (typeof window === 'undefined') return 1;
   try {
@@ -34,11 +32,6 @@ function recordTotalVisit() {
   }
 }
 
-/**
- * Custom React hook that tracks real-time population/visitors
- * across multiple devices (PC, Phone, Tablet) and browser tabs.
- * Uses real-time presence API with graceful local fallback.
- */
 export function useVisitorCount() {
   const [liveCount, setLiveCount] = useState(1);
   const [totalVisits, setTotalVisits] = useState(1);
@@ -52,7 +45,6 @@ export function useVisitorCount() {
 
     let isMounted = true;
 
-    // Ping real-time presence endpoint (works across all devices on network & Vercel)
     const pingPresence = async (action = 'ping') => {
       try {
         const response = await fetch(`/api/presence?action=${action}&id=${encodeURIComponent(sessionId)}&_t=${Date.now()}`, {
@@ -68,10 +60,8 @@ export function useVisitorCount() {
           }
         }
       } catch (err) {
-        // Network offline or endpoint unavailable, fall back to local tab tracker
       }
 
-      // Fallback: local storage tab counting
       if (isMounted) {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
@@ -92,20 +82,16 @@ export function useVisitorCount() {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(active));
           setLiveCount(Math.max(1, Object.keys(active).length));
         } catch (e) {
-          // Ignore
         }
       }
     };
 
-    // Initial presence registration
     pingPresence('ping');
 
-    // Periodic heartbeat (every 3.5 seconds)
     const heartbeatTimer = setInterval(() => {
       pingPresence('ping');
     }, HEARTBEAT_INTERVAL_MS);
 
-    // BroadcastChannel sync across tabs on same device
     let channel = null;
     if (typeof BroadcastChannel !== 'undefined') {
       try {
@@ -117,11 +103,9 @@ export function useVisitorCount() {
         };
         channel.postMessage({ type: 'HEARTBEAT' });
       } catch (e) {
-        // Not supported
       }
     }
 
-    // Leave presence notification on tab close / reload
     const handleLeave = () => {
       const leaveUrl = `/api/presence?action=leave&id=${encodeURIComponent(sessionId)}&_t=${Date.now()}`;
       if (typeof navigator !== 'undefined' && navigator.sendBeacon) {

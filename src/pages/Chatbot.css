@@ -1,4 +1,4 @@
-/* BeeWise AI & Feedback Hub Styles (Centered & Balanced Layout) */
+
 .beewise-screen {
   display: flex;
   flex-direction: column;
@@ -9,7 +9,6 @@
   box-sizing: border-box;
 }
 
-/* 1. Educational Notice Banner */
 .beewise-notice-banner {
   display: flex;
   align-items: flex-start;
@@ -34,7 +33,6 @@
   line-height: 1.4;
 }
 
-/* Responsive Grid Layout Container - Centered AI Tutor */
 .beewise-desktop-layout {
   display: flex;
   flex-direction: column;
@@ -56,7 +54,6 @@
   gap: 1.5rem;
 }
 
-/* 2. BeeWise Chat Card */
 .beewise-chat-card {
   padding: 1.25rem;
   display: flex;
@@ -172,7 +169,6 @@
   color: var(--text-primary);
 }
 
-/* Multilingual Bar */
 .chat-lang-bar {
   display: flex;
   align-items: center;
@@ -242,7 +238,6 @@
   font-size: 0.85rem;
 }
 
-/* Suggested Chips */
 .suggested-chips-scroll {
   display: flex;
   gap: 0.5rem;
@@ -269,7 +264,6 @@
   background-color: #fffbeb;
 }
 
-/* Messages Area */
 .beewise-messages-box {
   display: flex;
   flex-direction: column;
@@ -429,7 +423,6 @@
 .dot-pulse:nth-child(2) { animation-delay: 0.2s; }
 .dot-pulse:nth-child(3) { animation-delay: 0.4s; }
 
-/* Listening Banner */
 .chat-listening-banner {
   display: flex;
   align-items: center;
@@ -465,7 +458,6 @@
   100% { transform: scale(0.95); opacity: 0.8; }
 }
 
-/* Chat Input Row */
 .chat-input-row {
   display: flex;
   align-items: center;
@@ -526,7 +518,6 @@
   transform: scale(0.95);
 }
 
-/* 3. Feedback & Contact Hub */
 .feedback-hub-card {
   padding: 1.25rem;
   display: flex;
@@ -588,7 +579,6 @@
   align-items: center;
 }
 
-/* 4. Contact & Student Help */
 .contact-help-card {
   padding: 1.25rem;
   display: flex;

@@ -24,14 +24,12 @@ export default function About() {
   return (
     <div className="about-page page-wrapper animate-fade-in">
       <div className="app-container">
-        {/* Header */}
         <SectionHeading
           badge="Project Identity & Mission"
           title="About BudgetBasics"
           subtitle="Empowering students, college learners, and young adults to build conscious money habits and financial confidence."
         />
 
-        {/* 1. HERO MISSION CARD */}
         <div className="about-hero-card card">
           <div className="about-hero-content">
             <h2 className="about-hero-title">
@@ -55,7 +53,7 @@ export default function About() {
             </div>
             <div className="about-stat-box">
               <strong className="stat-number">0</strong>
-              <span className="stat-desc">Backend / DB Dependencies</span>
+              <span className="stat-desc">Sign-up Barriers</span>
             </div>
             <div className="about-stat-box">
               <strong className="stat-number">₦</strong>
@@ -64,7 +62,6 @@ export default function About() {
           </div>
         </div>
 
-        {/* 2. CORE VALUES & AUDIENCE */}
         <section className="section-spacing about-values-section">
           <SectionHeading
             badge="Guiding Principles"
@@ -106,7 +103,6 @@ export default function About() {
           </div>
         </section>
 
-        {/* 3. BUILT & POWERED BY TEAM PIXELFORGE */}
         <section className="section-spacing pixelforge-showcase-section">
           <SectionHeading
             badge="Engineering & Innovation"
@@ -133,7 +129,6 @@ export default function About() {
             </p>
 
             <div className="pixelforge-roles-grid">
-              {/* 1. Enioluwafe Gbadamosi */}
               <div className="role-card">
                 <div className="role-card-top">
                   <div className="role-icon-box bg-gold-tint">
@@ -164,7 +159,6 @@ export default function About() {
                 </ul>
               </div>
 
-              {/* 2. Hamid */}
               <div className="role-card">
                 <div className="role-card-top">
                   <div className="role-icon-box bg-emerald-tint">
@@ -195,7 +189,6 @@ export default function About() {
                 </ul>
               </div>
 
-              {/* 3. Tammy */}
               <div className="role-card">
                 <div className="role-card-top">
                   <div className="role-icon-box bg-blue-tint">
@@ -226,7 +219,6 @@ export default function About() {
                 </ul>
               </div>
 
-              {/* 4. Lawal Abiodun */}
               <div className="role-card">
                 <div className="role-card-top">
                   <div className="role-icon-box bg-amber-tint">
@@ -253,7 +245,6 @@ export default function About() {
                 </ul>
               </div>
 
-              {/* 5. Lam Abdulhameed Olawale */}
               <div className="role-card">
                 <div className="role-card-top">
                   <div className="role-icon-box bg-purple-tint">
@@ -283,7 +274,6 @@ export default function About() {
           </div>
         </section>
 
-        {/* 4. WHO IS BUDGETBASICS FOR? */}
         <section className="audience-section card">
           <div className="audience-content">
             <span className="section-badge">Target Audience</span>

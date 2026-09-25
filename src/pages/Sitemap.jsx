@@ -19,7 +19,7 @@ import Modal from '../components/Modal';
 import './Sitemap.css';
 
 export default function Sitemap() {
-  const [modalType, setModalType] = useState(null); // 'disclaimer' | 'privacy' | null
+  const [modalType, setModalType] = useState(null);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -28,19 +28,14 @@ export default function Sitemap() {
   return (
     <div className="sitemap-page page-wrapper animate-fade-in">
       <div className="app-container">
-        {/* Header */}
         <SectionHeading
           badge="Sample Site Map"
           title="BudgetBasics Information Architecture and Sitemap Flow"
           subtitle="A clear visual representation of platform structure, navigation hierarchy, and user learning paths."
         />
 
-        {/* ================================================================
-            VISUAL SITEMAP DIAGRAM FRAME (Exact Match to Architecture Flow)
-            ================================================================ */}
         <div className="sitemap-canvas-frame card">
           <div className="sitemap-tree-container">
-            {/* Root Node: Landing Page */}
             <div className="tree-root-col">
               <div className="tree-root-card">
                 <Link to="/" className="tree-root-title">
@@ -50,7 +45,6 @@ export default function Sitemap() {
               </div>
             </div>
 
-            {/* Tree Branches Connector */}
             <div className="tree-connectors-col">
               <div className="tree-branch-line branch-1"></div>
               <div className="tree-branch-line branch-2"></div>
@@ -58,9 +52,7 @@ export default function Sitemap() {
               <div className="tree-branch-line branch-4"></div>
             </div>
 
-            {/* 4 Primary Navigation Pillars & Leaf Nodes */}
             <div className="tree-pillars-col">
-              {/* Pillar 1: Learn Budgeting */}
               <div className="tree-pillar-row">
                 <div className="pillar-header-pill">
                   <BookOpen size={18} />
@@ -80,7 +72,6 @@ export default function Sitemap() {
                 </div>
               </div>
 
-              {/* Pillar 2: Practice Planning */}
               <div className="tree-pillar-row">
                 <div className="pillar-header-pill">
                   <CheckSquare size={18} />
@@ -103,7 +94,6 @@ export default function Sitemap() {
                 </div>
               </div>
 
-              {/* Pillar 3: Explore Resources */}
               <div className="tree-pillar-row">
                 <div className="pillar-header-pill">
                   <Search size={18} />
@@ -122,7 +112,6 @@ export default function Sitemap() {
                 </div>
               </div>
 
-              {/* Pillar 4: Get Help / Connect */}
               <div className="tree-pillar-row">
                 <div className="pillar-header-pill">
                   <MessageSquare size={18} />
@@ -144,10 +133,8 @@ export default function Sitemap() {
             </div>
           </div>
 
-          {/* Dotted Divider before Footer Utilities */}
           <div className="sitemap-utility-divider"></div>
 
-          {/* Utility Footer Buttons Row */}
           <div className="sitemap-utility-bar">
             <Link to="/sitemap" className="sitemap-pill-btn active">
               <Network size={15} />
@@ -198,9 +185,6 @@ export default function Sitemap() {
           </div>
         </div>
 
-        {/* ================================================================
-            DATA NOTE BOX (Exact Match to Architecture Callout)
-            ================================================================ */}
         <div className="sitemap-data-note-box card">
           <div className="data-note-accent-bar" aria-hidden="true"></div>
           <div className="data-note-body">
@@ -211,7 +195,6 @@ export default function Sitemap() {
           </div>
         </div>
 
-        {/* Modal for Educational Disclaimer */}
         <Modal
           isOpen={modalType === 'disclaimer'}
           onClose={() => setModalType(null)}
@@ -236,7 +219,6 @@ export default function Sitemap() {
           </div>
         </Modal>
 
-        {/* Modal for Privacy Note */}
         <Modal
           isOpen={modalType === 'privacy'}
           onClose={() => setModalType(null)}

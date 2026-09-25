@@ -1,4 +1,4 @@
-/* Feedback Page Styles */
+
 .feedback-layout-grid {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
@@ -80,7 +80,6 @@
   margin-top: 1.5rem;
 }
 
-/* Right Info Panel */
 .feedback-info-panel {
   padding: 2.5rem;
 }
@@ -118,7 +117,6 @@
   flex-shrink: 0;
 }
 
-/* Success Modal */
 .success-modal-body {
   text-align: center;
   display: flex;

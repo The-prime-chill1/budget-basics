@@ -75,7 +75,6 @@
   text-overflow: ellipsis;
 }
 
-/* Desktop Navigation (Hidden on Mobile, Visible on Tablet & Desktop) */
 .header-desktop-nav {
   display: none;
   align-items: center;
@@ -121,7 +120,6 @@
   font-weight: 700;
 }
 
-/* Right Group (Clock, Live Badge, Avatar) */
 .header-right-group {
   display: flex;
   align-items: center;

@@ -1,7 +1,3 @@
-/**
- * Multilingual Knowledge Base and Speech Config for BudgetBee AI Assistant.
- * Fully supports: UK English, American English, Indian (English/Hindi), Spanish, French, and Arabic.
- */
 
 export const SUPPORTED_LANGUAGES = [
   { id: 'en-GB', name: 'UK English', flag: '🇬🇧', speechLang: 'en-GB', dir: 'ltr' },
@@ -153,9 +149,6 @@ export const UI_TRANSLATIONS = {
   }
 };
 
-/**
- * Multilingual Knowledge Base
- */
 export const MULTILINGUAL_KNOWLEDGE = {
   'rule_50_30_20': {
     keywords: ['50', '30', '20', 'rule', 'regla', 'règle', 'niyam', 'قاعدة', 'split', 'ratio'],
@@ -580,19 +573,14 @@ export const MULTILINGUAL_KNOWLEDGE = {
   }
 };
 
-/**
- * Intelligent Language Detector
- */
 export function detectQueryLanguage(query) {
   if (!query) return null;
   const text = query.trim().toLowerCase();
 
-  // Arabic detection (Arabic Unicode block)
   if (/[\u0600-\u06FF]/.test(text)) {
     return 'ar-SA';
   }
 
-  // French detection
   if (
     /\b(c'est|quoi|règle|besoin|besoins|envie|envies|épargner|dépenses|combien|argent|bonjour|salut|pourquoi|comment|merci)\b/i.test(
       text
@@ -601,7 +589,6 @@ export function detectQueryLanguage(query) {
     return 'fr-FR';
   }
 
-  // Spanish detection
   if (
     /\b(qué|que|regla|necesidad|necesidades|deseo|deseos|ahorrar|gastos|gastar|cuánto|cuanto|hola|por qué|porque|cómo|como|gracias)\b/i.test(
       text
@@ -610,7 +597,6 @@ export function detectQueryLanguage(query) {
     return 'es-ES';
   }
 
-  // Hindi / Hinglish detection
   if (
     /[\u0900-\u097F]/.test(text) ||
     /\b(kya|hai|kaise|kitna|bachat|kharcha|kharch|shauk|namaste|batao|bataiye|dost|paise|rupaye)\b/i.test(

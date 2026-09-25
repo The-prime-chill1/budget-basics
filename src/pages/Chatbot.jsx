@@ -41,14 +41,12 @@ const INITIAL_MESSAGES_MAP = {
 };
 
 export default function Chatbot() {
-  // Multilingual & Speech State
   const [selectedLang, setSelectedLang] = useState('en-GB');
   const [autoSpeak, setAutoSpeak] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [speakingMsgId, setSpeakingMsgId] = useState(null);
   const recognitionRef = useRef(null);
 
-  // Chat State
   const [messages, setMessages] = useState([
     {
       id: '1',
@@ -64,7 +62,6 @@ export default function Chatbot() {
   const [lastTopicId, setLastTopicId] = useState(null);
   const chatEndRef = useRef(null);
 
-  // Feedback form state
   const [fullName, setFullName] = useState('');
   const [campusEmail, setCampusEmail] = useState('');
   const [rating, setRating] = useState(5);
@@ -77,7 +74,6 @@ export default function Chatbot() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  // Clean text for speech synthesis (strips emojis and markdown)
   const cleanTextForSpeech = (raw) => {
     if (!raw) return '';
     return raw
@@ -88,7 +84,6 @@ export default function Chatbot() {
       .trim();
   };
 
-  // Text-To-Speech Speech Synthesis ("Respond / Speak")
   const handleSpeakText = (msgId, text, langCode) => {
     if (!('speechSynthesis' in window)) {
       alert('Speech synthesis is not supported on this browser.');
@@ -107,7 +102,6 @@ export default function Chatbot() {
     const targetLangObj = SUPPORTED_LANGUAGES.find((l) => l.id === (langCode || selectedLang)) || SUPPORTED_LANGUAGES[0];
     utterance.lang = targetLangObj.speechLang;
 
-    // Pick best available voice matching language
     const voices = window.speechSynthesis.getVoices();
     const prefix = targetLangObj.speechLang.split('-')[0];
     const match = voices.find((v) => v.lang === targetLangObj.speechLang || v.lang.startsWith(prefix));
@@ -122,7 +116,6 @@ export default function Chatbot() {
     window.speechSynthesis.speak(utterance);
   };
 
-  // Speech-To-Text Speech Recognition ("Listen")
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
@@ -189,13 +182,11 @@ export default function Chatbot() {
     }
   };
 
-  // Language Change Handler
   const handleChangeLanguage = (newLangId) => {
     setSelectedLang(newLangId);
     window.speechSynthesis?.cancel();
     setSpeakingMsgId(null);
 
-    // Add greeting in the new language if desired
     const greetingText = INITIAL_MESSAGES_MAP[newLangId] || INITIAL_MESSAGES_MAP['en-GB'];
     const newMsg = {
       id: `lang-change-${Date.now()}`,
@@ -214,7 +205,6 @@ export default function Chatbot() {
     }
   };
 
-  // Follow-Up Intent Check
   const isFollowUpIntent = (norm) => {
     const phrases = [
       'explain',
@@ -313,11 +303,9 @@ export default function Chatbot() {
     ].includes(norm);
   };
 
-  // Find Multilingual Response
   const findAnswer = (query, currentTopicId, activeLang) => {
     const norm = query.toLowerCase().trim().replace(/[?.,!¿¡]/g, '');
 
-    // 1. Follow-up / "explain" Intent
     if (isFollowUpIntent(norm)) {
       if (currentTopicId) {
         const multiItem = MULTILINGUAL_KNOWLEDGE[currentTopicId];
@@ -334,7 +322,6 @@ export default function Chatbot() {
         }
       }
 
-      // If no prior topic was discussed
       const generalExplains = {
         'en-GB':
           "🐝 **I'd love to explain! Which topic would you like me to break down for you?**\n\nYou can ask:\n• *'Explain the 50/30/20 rule'* (How to split your allowance)\n• *'Explain needs vs wants'* (How to make smart campus choices)\n• *'Explain emergency funds'* (Why every student needs a safety cushion)\n• *'Explain how to avoid overspending'* (Simple rules that keep you afloat)",
@@ -357,7 +344,6 @@ export default function Chatbot() {
       };
     }
 
-    // 2. Greeting Intent
     if (isGreetingIntent(norm)) {
       return {
         answer: INITIAL_MESSAGES_MAP[activeLang] || INITIAL_MESSAGES_MAP['en-GB'],
@@ -366,7 +352,6 @@ export default function Chatbot() {
       };
     }
 
-    // 3. Gratitude Intent
     if (isGratitudeIntent(norm)) {
       const gratitudeAnswers = {
         'en-GB':
@@ -389,7 +374,6 @@ export default function Chatbot() {
       };
     }
 
-    // 4. Match in Multilingual Knowledge Base
     const isExplainQuery =
       norm.includes('explain') ||
       norm.includes('break down') ||
@@ -411,7 +395,6 @@ export default function Chatbot() {
       }
     }
 
-    // 5. Match in fallback English knowledge base if not found above
     for (const item of chatbotKnowledge) {
       if (item.keywords.some((kw) => norm.includes(kw))) {
         const text = isExplainQuery ? item.explanation || item.response : item.response;
@@ -419,7 +402,6 @@ export default function Chatbot() {
       }
     }
 
-    // 6. Generic Fallback
     const fallbacks = {
       'en-GB': fallbackChatResponse.response,
       'en-US': fallbackChatResponse.response,
@@ -444,7 +426,6 @@ export default function Chatbot() {
     const q = textToSend || inputText;
     if (!q || !q.trim()) return;
 
-    // Detect if typed query is in a specific language (Spanish, French, Arabic, Hindi)
     const detected = detectQueryLanguage(q);
     const activeLang = detected || selectedLang;
     if (detected && detected !== selectedLang) {
@@ -513,7 +494,6 @@ export default function Chatbot() {
 
   return (
     <div className="beewise-screen animate-fade-in">
-      {/* 1. TOP EDUCATIONAL NOTICE */}
       <div className="beewise-notice-banner">
         <ShieldAlert size={16} className="notice-icon" />
         <span className="notice-text">
@@ -521,12 +501,9 @@ export default function Chatbot() {
         </span>
       </div>
 
-      {/* RESPONSIVE LAYOUT CONTAINER */}
       <div className="beewise-desktop-layout">
         <div className="beewise-col-chat">
-          {/* 2. BEEWISE AI ASSISTANT CARD */}
           <div className="beewise-chat-card bee-card">
-            {/* Top Header */}
             <div className="beewise-card-header">
               <div className="beewise-header-left">
                 <div className="beewise-mascot-frame">
@@ -541,7 +518,6 @@ export default function Chatbot() {
                 </div>
               </div>
 
-              {/* Header Right Actions: Auto-Voice Toggle & Reset */}
               <div className="chat-header-actions">
                 <button
                   type="button"
@@ -572,7 +548,6 @@ export default function Chatbot() {
               </div>
             </div>
 
-            {/* Language Selector Bar (Focus: UK English, US English, Indian, Spanish, French, Arabic) */}
             <div className="chat-lang-bar" aria-label="Select Chat Language">
               <div className="chat-lang-label">
                 <Globe size={14} className="text-gold" />
@@ -594,7 +569,6 @@ export default function Chatbot() {
               </div>
             </div>
 
-            {/* Suggested Prompts Carousel */}
             <div className="suggested-chips-scroll">
               {activeUi.prompts.map((p, idx) => (
                 <button
@@ -609,7 +583,6 @@ export default function Chatbot() {
               ))}
             </div>
 
-            {/* Chat Feed */}
             <div className="beewise-messages-box">
               {messages.map((m) => (
                 <div
@@ -623,13 +596,11 @@ export default function Chatbot() {
                   )}
 
                   <div className="bubble-payload">
-                    {/* Rich Formatted Markdown Output */}
                     <FormattedChatMessage text={m.text} isRtl={m.isRtl} />
 
                     <div className="bubble-footer-row">
                       <span className="bubble-time">{m.time}</span>
 
-                      {/* Text-to-Speech Speak Button on Bot Bubbles */}
                       {m.sender === 'bot' && (
                         <button
                           type="button"
@@ -667,7 +638,6 @@ export default function Chatbot() {
               <div ref={chatEndRef} />
             </div>
 
-            {/* Listening Indicator Banner */}
             {isListening && (
               <div className="chat-listening-banner animate-fade-in">
                 <span className="listening-pulse-dot"></span>
@@ -675,7 +645,6 @@ export default function Chatbot() {
               </div>
             )}
 
-            {/* Chat Input Bar with Speech-to-Text Microphone */}
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -683,7 +652,6 @@ export default function Chatbot() {
               }}
               className="chat-input-row"
             >
-              {/* Microphone / Speech Recognition Button */}
               <button
                 type="button"
                 className={`chat-mic-btn ${isListening ? 'listening' : ''}`}
@@ -718,7 +686,6 @@ export default function Chatbot() {
         </div>
 
         <div className="beewise-col-side">
-          {/* 3. FEEDBACK & CONTACT HUB */}
           <div className="feedback-hub-card bee-card">
             <div className="hub-head">
               <div>
@@ -820,7 +787,6 @@ export default function Chatbot() {
               </form>
             )}
 
-            {/* Direct Campus Helpline Cards */}
             <div className="campus-helpline-box">
               <span className="helpline-title">Direct Student Lines</span>
               <div className="helpline-links">

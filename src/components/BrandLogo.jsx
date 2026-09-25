@@ -1,16 +1,8 @@
 import React from 'react';
 import './BrandLogo.css';
 
-/**
- * Official BudgetBasics Brand Logo Component
- * Exact match to user specification:
- * - 3D Isometric Hex-Pillar Spine & Double Chambers (Teal Gradient)
- * - Dynamic Upward Growth Trend Arrow & Pivot Dot (Amber Gold Gradient)
- * - Typography: "Budget" (Bold Dark) + "Basics" (Bright Teal)
- * - Tagline: "FINANCIAL LITERACY FOR NEXTGEN LEARNERS"
- */
 export default function BrandLogo({
-  variant = 'full', // 'full' | 'horizontal' | 'mark'
+  variant = 'full',
   showTagline = true,
   height = 36,
   className = '',
@@ -20,7 +12,6 @@ export default function BrandLogo({
   const accentGradId = `${idPrefix}_amber`;
   const glowFilterId = `${idPrefix}_glow`;
 
-  // Standalone 3D B Logomark Symbol only
   if (variant === 'mark') {
     return (
       <svg
@@ -51,10 +42,8 @@ export default function BrandLogo({
         </defs>
 
         <g transform="translate(4, 8)" filter={`url(#${glowFilterId})`}>
-          {/* Base Hex-Pillar (Left Spine) */}
           <path d="M 22 24 L 38 14 L 38 86 L 22 76 Z" fill={`url(#${primaryGradId})`} />
 
-          {/* Upper Chamber */}
           <path
             d="M 44 18 L 74 18 C 86 18, 94 26, 94 38 C 94 48, 86 54, 74 54 L 44 54 Z"
             fill="none"
@@ -63,7 +52,6 @@ export default function BrandLogo({
             strokeLinejoin="round"
           />
 
-          {/* Lower Chamber */}
           <path
             d="M 44 48 L 78 48 C 91 48, 100 56, 100 68 C 100 80, 91 88, 78 88 L 44 88 Z"
             fill="none"
@@ -72,7 +60,6 @@ export default function BrandLogo({
             strokeLinejoin="round"
           />
 
-          {/* Dynamic NextGen Growth Arrow */}
           <path
             d="M 12 70 L 52 30 L 68 46 L 98 12"
             fill="none"
@@ -90,14 +77,12 @@ export default function BrandLogo({
             strokeLinejoin="round"
           />
 
-          {/* Core Pivot Dot */}
           <circle cx="68" cy="46" r="4.5" fill="#FBBF24" />
         </g>
       </svg>
     );
   }
 
-  // Full Brand Lockup with Typography and Tagline
   return (
     <svg
       viewBox={showTagline ? '0 0 540 120' : '0 0 540 100'}
@@ -126,12 +111,9 @@ export default function BrandLogo({
         </filter>
       </defs>
 
-      {/* LOGOMARK SYMBOL */}
       <g transform="translate(16, 10)" filter={`url(#${glowFilterId})`}>
-        {/* Base Hex-Pillar (Left Spine) */}
         <path d="M 22 24 L 38 14 L 38 86 L 22 76 Z" fill={`url(#${primaryGradId})`} />
 
-        {/* Upper Chamber */}
         <path
           d="M 44 18 L 74 18 C 86 18, 94 26, 94 38 C 94 48, 86 54, 74 54 L 44 54 Z"
           fill="none"
@@ -140,7 +122,6 @@ export default function BrandLogo({
           strokeLinejoin="round"
         />
 
-        {/* Lower Chamber */}
         <path
           d="M 44 48 L 78 48 C 91 48, 100 56, 100 68 C 100 80, 91 88, 78 88 L 44 88 Z"
           fill="none"
@@ -149,7 +130,6 @@ export default function BrandLogo({
           strokeLinejoin="round"
         />
 
-        {/* Dynamic NextGen Sting / Arrow Vector */}
         <path
           d="M 12 70 L 52 30 L 68 46 L 98 12"
           fill="none"
@@ -167,11 +147,9 @@ export default function BrandLogo({
           strokeLinejoin="round"
         />
 
-        {/* Core Pivot Dot */}
         <circle cx="68" cy="46" r="4.5" fill="#FBBF24" />
       </g>
 
-      {/* TYPOGRAPHY */}
       <g transform="translate(142, 72)">
         <text
           fontFamily="system-ui, -apple-system, 'Plus Jakarta Sans', 'Inter', sans-serif"
@@ -187,7 +165,6 @@ export default function BrandLogo({
         </text>
       </g>
 
-      {/* JURY SUB-BADGE / TAGLINE */}
       {showTagline && (
         <g transform="translate(145, 93)">
           <text

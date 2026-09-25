@@ -1,7 +1,4 @@
-/* ==========================================================================
-   Visual Sitemap & Information Architecture Flowchart Styles
-   Matching exact BudgetBasics Specification Diagram
-   ========================================================================== */
+
 
 .sitemap-canvas-frame {
   padding: 2.5rem;
@@ -12,7 +9,6 @@
   overflow-x: auto;
 }
 
-/* Tree Grid Structure */
 .sitemap-tree-container {
   display: flex;
   align-items: center;
@@ -21,7 +17,6 @@
   padding: 1rem 0;
 }
 
-/* 1. Root Node: Landing Page */
 .tree-root-col {
   flex-shrink: 0;
   width: 200px;
@@ -57,7 +52,6 @@
   line-height: 1.35;
 }
 
-/* 2. Connectors Column */
 .tree-connectors-col {
   width: 24px;
   display: flex;
@@ -76,7 +70,6 @@
   opacity: 0.4;
 }
 
-/* 3. Pillars Column */
 .tree-pillars-col {
   flex: 1;
   display: flex;
@@ -90,7 +83,6 @@
   gap: 1rem;
 }
 
-/* Green/Teal Header Pill */
 .pillar-header-pill {
   display: inline-flex;
   align-items: center;
@@ -122,7 +114,6 @@
   color: #00C4B4;
 }
 
-/* Leaf Nodes */
 .pillar-leaves-flow {
   display: flex;
   align-items: center;
@@ -174,13 +165,11 @@
   color: #00804C;
 }
 
-/* Utility Divider */
 .sitemap-utility-divider {
   border-top: 1.5px dotted var(--border-subtle);
   margin: 2.5rem 0 1.5rem;
 }
 
-/* Utility Buttons Bar */
 .sitemap-utility-bar {
   display: flex;
   align-items: center;
@@ -233,7 +222,6 @@
   border: none;
 }
 
-/* Data Note Box Callout */
 .sitemap-data-note-box {
   margin-top: 2rem;
   display: flex;
@@ -268,7 +256,6 @@
   margin: 0;
 }
 
-/* Modal Content */
 .disclaimer-modal-content {
   text-align: center;
   padding: 0.5rem 0;

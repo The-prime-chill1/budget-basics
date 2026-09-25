@@ -1,4 +1,4 @@
-/* Money Mistakes Styles */
+
 .mistakes-accordion-list {
   display: flex;
   flex-direction: column;
@@ -157,7 +157,6 @@
   margin: 0;
 }
 
-/* Habit Audit */
 .audit-card {
   padding: 2.5rem;
   border: 1px solid var(--border-strong);

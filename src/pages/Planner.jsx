@@ -36,17 +36,14 @@ const INITIAL_EXPENSES = [
 ];
 
 export default function Planner() {
-  // 1. Savings Goal State
   const [goalName, setGoalName] = useState('Emergency Laptop Fund');
   const [targetAmount, setTargetAmount] = useState('1200');
   const [currentSaved, setCurrentSaved] = useState('300');
   const [monthlySavings, setMonthlySavings] = useState(150);
 
-  // 2. Session Expense Planner State
   const [expenses, setExpenses] = useState(INITIAL_EXPENSES);
   const [monthlyAllowance, setMonthlyAllowance] = useState(500);
 
-  // Modal State for Add / Edit
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
@@ -56,16 +53,13 @@ export default function Planner() {
     amount: ''
   });
 
-  // Calculate Goal Estimator values
   const targetNum = Number(targetAmount) || 0;
   const savedNum = Number(currentSaved) || 0;
   const goalCalc = calculateSavingsGoal(targetNum, savedNum, monthlySavings);
 
-  // Calculate Expenses totals
   const totalPlanned = expenses.reduce((acc, curr) => acc + Number(curr.amount || 0), 0);
   const remainingAllowance = monthlyAllowance - totalPlanned;
 
-  // Add / Edit handlers
   const handleOpenAdd = () => {
     setEditingId(null);
     setFormData({
@@ -120,7 +114,6 @@ export default function Planner() {
 
   return (
     <div className="planner-screen animate-fade-in">
-      {/* 1. HERO LAB CARD */}
       <div className="planner-hero-card bee-card-hero">
         <div className="lab-header-row">
           <div className="lab-mascot-frame">
@@ -136,10 +129,8 @@ export default function Planner() {
         </div>
       </div>
 
-      {/* RESPONSIVE LAYOUT CONTAINER (Mobile Stack, Tablet/Desktop 2-Col) */}
       <div className="planner-desktop-layout">
         <div className="planner-col-left">
-          {/* 2. SAVINGS GOAL ESTIMATOR */}
           <div className="goal-estimator-card bee-card">
         <div className="goal-estimator-header">
           <div className="estimator-title-left">
@@ -150,7 +141,6 @@ export default function Planner() {
         </div>
 
         <div className="goal-form-fields">
-          {/* Goal Name */}
           <div className="field-group">
             <label className="field-label">Goal Name</label>
             <div className="input-with-end-icon">
@@ -165,7 +155,6 @@ export default function Planner() {
             </div>
           </div>
 
-          {/* Target & Current Saved (Side-by-side) */}
           <div className="fields-2col">
             <div className="field-group">
               <label className="field-label">Target Amount ($)</label>
@@ -189,7 +178,6 @@ export default function Planner() {
             </div>
           </div>
 
-          {/* Expected Monthly Savings Slider */}
           <div className="field-group">
             <div className="slider-header-row">
               <label className="field-label">Expected Monthly Savings ($)</label>
@@ -210,7 +198,6 @@ export default function Planner() {
           </div>
         </div>
 
-        {/* Calculation Box */}
         <div className="goal-result-box">
           <div className="goal-metrics-row">
             <div>
@@ -223,7 +210,6 @@ export default function Planner() {
             </div>
           </div>
 
-          {/* Progress to Finish Line */}
           <div className="finish-progress-block">
             <div className="progress-label-row">
               <span className="finish-label">Progress to Finish Line</span>
@@ -237,7 +223,6 @@ export default function Planner() {
             </div>
           </div>
 
-          {/* Star Callout Box */}
           <div className="star-callout-card">
             <Star size={18} className="star-icon" />
             <p className="callout-text">
@@ -247,7 +232,6 @@ export default function Planner() {
         </div>
       </div>
 
-      {/* Privacy Assurance Banner */}
       <div className="privacy-assurance-card">
         <ShieldCheck size={18} className="shield-icon" />
         <p className="privacy-text">
@@ -257,7 +241,6 @@ export default function Planner() {
     </div>
 
     <div className="planner-col-right">
-      {/* 3. SESSION EXPENSE PLANNER */}
       <div className="expense-planner-card bee-card">
         <div className="planner-header">
           <div className="planner-title-left">
@@ -270,7 +253,6 @@ export default function Planner() {
           </button>
         </div>
 
-        {/* 2 Top Metric Cards */}
         <div className="planner-stats-row">
           <div className="plan-stat-card">
             <div className="stat-head">
@@ -291,13 +273,11 @@ export default function Planner() {
           </div>
         </div>
 
-        {/* Logged Demo Expenses Header */}
         <div className="logged-expenses-head">
           <span className="logged-title">Logged Demo Expenses</span>
           <span className="logged-count-badge">{expenses.length} items</span>
         </div>
 
-        {/* Expenses List */}
         <div className="expenses-list">
           {expenses.map((item) => {
             const Icon = ICON_MAP[item.category] || ShoppingBag;
@@ -337,7 +317,6 @@ export default function Planner() {
     </div>
   </div>
 
-      {/* Modal for Add / Edit */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

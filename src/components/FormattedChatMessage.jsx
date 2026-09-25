@@ -1,13 +1,9 @@
 import React from 'react';
 import './FormattedChatMessage.css';
 
-/**
- * Parses inline markdown: **bold**, *italic*, and `code`
- */
 function parseInlineMarkdown(text) {
   if (!text) return null;
 
-  // Split by bold (**text**) or italic (*text*)
   const tokens = [];
   const regex = /(\*\*.*?\*\*|\*.*?\*)/g;
   let lastIndex = 0;
@@ -49,15 +45,12 @@ function parseInlineMarkdown(text) {
   });
 }
 
-/**
- * Formats multi-paragraph, bullet-list, and numbered-list AI responses.
- */
 export default function FormattedChatMessage({ text, isRtl = false }) {
   if (!text) return null;
 
   const rawLines = text.split('\n');
   const elements = [];
-  let currentList = null; // { type: 'bullet' | 'ordered', items: [] }
+  let currentList = null;
 
   const flushList = (keyPrefix) => {
     if (!currentList) return;
@@ -90,13 +83,11 @@ export default function FormattedChatMessage({ text, isRtl = false }) {
   rawLines.forEach((line, lineIdx) => {
     const trimmed = line.trim();
 
-    // Empty line separates blocks
     if (!trimmed) {
       flushList(lineIdx);
       return;
     }
 
-    // Check for bullet list item: • or * or -
     if (/^[•*-]\s+/.test(trimmed)) {
       const itemText = trimmed.replace(/^[•*-]\s+/, '');
       if (!currentList || currentList.type !== 'bullet') {
@@ -107,7 +98,6 @@ export default function FormattedChatMessage({ text, isRtl = false }) {
       return;
     }
 
-    // Check for numbered step: 1. or 2. etc.
     const orderedMatch = trimmed.match(/^(\d+)\.\s+(.*)$/);
     if (orderedMatch) {
       const num = orderedMatch[1];
@@ -120,10 +110,8 @@ export default function FormattedChatMessage({ text, isRtl = false }) {
       return;
     }
 
-    // Regular line, flush any active list first
     flushList(lineIdx);
 
-    // Callout / Header check (e.g. starts with 🐝 or 💡 or 🎯 or **Title:**)
     if (/^([🐝💡🎯⭐✨]|(\*\*.*\*\*))/.test(trimmed)) {
       elements.push(
         <div key={lineIdx} className="msg-callout-header">

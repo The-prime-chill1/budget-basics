@@ -1,7 +1,3 @@
-/**
- * Educational Financial Tips and Quick Facts for BudgetBasics.
- * Structured for easy future updates and search indexing.
- */
 
 export const quickFinancialFacts = [
   {

@@ -26,7 +26,6 @@ export default function Infographics() {
     ? infographicsData
     : infographicsData.filter((item) => item.category === activeCategory);
 
-  // Helper to render pure CSS/SVG visual graphics
   const renderVisualGraphic = (type) => {
     switch (type) {
       case 'pie-breakdown':
@@ -110,14 +109,12 @@ export default function Infographics() {
   return (
     <div className="infographics-page page-wrapper animate-fade-in">
       <div className="app-container">
-        {/* Header */}
         <SectionHeading
-          badge="Module 07 &bull; Visual Learning Gallery"
+          badge="Visual Learning Gallery"
           title="Financial Infographics & Visual Diagrams"
           subtitle="Explore concept maps, visual budgeting flows, and daily savings blueprints built cleanly with modern CSS & SVG."
         />
 
-        {/* Category Filters Bar */}
         <div className="gallery-filter-bar">
           <div className="gallery-filter-group">
             <Filter size={16} className="filter-icon" />
@@ -140,7 +137,6 @@ export default function Infographics() {
           </span>
         </div>
 
-        {/* Gallery Cards Grid */}
         <div className="gallery-grid">
           {filteredItems.map((info) => (
             <div
@@ -174,7 +170,6 @@ export default function Infographics() {
           ))}
         </div>
 
-        {/* Detail Modal */}
         <Modal
           isOpen={!!selectedInfographic}
           onClose={() => setSelectedInfographic(null)}

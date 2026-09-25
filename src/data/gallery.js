@@ -1,7 +1,3 @@
-/**
- * Infographics and Visual Educational Learning Gallery Dataset.
- * Contains visual diagrams, structured SVG descriptions, categories, and key takeaways.
- */
 
 export const galleryCategories = ['All', 'Budgeting', 'Saving', 'Spending', 'Goals'];
 

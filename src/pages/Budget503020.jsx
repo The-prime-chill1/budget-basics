@@ -50,7 +50,6 @@ export default function Budget503020() {
   const [currencySymbol, setCurrencySymbol] = useState('$');
   const [activeScenario, setActiveScenario] = useState('dorm');
 
-  // BeeWise Action Steps checklist
   const [actionSteps, setActionSteps] = useState({
     step1: true,
     step2: false,
@@ -72,7 +71,6 @@ export default function Budget503020() {
 
   return (
     <div className="budget-503020-screen animate-fade-in">
-      {/* 1. HERO CONCEPT CARD */}
       <div className="hero-concept-card bee-card-hero">
         <div className="concept-header-row">
           <div className="concept-mascot-frame">
@@ -88,10 +86,8 @@ export default function Budget503020() {
         </p>
       </div>
 
-      {/* RESPONSIVE LAYOUT CONTAINER (Mobile Stack, Tablet/Desktop 2-Col) */}
       <div className="budget-desktop-layout">
         <div className="budget-col-left">
-          {/* 2. INTERACTIVE ALLOCATOR: MONTHLY STUDENT CASH FLOW */}
           <div className="allocator-card bee-card">
         <div className="allocator-head">
           <div>
@@ -101,7 +97,6 @@ export default function Budget503020() {
           <Calculator size={20} className="allocator-icon" />
         </div>
 
-        {/* Income Input */}
         <div className="income-input-group">
           <label htmlFor="student-income" className="input-field-label">
             Total Monthly Allowance / Paycheck ({currencySymbol})
@@ -141,7 +136,6 @@ export default function Budget503020() {
           </div>
         </div>
 
-        {/* Visual Allocation Ratio Bar */}
         <div className="allocation-ratio-block">
           <div className="ratio-title-row">
             <span className="ratio-label">Visual Allocation Ratio</span>
@@ -159,9 +153,7 @@ export default function Budget503020() {
           </div>
         </div>
 
-        {/* 3 Categories Cards */}
         <div className="category-cards-stack">
-          {/* Needs */}
           <div className="cat-card cat-card-needs">
             <div className="cat-card-header">
               <div className="cat-icon-frame bg-needs">
@@ -181,7 +173,6 @@ export default function Budget503020() {
             </p>
           </div>
 
-          {/* Wants */}
           <div className="cat-card cat-card-wants">
             <div className="cat-card-header">
               <div className="cat-icon-frame bg-wants">
@@ -201,7 +192,6 @@ export default function Budget503020() {
             </p>
           </div>
 
-          {/* Savings */}
           <div className="cat-card cat-card-savings">
             <div className="cat-card-header">
               <div className="cat-icon-frame bg-savings">
@@ -222,7 +212,6 @@ export default function Budget503020() {
           </div>
         </div>
 
-        {/* Student Guideline Note */}
         <div className="guideline-note-box">
           <Info size={16} className="note-icon" />
           <p className="note-text">
@@ -233,7 +222,6 @@ export default function Budget503020() {
     </div>
 
     <div className="budget-col-right">
-      {/* 3. REAL STUDENT SCENARIOS: ADAPT THE RULE TO YOUR LIFE */}
       <div className="scenarios-card bee-card">
         <div className="scenarios-head">
           <div>
@@ -243,7 +231,6 @@ export default function Budget503020() {
           <Sliders size={20} className="scenarios-icon" />
         </div>
 
-        {/* Tabs: Dorm / Commuter / Working */}
         <div className="scenario-tabs-pill">
           {['dorm', 'commuter', 'working'].map((tabKey) => (
             <button
@@ -257,7 +244,6 @@ export default function Budget503020() {
           ))}
         </div>
 
-        {/* Active Scenario Content */}
         <div className="scenario-body-box">
           <div className="scenario-title-row">
             <h3 className="scenario-name">{currentScenario.title}</h3>
@@ -273,7 +259,6 @@ export default function Budget503020() {
             </strong>
           </div>
 
-          {/* Mini Ratio Bar */}
           <div className="mini-scenario-bar">
             <div className="seg seg-50-needs" style={{ width: `${currentScenario.needsPct}%` }}></div>
             <div className="seg seg-30-wants" style={{ width: `${currentScenario.wantsPct}%` }}></div>
@@ -287,7 +272,6 @@ export default function Budget503020() {
         </div>
       </div>
 
-      {/* 4. BEEWISE ACTION STEPS */}
       <div className="action-steps-card bee-card">
         <div className="action-steps-header">
           <Award size={20} className="steps-star-icon" />

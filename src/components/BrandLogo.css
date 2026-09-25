@@ -1,6 +1,4 @@
-/* ==========================================================================
-   BrandLogo Component Styles — Clean Vector Brand Rendering (Brand v2)
-   ========================================================================== */
+
 
 .brand-logo-svg {
   display: block;
@@ -13,7 +11,6 @@
   transform: translateY(-1px);
 }
 
-/* Honeycomb 50/30/20 Cell */
 .brand-hex-cell {
   fill: #00513F;
   stroke: #00513F;
@@ -24,7 +21,6 @@
   fill: #D8E64C;
 }
 
-/* Wordmark: Budget + Basics */
 .brand-text-budget {
   fill: #0F172A;
   transition: fill 0.2s ease;
@@ -40,7 +36,6 @@
   transition: fill 0.2s ease;
 }
 
-/* Dark Mode Theme Adjustment */
 [data-theme='dark'] .brand-text-budget {
   fill: #F8FAFC;
 }

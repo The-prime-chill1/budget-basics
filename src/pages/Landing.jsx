@@ -95,7 +95,6 @@ export default function Landing() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const headerRef = useRef(null);
 
-  // Prevent background scroll when mobile drawer is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -107,7 +106,6 @@ export default function Landing() {
     };
   }, [mobileMenuOpen]);
 
-  // Click outside to close desktop dropdowns, Escape key listener, & resize safeguard
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (headerRef.current && !headerRef.current.contains(e.target)) {
@@ -147,8 +145,6 @@ export default function Landing() {
 
   const currentSectionObj = SITEMAP_NAV_SECTIONS.find((s) => s.id === activeMobileSection);
 
-  // Render Mobile Off-Canvas Drawer into document.body via Portal
-  // Eliminates backdrop-filter containment & height constraints across all mobile devices
   const renderMobileDrawer = () => {
     if (!mobileMenuOpen || typeof document === 'undefined') return null;
 
@@ -167,7 +163,6 @@ export default function Landing() {
         }}
       >
         <div className="stripe-mob-drawer-panel">
-          {/* Header Row */}
           {!activeMobileSection ? (
             <div className="stripe-drawer-head">
               <Link
@@ -218,7 +213,6 @@ export default function Landing() {
             </div>
           )}
 
-          {/* Top Capsule Search Box */}
           <form
             className="drawer-search-wrap"
             onSubmit={(e) => {
@@ -241,10 +235,8 @@ export default function Landing() {
             />
           </form>
 
-          {/* Drawer Content */}
           <div className="stripe-drawer-content">
             {!activeMobileSection ? (
-              // VIEW 1: Main Menu with side carets
               <div className="stripe-main-nav-flow animate-fade-in">
                 <div className="stripe-nav-links-list">
                   {SITEMAP_NAV_SECTIONS.map((sec) => {
@@ -296,7 +288,6 @@ export default function Landing() {
                   </Link>
                 </div>
 
-                {/* Callout Box */}
                 <div className="stripe-callout-card">
                   <span className="stripe-callout-heading">Not sure where to start?</span>
                   <Link
@@ -319,12 +310,11 @@ export default function Landing() {
                     }}
                   >
                     <strong className="callout-link-title">Explore Visual Sitemap</strong>
-                    <span className="callout-link-sub">Browse all financial modules &amp; architecture</span>
+                    <span className="callout-link-sub">Browse all financial tools &amp; guides</span>
                   </Link>
                 </div>
               </div>
             ) : (
-              // VIEW 2: Sublinks View
               <div className="stripe-sublinks-flow animate-fade-in">
                 <div className="stripe-sublinks-category-header">
                   {currentSectionObj?.title}
@@ -350,7 +340,6 @@ export default function Landing() {
             )}
           </div>
 
-          {/* Bottom User Profile Card */}
           <div className="drawer-profile-card">
             <div className="drawer-profile-header">
               <div className="drawer-avatar-wrap">
@@ -401,12 +390,8 @@ export default function Landing() {
 
   return (
     <div className="stitch-landing-root animate-fade-in">
-      {/* Top Ambient Glow */}
       <div className="landing-ambient-glow" aria-hidden="true"></div>
 
-      {/* ================================================================
-          0. STITCH HEADER (Exact Stripe Information Architecture)
-          ================================================================ */}
       <header className="stitch-header" ref={headerRef}>
         <div className="stitch-header-inner">
           <div className="stitch-brand-wrap">
@@ -415,7 +400,6 @@ export default function Landing() {
             </Link>
           </div>
 
-          {/* Desktop Navigation with 4 Pillars & Dropdown Menus */}
           <nav className="stitch-nav-desktop" aria-label="Information Architecture Navigation">
             {SITEMAP_NAV_SECTIONS.map((sec) => (
               <div
@@ -458,7 +442,6 @@ export default function Landing() {
               </div>
             ))}
 
-            {/* Direct AI Assistant link with sparkle */}
             <Link to="/chatbot" className="stitch-nav-link stitch-nav-guide">
               <Sparkles size={14} className="text-gold" />
               <span>AI Assistant</span>
@@ -475,7 +458,6 @@ export default function Landing() {
               <span>Launch Web App</span>
             </Link>
 
-            {/* Mobile Menu Toggle Button */}
             <button
               type="button"
               className="stitch-mobile-menu-btn"
@@ -493,14 +475,9 @@ export default function Landing() {
         </div>
       </header>
 
-      {/* Render Mobile Navigation Drawer via Portal directly into document.body */}
       {renderMobileDrawer()}
 
-      {/* ================================================================
-          1. HERO SECTION
-          ================================================================ */}
       <section className="landing-hero-section">
-        {/* Mascot Micro-Badge */}
         <div className="hero-micro-badge-wrap">
           <div className="hero-micro-badge">
             <span className="hero-pulse-dot"></span>
@@ -509,7 +486,6 @@ export default function Landing() {
         </div>
 
         <div className="hero-main-grid">
-          {/* Hero Copy */}
           <div className="hero-copy-col">
             <h1 className="hero-title">
               Smart Student Budgeting <br className="hidden sm:inline" />
@@ -521,7 +497,6 @@ export default function Landing() {
               crush late-night impulse leaks, lock away emergency cushions, and get 24/7 empathetic guidance from BeeWise AI.
             </p>
 
-            {/* Dual Call to Action Buttons */}
             <div className="hero-cta-buttons-row">
               <Link to="/cockpit" className="bee-btn bee-btn-gold hero-primary-btn">
                 <Sparkles size={18} />
@@ -533,7 +508,6 @@ export default function Landing() {
               </a>
             </div>
 
-            {/* Social Proof Micro-Strip */}
             <div className="hero-social-proof">
               <div className="school-pill-avatars">
                 <span className="school-badge bg-gold-badge">UCLA</span>
@@ -553,7 +527,6 @@ export default function Landing() {
             </div>
           </div>
 
-          {/* Hero Visual Media & Floating Cards */}
           <div className="hero-media-col">
             <div className="hero-media-card">
               <img
@@ -563,7 +536,6 @@ export default function Landing() {
               />
               <div className="hero-gradient-scrim"></div>
 
-              {/* Floating Card 1: Safe Spend (Top Left) */}
               <div className="floating-card float-card-spend">
                 <div className="float-icon-box bg-emerald-box">
                   <CheckCircle2 size={18} />
@@ -574,7 +546,6 @@ export default function Landing() {
                 </div>
               </div>
 
-              {/* Floating Card 2: Vault Progress (Center Bottom) */}
               <div className="floating-card float-card-vault">
                 <div className="float-vault-header">
                   <span className="float-vault-title">
@@ -592,7 +563,6 @@ export default function Landing() {
                 </div>
               </div>
 
-              {/* Floating Card 3: BeeWise AI Insight (Bottom Left) */}
               <div className="floating-card float-card-ai">
                 <div className="float-ai-avatar">
                   <Bot size={15} className="text-gold" />
@@ -609,9 +579,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ================================================================
-          2. INTERACTIVE LIVE MINI CALCULATOR (50-30-20 IN 5 SECONDS)
-          ================================================================ */}
       <section className="landing-calc-section" id="calculator-preview">
         <div className="calc-container-box">
           <div className="calc-header-center">
@@ -623,7 +590,6 @@ export default function Landing() {
           </div>
 
           <div className="calc-inner-card">
-            {/* Input & Label */}
             <div className="calc-input-row">
               <label htmlFor="monthly-income-input" className="calc-input-label">
                 Monthly Inflow (Work-Study / Stipend / Aid)
@@ -643,7 +609,6 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Slider Control */}
             <div className="calc-slider-box">
               <input
                 type="range"
@@ -660,7 +625,6 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Quick Student Inflow Presets */}
             <div className="calc-presets-row">
               <span className="calc-preset-label">Quick Campus Scenarios:</span>
               <div className="calc-preset-btns">
@@ -688,16 +652,13 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Visual Stacked Bar */}
             <div className="calc-stacked-bar">
               <div className="calc-bar-segment seg-calc-needs" style={{ width: '50%' }} title="50% Needs"></div>
               <div className="calc-bar-segment seg-calc-wants" style={{ width: '30%' }} title="30% Wants"></div>
               <div className="calc-bar-segment seg-calc-savings" style={{ width: '20%' }} title="20% Savings"></div>
             </div>
 
-            {/* Dynamic Output Breakdown Cards */}
             <div className="calc-outputs-grid">
-              {/* 50% Needs */}
               <div className="calc-output-card">
                 <div className="calc-card-top">
                   <span className="calc-bucket-tag">50% Needs</span>
@@ -707,7 +668,6 @@ export default function Landing() {
                 <p className="calc-bucket-desc">Rent, dining plan, groceries, transit &amp; textbooks.</p>
               </div>
 
-              {/* 30% Wants */}
               <div className="calc-output-card">
                 <div className="calc-card-top">
                   <span className="calc-bucket-tag">30% Wants</span>
@@ -717,7 +677,6 @@ export default function Landing() {
                 <p className="calc-bucket-desc">Weekend boba, streaming, gaming &amp; concerts.</p>
               </div>
 
-              {/* 20% Savings */}
               <div className="calc-output-card">
                 <div className="calc-card-top">
                   <span className="calc-bucket-tag">20% Savings</span>
@@ -728,7 +687,6 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Next Step Banner */}
             <div className="calc-next-banner">
               <p className="next-banner-text">
                 <Lightbulb size={16} className="text-gold" style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: '4px' }} />
@@ -742,9 +700,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ================================================================
-          3. FOUR CORE FEATURE PILLARS
-          ================================================================ */}
       <section className="landing-pillars-section">
         <div className="pillars-header-center">
           <span className="landing-kicker text-emerald">Built Specifically For Campus Realities</span>
@@ -755,7 +710,6 @@ export default function Landing() {
         </div>
 
         <div className="pillars-bento-grid">
-          {/* Pillar 1 */}
           <div className="pillar-bento-card">
             <div className="pillar-icon-box bg-gold-box">
               <PieChart size={24} />
@@ -770,7 +724,6 @@ export default function Landing() {
             </Link>
           </div>
 
-          {/* Pillar 2 */}
           <div className="pillar-bento-card">
             <div className="pillar-icon-box bg-indigo-box">
               <Brain size={24} />
@@ -785,7 +738,6 @@ export default function Landing() {
             </Link>
           </div>
 
-          {/* Pillar 3 */}
           <div className="pillar-bento-card">
             <div className="pillar-icon-box bg-emerald-box">
               <Shield size={24} />
@@ -800,7 +752,6 @@ export default function Landing() {
             </Link>
           </div>
 
-          {/* Pillar 4 */}
           <div className="pillar-bento-card">
             <div className="pillar-icon-box bg-gray-box">
               <Bot size={24} />
@@ -817,9 +768,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ================================================================
-          4. BEFORE VS AFTER COMPARISON
-          ================================================================ */}
       <section className="landing-compare-section">
         <div className="compare-outer-box">
           <div className="compare-header-center">
@@ -828,7 +776,6 @@ export default function Landing() {
           </div>
 
           <div className="compare-grid-two">
-            {/* Before Card */}
             <div className="compare-card compare-before">
               <div className="compare-card-header">
                 <span className="compare-badge-icon bg-red"><X size={14} /></span>
@@ -850,7 +797,6 @@ export default function Landing() {
               </ul>
             </div>
 
-            {/* After Card */}
             <div className="compare-card compare-after">
               <div className="compare-card-header">
                 <span className="compare-badge-icon bg-emerald"><Check size={14} /></span>
@@ -875,12 +821,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ================================================================
-          5. BEEWISE AI SIMULATION SECTION
-          ================================================================ */}
       <section className="landing-ai-sim-section">
         <div className="ai-sim-grid">
-          {/* Explanation */}
           <div className="ai-sim-copy">
             <div className="ai-badge-pill">
               <Bot size={15} />
@@ -910,7 +852,6 @@ export default function Landing() {
             </div>
           </div>
 
-          {/* Interactive Mock Chat Window */}
           <div className="ai-sim-window">
             <div className="chat-window-top">
               <div className="chat-bee-info">
@@ -929,14 +870,12 @@ export default function Landing() {
             </div>
 
             <div className="chat-messages-flow">
-              {/* User message */}
               <div className="chat-row user-row">
                 <div className="chat-bubble user-bubble">
                   Can I afford $85 concert tickets this weekend on my remaining $400 stipend without wrecking groceries?
                 </div>
               </div>
 
-              {/* Bot response */}
               <div className="chat-row bot-row">
                 <div className="chat-bot-icon">
                   <Bot size={16} className="text-gold" />
@@ -964,7 +903,6 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Fake input bar */}
             <div className="chat-input-bar">
               <input
                 type="text"
@@ -980,9 +918,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ================================================================
-          6. STUDENT STORIES & TESTIMONIALS
-          ================================================================ */}
       <section className="landing-stories-section">
         <div className="stories-header-center">
           <span className="landing-kicker">Tested On Campuses Nationwide</span>
@@ -990,7 +925,6 @@ export default function Landing() {
         </div>
 
         <div className="stories-grid-three">
-          {/* Story 1 - Hamid */}
           <div className="story-card">
             <div className="story-stars">
               {[...Array(5)].map((_, i) => (
@@ -1009,7 +943,6 @@ export default function Landing() {
             </div>
           </div>
 
-          {/* Story 2 - Tammy */}
           <div className="story-card">
             <div className="story-stars">
               {[...Array(5)].map((_, i) => (
@@ -1028,7 +961,6 @@ export default function Landing() {
             </div>
           </div>
 
-          {/* Story 3 - Lawal */}
           <div className="story-card">
             <div className="story-stars">
               {[...Array(5)].map((_, i) => (
@@ -1047,7 +979,6 @@ export default function Landing() {
             </div>
           </div>
 
-          {/* Story 4 - Hameed */}
           <div className="story-card">
             <div className="story-stars">
               {[...Array(5)].map((_, i) => (
@@ -1068,9 +999,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ================================================================
-          7. FINAL CALL TO ACTION BANNER
-          ================================================================ */}
       <section className="landing-final-cta-section">
         <div className="cta-banner-card">
           <div className="cta-decor-orb-1" aria-hidden="true"></div>
@@ -1101,9 +1029,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ================================================================
-          8. STITCH FOOTER (Exact Mockup Match)
-          ================================================================ */}
       <footer className="stitch-footer">
         <div className="stitch-footer-inner">
           <div className="stitch-footer-grid">

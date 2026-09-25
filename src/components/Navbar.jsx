@@ -31,7 +31,6 @@ import { getOrCreateStudentSession } from '../utils/userSession';
 import { useVisitorCount } from '../utils/visitorCounter';
 import './Navbar.css';
 
-// Dynamic Subtitle Map reflecting the Aptech TechWiz 7 SRS Information Architecture
 const TITLE_SUBTITLE_MAP = {
   '/': 'Budgeting Fundamentals Guide',
   '/budgeting-basics': 'Budgeting Fundamentals Guide',
@@ -109,24 +108,20 @@ export default function Navbar({ theme, toggleTheme }) {
   const [drawerSearch, setDrawerSearch] = useState('');
   const navigate = useNavigate();
 
-  // Normalize path to get clean subtitle
   const cleanPath = location.pathname.replace(/\/$/, '') || '/';
   const subtitle = TITLE_SUBTITLE_MAP[cleanPath] || 'NextGen BudgetBee';
 
-  // Live real-time clock
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
-  // Close menus upon navigation
   useEffect(() => {
     setMobileMenuOpen(false);
     setActiveMobileSection(null);
     setOpenDropdown(null);
   }, [location.pathname]);
 
-  // Prevent background scroll when mobile drawer is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -138,7 +133,6 @@ export default function Navbar({ theme, toggleTheme }) {
     };
   }, [mobileMenuOpen]);
 
-  // Click outside to close desktop dropdowns
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -162,10 +156,8 @@ export default function Navbar({ theme, toggleTheme }) {
     };
   }, []);
 
-  // Current active section object when in sublinks view
   const currentSectionObj = NAV_SECTIONS.find((s) => s.id === activeMobileSection);
 
-  // Render Mobile Off-Canvas Drawer (Stripe Pattern)
   const renderMobileDrawer = () => {
     if (!mobileMenuOpen || typeof document === 'undefined') return null;
 
@@ -184,9 +176,7 @@ export default function Navbar({ theme, toggleTheme }) {
         }}
       >
         <div className="stripe-mob-drawer-panel">
-          {/* Header Row */}
           {!activeMobileSection ? (
-            // View 1 Header: Logo on left + Close [X] on right
             <div className="stripe-drawer-head">
               <Link
                 to="/"
@@ -212,7 +202,6 @@ export default function Navbar({ theme, toggleTheme }) {
               </button>
             </div>
           ) : (
-            // View 2 Header: < Back on left + Close [X] on right
             <div className="stripe-drawer-head">
               <button
                 type="button"
@@ -237,7 +226,6 @@ export default function Navbar({ theme, toggleTheme }) {
             </div>
           )}
 
-          {/* Top Capsule Search Box (Inspired by Reference Design) */}
           <form
             className="drawer-search-wrap"
             onSubmit={(e) => {
@@ -260,10 +248,8 @@ export default function Navbar({ theme, toggleTheme }) {
             />
           </form>
 
-          {/* Scrollable Content Body */}
           <div className="stripe-drawer-content">
             {!activeMobileSection ? (
-              // VIEW 1: Main Menu with side carets (Stripe mobile view 1)
               <div className="stripe-main-nav-flow animate-fade-in">
                 <div className="stripe-nav-links-list">
                   {NAV_SECTIONS.map((sec) => {
@@ -315,7 +301,6 @@ export default function Navbar({ theme, toggleTheme }) {
                   </Link>
                 </div>
 
-                {/* Callout Box (Stripe style) */}
                 <div className="stripe-callout-card">
                   <span className="stripe-callout-heading">Not sure where to start?</span>
                   <Link
@@ -338,12 +323,11 @@ export default function Navbar({ theme, toggleTheme }) {
                     }}
                   >
                     <strong className="callout-link-title">Explore Visual Sitemap</strong>
-                    <span className="callout-link-sub">Browse all financial modules &amp; architecture</span>
+                    <span className="callout-link-sub">Browse all financial tools &amp; guides</span>
                   </Link>
                 </div>
               </div>
             ) : (
-              // VIEW 2: Sublinks View (Stripe mobile view 2)
               <div className="stripe-sublinks-flow animate-fade-in">
                 <div className="stripe-sublinks-category-header">
                   {currentSectionObj?.title}
@@ -369,7 +353,6 @@ export default function Navbar({ theme, toggleTheme }) {
             )}
           </div>
 
-          {/* Bottom User Profile Card (Matching Reference Design) */}
           <div className="drawer-profile-card">
             <div className="drawer-profile-header">
               <div className="drawer-avatar-wrap">
@@ -422,9 +405,6 @@ export default function Navbar({ theme, toggleTheme }) {
     <>
       <header className="bee-navbar-root" role="banner" ref={dropdownRef}>
         <div className="navbar-container">
-          {/* ================================================================
-              LEFT: Brand Logo & Title
-              ================================================================ */}
           <Link to="/" className="navbar-brand-group" aria-label="BudgetBasics Home">
             <div className="mascot-badge-frame" title="BudgetBee Official Logo">
               <BrandLogo variant="mark" height={32} idPrefix="navMascot" />
@@ -439,9 +419,6 @@ export default function Navbar({ theme, toggleTheme }) {
             </div>
           </Link>
 
-          {/* ================================================================
-              CENTER: Desktop Navigation (Stripe Style)
-              ================================================================ */}
           <nav className="navbar-desktop-nav" aria-label="Primary Navigation">
             {NAV_SECTIONS.map((sec) => {
               const Icon = sec.icon;
@@ -467,7 +444,6 @@ export default function Navbar({ theme, toggleTheme }) {
                     />
                   </button>
 
-                  {/* Dropdown Menu - Closer to navbar and compact width */}
                   {openDropdown === sec.id && (
                     <div className="nav-pillar-dropdown animate-fade-in">
                       <div className="dropdown-items-stack">
@@ -490,11 +466,7 @@ export default function Navbar({ theme, toggleTheme }) {
             })}
           </nav>
 
-          {/* ================================================================
-              RIGHT: Live Clock, Student Badge, Theme Toggle, Mobile Hamburger
-              ================================================================ */}
           <div className="navbar-right-group">
-            {/* Live Clock */}
             <div className="navbar-clock-card hide-on-mobile" title="Live clock">
               <span className="nav-clock-time">
                 {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
@@ -504,19 +476,16 @@ export default function Navbar({ theme, toggleTheme }) {
               </span>
             </div>
 
-            {/* Live Learners Count */}
             <span className="bee-pill bee-pill-emerald navbar-live-pill hide-on-mobile" title="Real-time learners active on site">
               <span className="live-indicator-dot"></span>
               <span>{liveCount} live</span>
             </span>
 
-            {/* Student ID */}
             <span className="bee-pill bee-pill-gold navbar-student-pill">
               <span className="live-indicator-dot" style={{ backgroundColor: '#10B981' }}></span>
               <span>{session.userId}</span>
             </span>
 
-            {/* Theme Toggle Icon Button */}
             <button
               type="button"
               className="navbar-theme-toggle-btn"
@@ -533,7 +502,6 @@ export default function Navbar({ theme, toggleTheme }) {
               </span>
             </button>
 
-            {/* Mobile Hamburger Toggle Button */}
             <button
               type="button"
               className="mobile-hamburger-btn"
@@ -551,7 +519,6 @@ export default function Navbar({ theme, toggleTheme }) {
         </div>
       </header>
 
-      {/* Render Mobile Off-Canvas Drawer */}
       {renderMobileDrawer()}
     </>
   );

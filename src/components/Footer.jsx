@@ -46,7 +46,6 @@ export default function Footer() {
     <footer className="bee-global-footer" role="contentinfo">
       <div className="footer-inner-container">
         
-        {/* Top Header Strip: Brand + Quick Back to Top */}
         <div className="footer-hero-strip">
           <div className="footer-brand-lockup">
             <Link to="/" className="footer-brand-link" aria-label="BudgetBasics Homepage">
@@ -71,10 +70,8 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* 4-Column Navigation & Resource Directory */}
         <div className="footer-columns-grid">
           
-          {/* Column 1: Mission & Competition Focus */}
           <div className="footer-col footer-col-about">
             <h4 className="footer-col-title">
               <Award size={16} className="text-gold" />
@@ -91,7 +88,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Financial Literacy Curriculum */}
           <div className="footer-col">
             <h4 className="footer-col-title">
               <BookOpen size={16} className="text-emerald" />
@@ -116,7 +112,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Interactive Calculators & AI */}
           <div className="footer-col">
             <h4 className="footer-col-title">
               <Calculator size={16} className="text-blue" />
@@ -141,7 +136,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Team PixelForge & Support */}
           <div className="footer-col">
             <h4 className="footer-col-title">
               <Users size={16} className="text-purple" />
@@ -170,7 +164,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Project Work Division Team Badge Row */}
         <div className="footer-team-strip">
           <span className="team-strip-label">
             <Layers size={14} className="text-gold" />
@@ -195,7 +188,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Middle Notice: Educational & Privacy Assurances */}
         <div className="footer-trust-box">
           <div className="trust-item">
             <ShieldCheck size={18} className="trust-icon text-blue" />
@@ -211,14 +203,12 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar: Copyright, Live Presence, and Total Visitors */}
         <div className="footer-bottom-bar">
           <div className="footer-copy-text">
             &copy; {new Date().getFullYear()} <strong>BudgetBasics</strong> &bull; Built and powered by <strong>Team PixelForge</strong> &bull; Aptech TechWiz 7.
           </div>
 
           <div className="footer-metrics-group">
-            {/* Real-time active devices */}
             <div className="footer-live-badge" title="Active learners currently browsing on site">
               <span className="footer-ping-dot"></span>
               <span className="live-num">{liveCount}</span>
@@ -229,7 +219,6 @@ export default function Footer() {
 
       </div>
 
-      {/* Floating Back-to-Top (Appears on scroll) */}
       {showBackToTop && (
         <button
           type="button"

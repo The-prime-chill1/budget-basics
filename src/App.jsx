@@ -5,7 +5,6 @@ import TipsTicker from './components/TipsTicker';
 import Footer from './components/Footer';
 import BottomNav from './components/BottomNav';
 
-// Core screens matching the exact UI design
 import Home from './pages/Home';
 import BudgetingBasics from './pages/BudgetingBasics';
 import NeedsVsWants from './pages/NeedsVsWants';
@@ -16,8 +15,6 @@ import ExpensePlanner from './pages/ExpensePlanner';
 import Chatbot from './pages/Chatbot';
 import Feedback from './pages/Feedback';
 import Contact from './pages/Contact';
-
-// Supplementary educational pages (Aptech TechWiz 7 modules)
 import Infographics from './pages/Infographics';
 import MoneyMistakes from './pages/MoneyMistakes';
 import About from './pages/About';
@@ -60,7 +57,6 @@ export default function App() {
     <div className={`app-shell ${isLandingPage ? 'landing-mode' : ''}`}>
       <ScrollToTop />
 
-      {/* Top Navbar: Mascot, Logo, Tagline, All 10 Modules, Live Clock & Theme Toggle for App Tools */}
       {!isLandingPage && (
         <>
           <Navbar theme={theme} toggleTheme={toggleTheme} />
@@ -68,51 +64,35 @@ export default function App() {
         </>
       )}
 
-      {/* Main Content Area */}
       <main className={isLandingPage ? 'landing-flow' : 'main-content-flow'} id="main-content">
         <Routes>
-          {/* 1. Public Showcase Landing Page (Primary Home Entrypoint) */}
           <Route path="/" element={<Landing />} />
           <Route path="/landing" element={<Landing />} />
           <Route path="/welcome" element={<Landing />} />
 
-          {/* 2. Student Survival Cockpit Dashboard */}
           <Route path="/cockpit" element={<Home />} />
           <Route path="/dashboard" element={<Home />} />
           <Route path="/app" element={<Home />} />
 
-          {/* 3. Budgeting Fundamentals Guide (SRS Module 1) */}
           <Route path="/budgeting-basics" element={<BudgetingBasics />} />
-
-          {/* 4. Needs vs Wants Analyzer (SRS Module 2) */}
           <Route path="/needs-vs-wants" element={<NeedsVsWants />} />
-
-          {/* 5. 50/30/20 Rule Allocator (SRS Module 3) */}
           <Route path="/50-30-20" element={<Budget503020 />} />
-
-          {/* 6. Planner & Goals Lab (SRS Modules 4 & 5) */}
           <Route path="/planner" element={<Planner />} />
           <Route path="/savings-goals" element={<SavingsGoals />} />
           <Route path="/expense-planner" element={<ExpensePlanner />} />
-
-          {/* 7. BeeWise AI & Feedback Hub (SRS Modules 8, 9 & 10) */}
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/contact" element={<Contact />} />
-
-          {/* 8. Extended Educational Modules (SRS Modules 6, 7 & Sitemap) */}
           <Route path="/infographics" element={<Infographics />} />
           <Route path="/money-mistakes" element={<MoneyMistakes />} />
           <Route path="/about" element={<About />} />
           <Route path="/search" element={<Search />} />
           <Route path="/sitemap" element={<Sitemap />} />
 
-          {/* Catch-all fallback */}
           <Route path="*" element={<Landing />} />
         </Routes>
       </main>
 
-      {/* Comprehensive Academic Footer & Mobile Navigation for App Tools */}
       {!isLandingPage && (
         <>
           <Footer />

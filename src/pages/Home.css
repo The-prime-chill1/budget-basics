@@ -1,7 +1,4 @@
-/* ==========================================================================
-   BudgetBasics — Student Cockpit / Home Dashboard Styles
-   High-Fidelity Modern Card Layout (Fulfills UI Mockup & SRS Specifications)
-   ========================================================================== */
+
 
 .cockpit-home-screen {
   width: 100%;
@@ -16,7 +13,6 @@
   }
 }
 
-/* Toast Notification */
 .cockpit-toast {
   position: fixed;
   bottom: 5.5rem;
@@ -40,7 +36,6 @@
   color: var(--secondary-emerald);
 }
 
-/* Base Cockpit Card */
 .cockpit-card {
   background-color: var(--surface-card);
   border: 1px solid var(--border-subtle);
@@ -59,7 +54,6 @@
   }
 }
 
-/* 1. Welcome Card */
 .welcome-card {
   overflow: hidden;
   position: relative;
@@ -164,7 +158,6 @@
   color: #fdba74;
 }
 
-/* Daily Community Pulse */
 .community-pulse-row {
   display: flex;
   flex-wrap: wrap;
@@ -213,7 +206,6 @@
   color: #d97706;
 }
 
-/* Motivational Quote Carousel Box */
 .quote-cycle-box {
   background-color: var(--surface-low);
   border: 1px solid var(--border-subtle);
@@ -297,7 +289,6 @@
   transform: rotate(90deg) scale(0.95);
 }
 
-/* 2. Monthly Spend Cockpit Card */
 .cockpit-card-header {
   display: flex;
   align-items: center;
@@ -340,7 +331,6 @@
   padding: 0.2rem 0.6rem;
 }
 
-/* Two-column Metrics Grid */
 .metrics-two-col-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -382,7 +372,6 @@
   font-weight: 700;
 }
 
-/* 50-30-20 Multi-Segment Bar */
 .budget-bar-section {
   display: flex;
   flex-direction: column;
@@ -479,7 +468,6 @@
   line-height: 1.2;
 }
 
-/* 3. Interactive Learning Pods */
 .learning-pods-section {
   display: flex;
   flex-direction: column;
@@ -609,7 +597,6 @@
   transform: translateX(3px);
 }
 
-/* 4. BeeWise Daily Bite Card */
 .ai-tip-card {
   gap: 0.85rem;
 }
@@ -714,7 +701,6 @@
   border-color: var(--primary-gold);
 }
 
-/* 5. Money Mistakes Alert Spotlight */
 .mistake-radar-card {
   background-color: #ffe4e6;
   border: 1.5px solid rgba(225, 29, 72, 0.35);
@@ -810,7 +796,6 @@
   transform: translateX(3px);
 }
 
-/* 6. Gamification Badges Card */
 .badges-unlocked-text {
   font-size: 0.75rem;
   font-weight: 700;
@@ -904,7 +889,6 @@
   margin-top: 0.15rem;
 }
 
-/* 7. Campus Culture Card */
 .campus-culture-card {
   flex-direction: row;
   align-items: center;
@@ -965,7 +949,6 @@
   text-decoration: underline;
 }
 
-/* 8. Disclaimer Notice Block */
 .cockpit-disclaimer-card {
   margin-top: 0.5rem;
   display: flex;
@@ -1022,7 +1005,6 @@
   color: var(--text-light);
 }
 
-/* Interactive Animations & Micro-Interactions */
 .cockpit-card {
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
 }
@@ -1076,7 +1058,6 @@
   background-color: var(--surface-low);
 }
 
-/* Responsive Media Queries */
 @media (max-width: 640px) {
   .welcome-header-row {
     flex-direction: column;

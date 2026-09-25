@@ -1,4 +1,4 @@
-/* Infographics Gallery Styles */
+
 .gallery-filter-bar {
   display: flex;
   align-items: center;
@@ -150,7 +150,6 @@
   flex: 1;
 }
 
-/* Pure CSS Graphic Canvases */
 .graphic-canvas {
   width: 100%;
   height: 100%;
@@ -160,7 +159,6 @@
   justify-content: center;
 }
 
-/* 1. Pie */
 .graphic-pie .canvas-svg {
   width: 90px;
   height: 90px;
@@ -184,7 +182,6 @@
 .lbl-want { background: #fef3c7; color: #92400e; }
 .lbl-savings { background: #d1fae5; color: #065f46; }
 
-/* 2. Flow */
 .graphic-flow {
   gap: 0.5rem;
 }
@@ -213,7 +210,6 @@
 .branch-green { background: #ecfdf5; color: #059669; }
 .branch-orange { background: #fffbeb; color: #d97706; }
 
-/* 3. Cycle */
 .cycle-ring {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -231,7 +227,6 @@
   color: var(--text-primary);
 }
 
-/* 4. Challenge */
 .challenge-mini-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -255,7 +250,6 @@
   color: var(--accent);
 }
 
-/* 5. Comparison Bars */
 .graphic-comparison {
   width: 100%;
   gap: 0.4rem;
@@ -280,7 +274,6 @@
 .bar-2 { width: 75px; background-color: #d97706; }
 .bar-3 { width: 140px; background-color: #dc2626; }
 
-/* 6. Ladder */
 .graphic-ladder {
   width: 100%;
   gap: 0.35rem;
@@ -297,7 +290,6 @@
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
-/* Modal Details */
 .modal-graphic-hero {
   height: 180px;
   background-color: var(--bg-primary);

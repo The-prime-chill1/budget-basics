@@ -1,9 +1,5 @@
-/* ==========================================================================
-   BudgetBasics — Stitch Project Showcase Landing Page Styles
-   Clean Vanilla CSS (Fulfilling Stitch Screen ID: 1d5e3b15060b457987ae3df23df26065)
-   ========================================================================== */
 
-/* 0. STITCH HEADER (Exact Mockup Match) */
+
 .stitch-header {
   position: fixed;
   top: 0;
@@ -142,7 +138,6 @@
   border-left-color: rgba(0, 196, 180, 0.2);
 }
 
-/* Glassmorphic Dropdown Panel */
 .stitch-dropdown-menu {
   position: absolute;
   top: calc(100% + 4px);
@@ -207,7 +202,6 @@
   color: #9DBDB7;
 }
 
-/* Header Right Actions */
 .stitch-header-actions {
   display: flex;
   align-items: center;
@@ -365,7 +359,6 @@
   }
 }
 
-/* Mobile Off-Canvas Drawer */
 .stitch-mobile-drawer {
   position: fixed;
   top: 74px;
@@ -409,7 +402,6 @@
   margin-top: 0.5rem;
 }
 
-/* Mobile Nav Groups */
 .stitch-mob-group {
   margin-bottom: 0.85rem;
 }
@@ -512,9 +504,6 @@
   z-index: 0;
 }
 
-/* ==========================================================================
-   1. HERO SECTION
-   ========================================================================== */
 .landing-hero-section {
   width: 100%;
   display: flex;
@@ -673,7 +662,6 @@
   color: var(--text-muted);
 }
 
-/* Hero Media with Floating Cards */
 .hero-media-col {
   position: relative;
 }
@@ -848,9 +836,6 @@
   margin: 0;
 }
 
-/* ==========================================================================
-   2. INTERACTIVE LIVE MINI CALCULATOR
-   ========================================================================== */
 .landing-calc-section {
   width: 100%;
 }
@@ -1134,9 +1119,6 @@
   white-space: nowrap;
 }
 
-/* ==========================================================================
-   3. FOUR CORE FEATURE PILLARS
-   ========================================================================== */
 .landing-pillars-section {
   width: 100%;
   display: flex;
@@ -1237,9 +1219,6 @@
   text-decoration: underline;
 }
 
-/* ==========================================================================
-   4. BEFORE VS AFTER COMPARISON
-   ========================================================================== */
 .landing-compare-section {
   width: 100%;
 }
@@ -1343,9 +1322,6 @@
   flex-shrink: 0;
 }
 
-/* ==========================================================================
-   5. BEEWISE AI SIMULATION SECTION
-   ========================================================================== */
 .landing-ai-sim-section {
   width: 100%;
 }
@@ -1422,7 +1398,6 @@
   justify-content: center;
 }
 
-/* Chat Mockup Window */
 .ai-sim-window {
   background-color: var(--surface-card);
   border-radius: var(--radius-xl);
@@ -1612,9 +1587,6 @@
   text-decoration: none;
 }
 
-/* ==========================================================================
-   6. STUDENT STORIES & TESTIMONIALS
-   ========================================================================== */
 .landing-stories-section {
   width: 100%;
 }
@@ -1711,9 +1683,6 @@
   color: var(--text-muted);
 }
 
-/* ==========================================================================
-   7. FINAL CALL TO ACTION BANNER
-   ========================================================================== */
 .landing-final-cta-section {
   width: 100%;
 }
@@ -1836,9 +1805,6 @@
   margin-top: 0.5rem;
 }
 
-/* ==========================================================================
-   8. STITCH FOOTER (Exact Mockup Match)
-   ========================================================================== */
 .stitch-footer {
   width: 100%;
   background-color: var(--surface-low);
@@ -2023,7 +1989,6 @@
   color: var(--text-primary);
 }
 
-/* App Shell Landing Mode */
 .landing-mode {
   padding: 0 !important;
   margin: 0 !important;
@@ -2035,12 +2000,6 @@
   padding: 0;
 }
 
-/* ==========================================================================
-   COMPREHENSIVE RESPONSIVE BREAKPOINTS
-   Mobile-first: base (< 480px) -> 480px -> 640px -> 768px -> 1024px -> 1280px
-   ========================================================================== */
-
-/* ---- Extra Small Devices (< 480px) — tight phone screens ---- */
 @media (max-width: 479px) {
   .stitch-landing-root {
     gap: 2rem;
@@ -2214,7 +2173,6 @@
   }
 }
 
-/* ---- Small Phones to Large Phones (480px — 639px) ---- */
 @media (min-width: 480px) and (max-width: 639px) {
   .stitch-landing-root {
     gap: 2.25rem;
@@ -2244,7 +2202,6 @@
   }
 }
 
-/* ---- Tablet Portrait (640px — 767px) ---- */
 @media (min-width: 640px) and (max-width: 767px) {
   .stitch-landing-root {
     gap: 2.5rem;
@@ -2271,7 +2228,6 @@
   }
 }
 
-/* ---- Tablet Landscape (768px — 1023px) ---- */
 @media (min-width: 768px) and (max-width: 1023px) {
   .stitch-landing-root {
     gap: 3.5rem;
@@ -2334,7 +2290,6 @@
   }
 }
 
-/* ---- Desktop (1024px — 1279px) ---- */
 @media (min-width: 1024px) and (max-width: 1279px) {
   .stitch-landing-root {
     gap: 3.5rem;
@@ -2346,7 +2301,6 @@
   }
 }
 
-/* ---- Large Desktop (1280px+) ---- */
 @media (min-width: 1280px) {
   .stitch-landing-root {
     gap: 4.5rem;
@@ -2372,7 +2326,6 @@
   }
 }
 
-/* ---- Max Width Constraint for All Sections ---- */
 .landing-hero-section,
 .landing-calc-section,
 .landing-pillars-section,
@@ -2400,7 +2353,6 @@
   }
 }
 
-/* ---- Touch Target Improvements for Mobile ---- */
 @media (max-width: 767px) {
   .stitch-mob-link {
     padding: 0.75rem 1rem;
@@ -2429,7 +2381,6 @@
   }
 }
 
-/* ---- Landscape Phone Safety ---- */
 @media (max-height: 500px) and (orientation: landscape) {
   .stitch-landing-root {
     padding-top: 4.5rem;

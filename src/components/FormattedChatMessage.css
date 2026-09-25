@@ -1,4 +1,4 @@
-/* Formatted Chat Message Typography & Rich Markdown Styles */
+
 .formatted-chat-message {
   display: flex;
   flex-direction: column;
@@ -36,7 +36,6 @@
   opacity: 0.95;
 }
 
-/* Callout Header */
 .msg-callout-header {
   display: flex;
   align-items: center;
@@ -57,7 +56,6 @@
   color: #FDE68A;
 }
 
-/* Bullet Lists */
 .msg-bullet-list {
   list-style: none;
   padding: 0;
@@ -85,7 +83,6 @@
   flex: 1;
 }
 
-/* Numbered Steps */
 .msg-ordered-list {
   list-style: none;
   padding: 0;

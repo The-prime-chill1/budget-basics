@@ -1,8 +1,3 @@
-/**
- * Knowledge Base for BudgetBee AI Assistant.
- * Supports contextual multi-turn conversation, in-depth follow-up explanations,
- * real-life student campus examples, and conversational intents.
- */
 
 export const suggestedPrompts = [
   'What is the 50-30-20 rule?',

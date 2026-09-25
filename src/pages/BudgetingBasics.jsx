@@ -22,7 +22,6 @@ import { formatCurrency } from '../utils/formatters';
 import './BudgetingBasics.css';
 
 export default function BudgetingBasics() {
-  // Knowledge Check Quiz State
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [submittedQuiz, setSubmittedQuiz] = useState(false);
 
@@ -52,14 +51,12 @@ export default function BudgetingBasics() {
   return (
     <div className="budgeting-basics-page page-wrapper animate-fade-in">
       <div className="app-container">
-        {/* Page Header */}
         <SectionHeading
-          badge="Module 01 &bull; Financial Foundations"
+          badge="Financial Foundations"
           title="Budgeting Basics for Students"
           subtitle="Understand how money flows: from incoming allowance to fixed commitments, discretionary spending, and your essential savings cushion."
         />
 
-        {/* 1. CORE CONCEPTS GRID */}
         <div className="concepts-grid">
           <div className="concept-card card interactive">
             <div className="concept-icon-box bg-emerald">
@@ -121,7 +118,6 @@ export default function BudgetingBasics() {
           </div>
         </div>
 
-        {/* 2. REALISTIC STUDENT MONTHLY BUDGET BREAKDOWN TABLE */}
         <section className="section-spacing student-budget-model-section">
           <div className="model-header-row">
             <div>
@@ -133,7 +129,6 @@ export default function BudgetingBasics() {
             </div>
           </div>
 
-          {/* Income Source Summary Cards */}
           <div className="income-sources-row">
             {studentMonthlyBudgetExample.incomeSources.map((source, idx) => (
               <div key={idx} className="income-source-card card">
@@ -149,7 +144,6 @@ export default function BudgetingBasics() {
             </div>
           </div>
 
-          {/* Budget Allocation Table */}
           <div className="table-responsive">
             <table className="custom-table" aria-label="Sample Student Budget Allocation Table">
               <thead>
@@ -194,7 +188,6 @@ export default function BudgetingBasics() {
           </div>
         </section>
 
-        {/* 3. INTERACTIVE KNOWLEDGE CHECK QUIZ */}
         <section className="section-spacing quiz-section">
           <div className="card quiz-card">
             <div className="quiz-header">
@@ -295,7 +288,7 @@ export default function BudgetingBasics() {
                     <span>Retake Quiz</span>
                   </button>
                   <Link to="/needs-vs-wants" className="btn btn-accent">
-                    <span>Next: Needs vs. Wants Module</span>
+                    <span>Next: Needs vs. Wants Guide</span>
                     <ArrowRight size={16} />
                   </Link>
                 </div>

@@ -1,11 +1,10 @@
-/* Budget 50-30-20 Styles (Screenshot 1) */
+
 .budget-503020-screen {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-/* 1. Hero Concept Card */
 .hero-concept-card {
   padding: 1.25rem;
   display: flex;
@@ -70,7 +69,6 @@
   margin: 0;
 }
 
-/* Responsive Grid Layout Container */
 .budget-desktop-layout {
   display: flex;
   flex-direction: column;
@@ -98,7 +96,6 @@
   }
 }
 
-/* 2. Interactive Allocator */
 .allocator-card {
   padding: 1.25rem;
   display: flex;
@@ -197,7 +194,6 @@
   white-space: nowrap;
 }
 
-/* Ratio Bar */
 .allocation-ratio-block {
   display: flex;
   flex-direction: column;
@@ -267,7 +263,6 @@
 [data-theme='dark'] .leg-wants { color: #818cf8; }
 [data-theme='dark'] .leg-savings { color: #34d399; }
 
-/* Category Cards Stack */
 .category-cards-stack {
   display: flex;
   flex-direction: column;
@@ -346,7 +341,6 @@
   margin: 0;
 }
 
-/* Guideline Note */
 .guideline-note-box {
   display: flex;
   align-items: flex-start;
@@ -369,7 +363,6 @@
   margin: 0;
 }
 
-/* 3. Real Student Scenarios */
 .scenarios-card {
   padding: 1.25rem;
   display: flex;
@@ -506,7 +499,6 @@
   margin: 0;
 }
 
-/* 4. Action Steps Checklist */
 .action-steps-card {
   padding: 1.25rem;
   background-color: #faf5f0;

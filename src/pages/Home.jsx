@@ -62,7 +62,6 @@ export default function Home() {
   const [isTipSaved, setIsTipSaved] = useState(false);
   const [saveToast, setSaveToast] = useState(null);
 
-  // Quote Carousel Micro-interaction
   const handleCycleQuote = () => {
     setIsQuoteFading(true);
     setTimeout(() => {
@@ -71,7 +70,6 @@ export default function Home() {
     }, 180);
   };
 
-  // Bookmark Tip Micro-interaction
   const handleToggleSaveTip = () => {
     const nextSaved = !isTipSaved;
     setIsTipSaved(nextSaved);
@@ -83,7 +81,6 @@ export default function Home() {
 
   return (
     <div className="cockpit-home-screen animate-fade-in">
-      {/* Toast Notification */}
       {saveToast && (
         <div className="cockpit-toast animate-fade-in" role="status" aria-live="polite">
           <BookmarkCheck size={16} className="toast-icon" />
@@ -91,9 +88,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* ================================================================
-          1. WELCOME & GREETING CARD (Student Survival Cockpit)
-          ================================================================ */}
       <section className="cockpit-card welcome-card">
         <div className="welcome-glow-orb" aria-hidden="true"></div>
 
@@ -120,7 +114,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Daily Campus Community Pulse */}
         <div className="community-pulse-row">
           <div className="pulse-item students-pulse">
             <span className="pulse-dot"></span>
@@ -133,7 +126,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Inspirational Quote Card with Tap-to-Cycle */}
         <div className="quote-cycle-box">
           <div className="quote-icon-frame">
             <Sparkles size={17} />
@@ -158,9 +150,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================================================================
-          2. FINANCIAL HEALTH SNAPSHOT (Monthly Spend Cockpit)
-          ================================================================ */}
       <section className="cockpit-card monthly-cockpit-card">
         <div className="cockpit-card-header">
           <div className="card-header-left">
@@ -174,7 +163,6 @@ export default function Home() {
           </span>
         </div>
 
-        {/* Spending & Target Metrics */}
         <div className="metrics-two-col-grid">
           <div className="metric-stat-card">
             <span className="stat-label">Allocated / Spent</span>
@@ -199,7 +187,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Visual 50-30-20 Multi-Segment Progress Bar */}
         <div className="budget-bar-section">
           <div className="bar-header-row">
             <span className="bar-title">Budget Distribution (Target: $1,200)</span>
@@ -207,19 +194,16 @@ export default function Home() {
           </div>
 
           <div className="segmented-progress-track" role="progressbar" aria-valuenow={39} aria-valuemin={0} aria-valuemax={100}>
-            {/* 50% Needs segment (emerald) */}
             <div
               className="segment-bar seg-needs"
               style={{ width: '50%' }}
               title="50% Needs Cap ($600)"
             ></div>
-            {/* 30% Wants segment (amber) */}
             <div
               className="segment-bar seg-wants"
               style={{ width: '30%' }}
               title="30% Wants Cap ($360)"
             ></div>
-            {/* 20% Savings segment (indigo) */}
             <div
               className="segment-bar seg-savings"
               style={{ width: '20%' }}
@@ -227,7 +211,6 @@ export default function Home() {
             ></div>
           </div>
 
-          {/* Segment Legend */}
           <div className="segments-legend-grid">
             <div className="legend-item">
               <span className="legend-dot dot-needs"></span>
@@ -256,9 +239,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================================================================
-          3. INTERACTIVE LEARNING PODS (Feature Launchpad)
-          ================================================================ */}
       <section className="learning-pods-section">
         <div className="pods-header-row">
           <h2 className="pods-section-heading">Interactive Learning Pods</h2>
@@ -266,7 +246,6 @@ export default function Home() {
         </div>
 
         <div className="pods-grid">
-          {/* Card 1: Budgeting 101 Guide */}
           <Link to="/budgeting-basics" className="pod-card group">
             <div className="pod-icon-box bg-gold-box">
               <BookOpen size={22} className="pod-icon" />
@@ -282,7 +261,6 @@ export default function Home() {
             </div>
           </Link>
 
-          {/* Card 2: Needs vs Wants Game */}
           <Link to="/needs-vs-wants" className="pod-card group">
             <div className="pod-icon-box bg-emerald-box">
               <Scale size={22} className="pod-icon" />
@@ -298,7 +276,6 @@ export default function Home() {
             </div>
           </Link>
 
-          {/* Card 3: 50-30-20 Calculator */}
           <Link to="/50-30-20" className="pod-card group">
             <div className="pod-icon-box bg-indigo-box">
               <PieChart size={22} className="pod-icon" />
@@ -314,7 +291,6 @@ export default function Home() {
             </div>
           </Link>
 
-          {/* Card 4: Savings Goal Tracker */}
           <Link to="/planner" className="pod-card group">
             <div className="pod-icon-box bg-amber-box">
               <PiggyBank size={22} className="pod-icon" />
@@ -332,9 +308,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================================================================
-          4. BEEWISE DAILY BITE (AI Tip of the Day)
-          ================================================================ */}
       <section className="cockpit-card ai-tip-card">
         <div className="ai-tip-header">
           <div className="ai-tip-title-box">
@@ -349,7 +322,6 @@ export default function Home() {
           <span className="bee-pill bee-pill-emerald tip-new-pill">New</span>
         </div>
 
-        {/* Speech Bubble Framing */}
         <div className="ai-speech-bubble">
           <p className="ai-speech-text">
             “Packing your own iced cold-brew just 3 days a week saves roughly{' '}
@@ -358,7 +330,6 @@ export default function Home() {
           </p>
         </div>
 
-        {/* CTA Actions */}
         <div className="ai-tip-actions-row">
           <Link to="/chatbot" className="bee-btn bee-btn-gold ask-beewise-btn">
             <MessageSquare size={17} />
@@ -377,9 +348,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================================================================
-          5. MONEY MISTAKES ALERT SPOTLIGHT
-          ================================================================ */}
       <section className="mistake-radar-card">
         <div className="mistake-radar-icon-frame">
           <AlertTriangle size={20} className="mistake-icon" />
@@ -400,9 +368,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================================================================
-          6. CAMPUS FINANCIAL LITERACY MILESTONES & BADGES
-          ================================================================ */}
       <section className="cockpit-card badges-gamification-card">
         <div className="cockpit-card-header">
           <div className="card-header-left">
@@ -413,7 +378,6 @@ export default function Home() {
         </div>
 
         <div className="badges-grid-three">
-          {/* Badge 1: Pillar Scholar */}
           <div className="badge-item unlocked">
             <div className="badge-emblem-frame bg-gold-tint">
               <Award size={24} className="text-gold" />
@@ -423,7 +387,6 @@ export default function Home() {
             <span className="badge-status-text text-emerald">6/6 Mastered</span>
           </div>
 
-          {/* Badge 2: Smart Allocator */}
           <div className="badge-item unlocked">
             <div className="badge-emblem-frame bg-emerald-tint">
               <CheckCircle2 size={24} className="text-emerald" />
@@ -433,7 +396,6 @@ export default function Home() {
             <span className="badge-status-text text-emerald">50/30/20 Set</span>
           </div>
 
-          {/* Badge 3: Goal Setter (Locked) */}
           <div className="badge-item locked">
             <div className="badge-emblem-frame bg-locked-tint">
               <Lock size={22} className="text-muted" />
@@ -444,9 +406,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================================================================
-          7. EDUCATIONAL VISUAL & CAMPUS CULTURE CARD
-          ================================================================ */}
       <section className="cockpit-card campus-culture-card">
         <img
           src="/hero.jpg"
@@ -469,9 +428,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================================================================
-          8. EDUCATIONAL SIMULATION NOTICE
-          ================================================================ */}
       <div className="cockpit-disclaimer-card">
         <div className="disclaimer-header">
           <Info size={16} className="disclaimer-icon" />

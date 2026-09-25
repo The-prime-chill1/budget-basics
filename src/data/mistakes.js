@@ -1,7 +1,3 @@
-/**
- * 5 Common Student Money Mistakes for the MoneyMistakes module.
- * Contains realistic student scenarios, warning signs, and corrective actions per SRS.
- */
 
 export const moneyMistakes = [
   {

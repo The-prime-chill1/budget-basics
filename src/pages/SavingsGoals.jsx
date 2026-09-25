@@ -58,23 +58,19 @@ export const SAVINGS_TIPS_BY_TIMELINE = [
 ];
 
 export default function SavingsGoals() {
-  // Goal Input Form State
   const [goalName, setGoalName] = useState('Refurbished Study Laptop');
   const [targetAmount, setTargetAmount] = useState('180000');
   const [currentSavings, setCurrentSavings] = useState('45000');
   const [monthlyContribution, setMonthlyContribution] = useState('22500');
 
-  // Error States
   const [errors, setErrors] = useState({});
 
-  // Calculation Results
   const numTarget = Number(targetAmount.replace(/,/g, '')) || 0;
   const numCurrent = Number(currentSavings.replace(/,/g, '')) || 0;
   const numMonthly = Number(monthlyContribution.replace(/,/g, '')) || 0;
 
   const result = calculateSavingsGoal(numTarget, numCurrent, numMonthly);
 
-  // Trigger celebration confetti when goal is achieved
   useEffect(() => {
     if (result.isCompleted && numTarget > 0) {
       confetti({
@@ -115,7 +111,6 @@ export default function SavingsGoals() {
     setErrors({});
   };
 
-  // Estimate completion date
   const getEstimatedDate = (months) => {
     if (!months || months <= 0) return 'Immediate';
     const date = new Date();
@@ -126,14 +121,12 @@ export default function SavingsGoals() {
   return (
     <div className="savings-goals-page page-wrapper animate-fade-in">
       <div className="app-container">
-        {/* Header */}
         <SectionHeading
-          badge="Module 04 &bull; Goal Milestone Calculator"
+          badge="Goal Milestone Calculator"
           title="Savings Goals & Timeline Calculator"
           subtitle="Transform ambitious college dreams into achievable monthly milestones with clear timeline forecasting."
         />
 
-        {/* 1. PRESET GOAL PILLS */}
         <div className="preset-goals-bar">
           <span className="preset-bar-title">Try Student Goal Templates:</span>
           <div className="preset-cards-list">
@@ -154,9 +147,7 @@ export default function SavingsGoals() {
           </div>
         </div>
 
-        {/* 2. CALCULATOR WORKSPACE */}
         <div className="goals-workspace-grid">
-          {/* Left Column: Input Form */}
           <div className="goal-input-card card">
             <div className="card-header-clean">
               <div className="header-icon-box bg-emerald">
@@ -169,7 +160,6 @@ export default function SavingsGoals() {
             </div>
 
             <form onSubmit={(e) => e.preventDefault()} className="goal-form">
-              {/* Goal Name */}
               <div className="form-group">
                 <label htmlFor="goal-name-input" className="form-label">
                   Goal Title / Purpose
@@ -193,7 +183,6 @@ export default function SavingsGoals() {
                 )}
               </div>
 
-              {/* Target Amount */}
               <div className="form-group">
                 <label htmlFor="target-amount-input" className="form-label">
                   Target Amount Required (₦)
@@ -220,7 +209,6 @@ export default function SavingsGoals() {
                 )}
               </div>
 
-              {/* Current Savings */}
               <div className="form-group">
                 <label htmlFor="current-savings-input" className="form-label">
                   Current Amount Saved So Far (₦)
@@ -247,7 +235,6 @@ export default function SavingsGoals() {
                 )}
               </div>
 
-              {/* Expected Monthly Contribution */}
               <div className="form-group">
                 <label htmlFor="monthly-contribution-input" className="form-label">
                   Expected Monthly Deposit from Allowance (₦)
@@ -276,7 +263,6 @@ export default function SavingsGoals() {
             </form>
           </div>
 
-          {/* Right Column: Dynamic Forecast & Milestones */}
           <div className="goal-forecast-card card">
             <div className="card-header-clean">
               <div>
@@ -288,7 +274,6 @@ export default function SavingsGoals() {
               </span>
             </div>
 
-            {/* Main Progress Indicator */}
             <div className="progress-section-block">
               <ProgressBar
                 percentage={result.progressPercentage}
@@ -299,7 +284,6 @@ export default function SavingsGoals() {
               />
             </div>
 
-            {/* Metrics Grid */}
             <div className="forecast-metrics-grid">
               <div className="metric-box">
                 <span className="metric-label">Remaining Amount</span>
@@ -318,7 +302,6 @@ export default function SavingsGoals() {
               </div>
             </div>
 
-            {/* Milestone Celebration or Tip */}
             {result.isCompleted ? (
               <div className="celebration-box animate-fade-in">
                 <Trophy size={28} className="trophy-icon" />

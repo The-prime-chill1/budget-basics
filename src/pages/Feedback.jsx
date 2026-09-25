@@ -45,7 +45,6 @@ export default function Feedback() {
       return;
     }
 
-    // Client-side confirmation (No backend transmission per SRS)
     setErrors({});
     setSubmittedData({ ...formData });
     setIsSuccessModalOpen(true);
@@ -66,15 +65,13 @@ export default function Feedback() {
   return (
     <div className="feedback-page page-wrapper animate-fade-in">
       <div className="app-container">
-        {/* Header */}
         <SectionHeading
-          badge="Module 10 &bull; Quality & Evaluation"
+          badge="Student Feedback Hub"
           title="Student Feedback & Platform Review"
           subtitle="Share your thoughts on the BudgetBasics educational tools. Client-validated for academic project demonstration."
         />
 
         <div className="feedback-layout-grid">
-          {/* Left Form Panel */}
           <div className="feedback-form-card card">
             <div className="form-card-header">
               <div className="form-icon-box">
@@ -87,7 +84,6 @@ export default function Feedback() {
             </div>
 
             <form onSubmit={handleSubmit} noValidate>
-              {/* Name */}
               <div className="form-group">
                 <label htmlFor="fb-name" className="form-label">
                   Your Full Name <span className="required-star">*</span>
@@ -108,7 +104,6 @@ export default function Feedback() {
                 )}
               </div>
 
-              {/* Email */}
               <div className="form-group">
                 <label htmlFor="fb-email" className="form-label">
                   Student Email Address <span className="required-star">*</span>
@@ -129,7 +124,6 @@ export default function Feedback() {
                 )}
               </div>
 
-              {/* Star Rating */}
               <div className="form-group">
                 <label className="form-label">Platform Rating</label>
                 <div className="star-rating-row">
@@ -150,7 +144,6 @@ export default function Feedback() {
                 </div>
               </div>
 
-              {/* Category */}
               <div className="form-group">
                 <label htmlFor="fb-category" className="form-label">
                   Feature Evaluated
@@ -165,13 +158,12 @@ export default function Feedback() {
                   <option value="50-30-20 Calculator">50-30-20 Rule Calculator</option>
                   <option value="Savings Goals Tracker">Savings Goals & Milestones</option>
                   <option value="Expense Planner">Session Expense Planner</option>
-                  <option value="Needs vs Wants Module">Needs vs Wants Quiz</option>
+                  <option value="Needs vs Wants">Needs vs Wants Challenge</option>
                   <option value="BudgetBee Chatbot">BudgetBee AI Assistant</option>
                   <option value="Infographics Gallery">Visual Infographics</option>
                 </select>
               </div>
 
-              {/* Comments */}
               <div className="form-group">
                 <label htmlFor="fb-comments" className="form-label">
                   Your Feedback / Suggestions <span className="required-star">*</span>
@@ -192,7 +184,6 @@ export default function Feedback() {
                 )}
               </div>
 
-              {/* Submit Button */}
               <div className="form-actions-row">
                 <button type="submit" className="btn btn-primary btn-lg">
                   <span>Submit Client Feedback</span>
@@ -202,7 +193,6 @@ export default function Feedback() {
             </form>
           </div>
 
-          {/* Right Info Panel */}
           <div className="feedback-info-panel card">
             <span className="section-badge">Evaluation Protocol</span>
             <h3 className="info-panel-title">Privacy & Academic Transparency</h3>
@@ -261,7 +251,6 @@ export default function Feedback() {
           </div>
         </div>
 
-        {/* Confirmation Success Modal */}
         <Modal
           isOpen={isSuccessModalOpen}
           onClose={handleReset}

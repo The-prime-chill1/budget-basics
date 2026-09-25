@@ -1,7 +1,3 @@
-/**
- * Sample student budget data, categories, and quiz questions
- * for the Budgeting Basics and Needs vs Wants modules.
- */
 
 export const studentMonthlyBudgetExample = {
   monthlyIncome: 60000,
