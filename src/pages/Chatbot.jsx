@@ -238,6 +238,69 @@ export default function Chatbot() {
     }
   };
 
+  const isOpenExplainIntent = (norm) => {
+    const openExplainPhrases = [
+      'explain something to me',
+      'explain something',
+      'explain to me',
+      'i need you to explain something to me',
+      'i need you to explain something',
+      'need you to explain something to me',
+      'need you to explain something',
+      'need you to explain',
+      'can you explain something to me',
+      'can you explain something',
+      'can you explain to me',
+      'could you explain something to me',
+      'could you explain something',
+      'please explain something to me',
+      'please explain something',
+      'i want you to explain something to me',
+      'i want you to explain something',
+      'want you to explain something',
+      'explain me something',
+      'explain something for me',
+      'what can you explain',
+      'what do you explain',
+      'teach me something',
+      'teach me',
+      'i have a question',
+      'can i ask a question',
+      'can i ask you a question',
+      'can i ask something',
+      'can i ask you something',
+      'kuch samjhao',
+      'kuch explain karo',
+      'explícame algo',
+      'explicame algo',
+      'puedes explicarme algo',
+      'explique-moi quelque chose',
+      'tu peux m\'expliquer',
+      'اشرح لي شيئا',
+      'اشرح لي شيئاً',
+      'هل يمكنك أن تشرح لي شيئا'
+    ];
+
+    const matchesOpen = openExplainPhrases.some(
+      (phrase) =>
+        norm === phrase ||
+        norm.startsWith(phrase + ' ') ||
+        norm.endsWith(' ' + phrase) ||
+        norm.includes(phrase)
+    );
+
+    if (!matchesOpen) return false;
+
+    // Check if the user specified a known topic alongside
+    const specificTopics = [
+      '50', '30', '20', 'rent', 'hostel', 'food', 'broke', 'sapa', 'debt',
+      'loan', 'fee', 'tuition', 'save', 'saving', 'overspend', 'invest',
+      'crypto', 'side hustle', 'afford', 'ticket', 'concert', 'emergency',
+      'allowance', 'scholarship', 'black tax', 'family', 'shopping'
+    ];
+    return !specificTopics.some((t) => norm.includes(t));
+  };
+
   const isFollowUpIntent = (norm) => {
     const phrases = [
       'explain',
@@ -245,6 +308,7 @@ export default function Chatbot() {
       'explain more',
       'explain that',
       'explain it',
+      'explain this',
       'please explain',
       'what do you mean',
       "i don't understand",
@@ -529,6 +593,30 @@ export default function Chatbot() {
   // Find the most accurate answer using scored relevance matching and dynamic handlers
   const findAnswer = (query, currentTopicId, activeLang) => {
     const norm = query.toLowerCase().trim().replace(/[?.,!¿¡]/g, '');
+
+    // 0. Open-ended "explain something to me" / question triage (user hasn't picked a topic yet)
+    if (isOpenExplainIntent(norm)) {
+      const generalExplains = {
+        'en-GB':
+          "**I'd love to explain! Which topic would you like me to break down for you?**\n\nHere are the most popular topics students ask about:\n• **The 50/30/20 Rule** (How to divide your allowance so you never go broke)\n• **Needs vs. Wants** (How to make smart choices without feeling deprived)\n• **Emergency Funds** (Why every student needs a safety cushion)\n• **Surviving When Broke** (Immediate step-by-step triage for zero-cash emergencies)\n• **Stopping Overspending** (Practical rules to keep money in your pocket)\n• **Affordability Check** (Ask me e.g. *'Can I afford ₦5,000 concert tickets on ₦25,000 stipend?'*)\n\nType or speak any topic, and I'll break it down step-by-step!",
+        'en-US':
+          "**I'm happy to explain! What topic can I break down for you?**\n\nPopular student topics:\n• **The 50/30/20 Rule** (How to allocate your funds)\n• **Needs vs. Wants** (Smart college decision making)\n• **Emergency Funds** (Your essential student cushion)\n• **Surviving When Broke** (Immediate steps when cash is low)\n• **Stopping Overspending** (Practical tips for your wallet)\n• **Affordability Check** (e.g. *'Can I afford $50 concert tickets on $250 stipend?'*)\n\nType or speak any topic, and I'm ready to explain!",
+        'en-IN':
+          "**Main zaroor samjhaunga! Aap kaunsa topic detail me jaan-na chahte hain?**\n\nAap pooch sakte hain:\n• **50/30/20 Rule** (Pocket money baantne ka tareeqa)\n• **Needs vs Wants** (Zaroorat aur khwahish ka fark)\n• **Emergency Fund** (Bachat ka suraksha kavach)\n• **Surviving When Broke** (Paise khatam hone par kya karein)\n• **Fizool kharchi kaise rokein** (Overspending rokne ke aasaan tips)\n\nNeeche type karein ya bol kar batayein!",
+        'es-ES':
+          "**¡Con mucho gusto te lo explico! ¿Qué tema te gustaría que detallemos?**\n\nPuedes preguntarme:\n• **La regla 50/30/20** (Cómo dividir tu dinero del mes)\n• **Necesidades vs Deseos** (Decisiones inteligentes en el campus)\n• **Fondo de emergencia** (Por qué necesitas un colchón financiero)\n• **Supervivencia sin dinero** (Qué hacer cuando te quedas a cero)\n• **Cómo evitar gastar de más** (Trucos fáciles para no quedarte sin dinero)\n\n¡Escríbemelo o háblame y te lo explico con gusto!",
+        'fr-FR':
+          "**Avec grand plaisir ! Quel sujet souhaitez-vous que je vous explique en détail ?**\n\nVous pouvez me demander :\n• **La règle 50/30/20** (Comment répartir votre budget)\n• **Besoins vs Envies** (Faire les bons choix au quotidien)\n• **Le fonds d'urgence** (Votre matelas de sécurité indispensable)\n• **Gérer quand on est à sec** (Les réflexes essentiels)\n• **Comment ne pas trop dépenser** (Conseils simples pour étudiants)\n\nPosez votre question et je vous explique tout en détail !",
+        'ar-SA':
+          "**يسعدني أن أشرح لك بالتفصيل! أي موضوع تود أن أساعدك في فهمه؟**\n\nيمكنك أن تسألني:\n• **قاعدة 50/30/20** (كيف تقسم مصروفك الشهري بذكاء)\n• **الاحتياجات مقابل الرغبات** (كيف تتخذ قرارات مالية صحيحة)\n• **صندوق الطوارئ** (لماذا يحتاج كل طالب إلى رصيد أمان)\n• **التصرف عند نفاد النقود** (خطوات عملية لحماية ميزانيتك)\n• **كيف تتجنب الإسراف** (خطوات بسيطة للحفاظ على أموالك)\n\nاكتب الموضوع وسأشرحه لك فوراً وبكل بساطة!"
+      };
+
+      return {
+        answer: generalExplains[activeLang] || generalExplains['en-GB'],
+        topicId: null,
+        isRtl: activeLang === 'ar-SA'
+      };
+    }
 
     // 1. Follow-up intents ("explain", "break it down")
     if (isFollowUpIntent(norm)) {
@@ -971,7 +1059,9 @@ export default function Chatbot() {
                   )}
 
                   <div className="bubble-payload">
-                    <FormattedChatMessage text={m.text} isRtl={m.isRtl} />
+                    <div className="bubble-box">
+                      <FormattedChatMessage text={m.text} isRtl={m.isRtl} />
+                    </div>
 
                     <div className="bubble-footer-row">
                       <span className="bubble-time">{m.time}</span>

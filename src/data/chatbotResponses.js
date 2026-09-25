@@ -332,7 +332,21 @@ export const chatbotKnowledge = [
   },
   {
     id: 'needs_vs_wants',
-    keywords: ['need', 'want', 'difference', 'classify', 'essential', 'priority', 'priorities'],
+    keywords: [
+      'needs vs wants',
+      'need vs want',
+      'needs and wants',
+      'needs or wants',
+      'what is a need',
+      'what is a want',
+      'difference between need and want',
+      'difference between needs and wants',
+      'wants and needs',
+      'classify needs',
+      'essential vs non-essential',
+      'needs vs',
+      'wants vs'
+    ],
     title: 'Needs vs. Wants Explained',
     response:
       'A **Need** is an essential requirement for health, basic survival, safety, or academic continuation (e.g., nutritious food, school transport, textbooks, essential medicine, shelter).\n\nA **Want** is something that increases comfort or entertainment but isn\'t vital for survival (e.g., designer sneakers, video games, eating at fancy restaurants, extra subscriptions).\n\n*Rule of thumb: If delaying the purchase causes real harm or academic penalty, it is a Need. Otherwise, it is a Want.*',
