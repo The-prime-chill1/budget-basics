@@ -1,3 +1,4 @@
+// Multi-language UI translations and keyword dictionaries supporting en-GB, en-US, en-IN, es-ES, fr-FR, ar-SA
 
 export const SUPPORTED_LANGUAGES = [
   { id: 'en-GB', name: 'UK English', flag: '🇬🇧', speechLang: 'en-GB', dir: 'ltr' },

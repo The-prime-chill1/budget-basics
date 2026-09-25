@@ -1,3 +1,4 @@
+// Preset student budget scenarios (conservative, moderate, independent) for quick calculator testing
 
 export const studentMonthlyBudgetExample = {
   monthlyIncome: 60000,

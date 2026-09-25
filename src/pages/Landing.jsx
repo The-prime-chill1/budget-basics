@@ -1,3 +1,4 @@
+// Main platform showcase landing page with feature cards, live previews, and sitemap navigation
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';

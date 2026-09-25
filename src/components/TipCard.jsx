@@ -1,3 +1,4 @@
+// Interactive financial tip card with category tag, actionable advice, and bookmark toggle
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Sparkles, PiggyBank, Clock, ShieldCheck, CreditCard, Target, Users } from 'lucide-react';
 import './TipCard.css';

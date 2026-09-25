@@ -1,3 +1,4 @@
+// Continuous marquee ticker displaying short personal finance tips and reminders
 import React, { useState, useEffect } from 'react';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { quickFinancialFacts } from '../data/tips';

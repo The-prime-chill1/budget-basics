@@ -1,3 +1,4 @@
+// Campus support directory with financial aid contacts, counseling hotlines, and inquiry form
 import React, { useState } from 'react';
 import {
   Mail,

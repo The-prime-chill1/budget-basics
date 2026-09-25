@@ -1,3 +1,4 @@
+// 50/30/20 rule calculator with interactive donut visualization, category breakdown, and weekly limits
 import React, { useState } from 'react';
 import {
   Home as HomeIcon,

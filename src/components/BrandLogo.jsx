@@ -1,3 +1,4 @@
+// BudgetBasics brand emblem and logo typography with light/dark theme support
 import React from 'react';
 import './BrandLogo.css';
 

@@ -1,3 +1,4 @@
+// Mobile-only bottom navigation bar providing thumb-accessible navigation between core tools
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Home, BookOpen, Scale, PieChart, Wallet, Bot } from 'lucide-react';

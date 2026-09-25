@@ -1,3 +1,4 @@
+// About page covering the BudgetBasics mission, educational principles, and Team PixelForge credits
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {

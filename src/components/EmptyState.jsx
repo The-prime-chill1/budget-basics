@@ -1,3 +1,4 @@
+// Reusable empty-state display with icon, title, description, and action button
 import React from 'react';
 import { Inbox } from 'lucide-react';
 import './EmptyState.css';

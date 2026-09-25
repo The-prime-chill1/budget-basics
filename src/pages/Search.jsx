@@ -1,3 +1,4 @@
+// Full-text search and category filter across all platform budgeting guides and learning topics
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {

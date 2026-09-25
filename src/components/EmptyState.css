@@ -1,3 +1,4 @@
+/* Empty state layout, icon container, and action buttons */
 .empty-state-wrapper {
   display: flex;
   flex-direction: column;

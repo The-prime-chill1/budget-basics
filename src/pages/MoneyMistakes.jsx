@@ -1,3 +1,4 @@
+// Interactive student money pitfall analyzer with expandable scenarios and downloadable checklist
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {

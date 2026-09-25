@@ -1,3 +1,4 @@
+// 5 common student spending mistakes with real-world campus scenarios, warning signs, and fixes
 
 export const moneyMistakes = [
   {

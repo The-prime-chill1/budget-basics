@@ -1,3 +1,4 @@
+// Formatting helpers for Nigerian Naira (₦) / USD ($) currency values and localized dates
 
 export function formatCurrency(amount, showDecimals = false) {
   const num = Number(amount);

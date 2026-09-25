@@ -1,3 +1,4 @@
+// Renders chatbot messages with inline markdown styling, lists, and bold text parsing
 import React from 'react';
 import './FormattedChatMessage.css';
 

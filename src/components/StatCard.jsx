@@ -1,3 +1,4 @@
+// Summary KPI card displaying a key metric with icon, numeric value, and contextual badge
 import React from 'react';
 
 export default function StatCard({

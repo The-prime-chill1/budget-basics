@@ -1,3 +1,4 @@
+// Visual sitemap displaying full route hierarchy, platform architecture, and legal disclaimers
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {

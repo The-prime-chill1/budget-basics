@@ -1,3 +1,4 @@
+// Reusable accessible modal dialog supporting backdrop dismissal, Escape key, and custom actions
 import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 import './Modal.css';

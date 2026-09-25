@@ -1,3 +1,4 @@
+// Accessible visual progress bar with animated fill, threshold colors, and percentage label
 import React from 'react';
 import './ProgressBar.css';
 

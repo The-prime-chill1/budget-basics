@@ -1,3 +1,4 @@
+// Global footer with categorized navigation links, student resources, and legal disclaimer modals
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {

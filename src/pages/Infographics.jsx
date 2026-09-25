@@ -1,3 +1,4 @@
+// Visual learning gallery displaying financial diagrams, cheat sheets, and downloadable summaries
 import React, { useState } from 'react';
 import {
   Image as ImageIcon,

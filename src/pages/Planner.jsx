@@ -1,3 +1,4 @@
+// Unified planning workspace combining the savings goals forecaster and session expense logger
 import React, { useState } from 'react';
 import {
   Flag,

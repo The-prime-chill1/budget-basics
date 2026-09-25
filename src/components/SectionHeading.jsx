@@ -1,3 +1,4 @@
+// Standardized section heading with optional category badge, title, and descriptive subtitle
 import React from 'react';
 
 export default function SectionHeading({

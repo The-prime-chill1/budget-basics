@@ -1,3 +1,4 @@
+// Library of practical student money-saving tips across food, academics, lifestyle, and budgeting
 
 export const quickFinancialFacts = [
   {

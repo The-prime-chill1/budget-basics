@@ -1,3 +1,4 @@
+// Educational infographics metadata, category tags, key takeaways, and visual representations
 
 export const galleryCategories = ['All', 'Budgeting', 'Saving', 'Spending', 'Goals'];
 

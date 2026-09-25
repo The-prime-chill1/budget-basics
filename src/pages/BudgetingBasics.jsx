@@ -1,3 +1,4 @@
+// Foundational educational guide explaining income, fixed vs variable costs, and zero-based budgeting
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {

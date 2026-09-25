@@ -1,3 +1,4 @@
+// Desktop and mobile navigation header with mega-menus, search bar, and live visitor indicator
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';

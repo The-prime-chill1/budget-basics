@@ -1,3 +1,4 @@
+// Student cockpit dashboard featuring daily motivation quotes, quick tool access, and visitor metrics
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {

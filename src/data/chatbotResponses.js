@@ -1,3 +1,4 @@
+// Curated financial literacy knowledge base for matching student questions with practical answers
 
 export const suggestedPrompts = [
   'What is the 50-30-20 rule?',
