@@ -5,7 +5,7 @@ import './BrandLogo.css';
 export default function BrandLogo({
   variant = 'full',
   showTagline = true,
-  height = 36,
+  height = 42,
   className = '',
   idPrefix = 'bbLogo'
 }) {
@@ -28,17 +28,18 @@ export default function BrandLogo({
         <defs>
           <linearGradient id={primaryGradId} x1="0%" y1="100%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#0F766E" />
-            <stop offset="60%" stopColor="#14B8A6" />
+            <stop offset="50%" stopColor="#0D9488" />
             <stop offset="100%" stopColor="#2DD4BF" />
           </linearGradient>
 
           <linearGradient id={accentGradId} x1="0%" y1="100%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#D97706" />
+            <stop offset="60%" stopColor="#F59E0B" />
             <stop offset="100%" stopColor="#FBBF24" />
           </linearGradient>
 
           <filter id={glowFilterId} x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="3" floodColor="#0F766E" floodOpacity="0.25" />
+            <feDropShadow dx="0" dy="4" floodColor="#0F766E" floodOpacity="0.32" stdDeviation="3" />
           </filter>
         </defs>
 
@@ -86,7 +87,7 @@ export default function BrandLogo({
 
   return (
     <svg
-      viewBox={showTagline ? '0 0 540 120' : '0 0 540 100'}
+      viewBox={showTagline ? '0 0 460 115' : '0 0 440 94'}
       height={height}
       style={{ width: 'auto', maxHeight: '100%' }}
       fill="none"
@@ -98,21 +99,22 @@ export default function BrandLogo({
       <defs>
         <linearGradient id={primaryGradId} x1="0%" y1="100%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="#0F766E" />
-          <stop offset="60%" stopColor="#14B8A6" />
+          <stop offset="50%" stopColor="#0D9488" />
           <stop offset="100%" stopColor="#2DD4BF" />
         </linearGradient>
 
         <linearGradient id={accentGradId} x1="0%" y1="100%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="#D97706" />
+          <stop offset="60%" stopColor="#F59E0B" />
           <stop offset="100%" stopColor="#FBBF24" />
         </linearGradient>
 
         <filter id={glowFilterId} x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="4" floodColor="#0F766E" floodOpacity="0.25" />
+          <feDropShadow dx="0" dy="4" floodColor="#0F766E" floodOpacity="0.32" stdDeviation="3" />
         </filter>
       </defs>
 
-      <g transform="translate(16, 10)" filter={`url(#${glowFilterId})`}>
+      <g transform="translate(10, 6)" filter={`url(#${glowFilterId})`}>
         <path d="M 22 24 L 38 14 L 38 86 L 22 76 Z" fill={`url(#${primaryGradId})`} />
 
         <path
@@ -151,10 +153,10 @@ export default function BrandLogo({
         <circle cx="68" cy="46" r="4.5" fill="#FBBF24" />
       </g>
 
-      <g transform="translate(142, 72)">
+      <g transform="translate(132, 66)">
         <text
           fontFamily="system-ui, -apple-system, 'Plus Jakarta Sans', 'Inter', sans-serif"
-          fontSize="44"
+          fontSize="48"
           className="brand-logo-text"
         >
           <tspan className="brand-text-budget" fontWeight="800">
@@ -167,13 +169,13 @@ export default function BrandLogo({
       </g>
 
       {showTagline && (
-        <g transform="translate(145, 93)">
+        <g transform="translate(135, 92)">
           <text
             fontFamily="system-ui, -apple-system, 'Plus Jakarta Sans', 'Inter', sans-serif"
-            fontSize="11.5"
-            fontWeight="600"
+            fontSize="12"
+            fontWeight="700"
             className="brand-tagline-text"
-            letterSpacing="0.05em"
+            letterSpacing="0.06em"
           >
             FINANCIAL LITERACY FOR NEXTGEN LEARNERS
           </text>

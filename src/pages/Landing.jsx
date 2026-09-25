@@ -398,7 +398,7 @@ export default function Landing() {
         <div className="stitch-header-inner">
           <div className="stitch-brand-wrap">
             <Link to="/" className="stitch-brand-link" aria-label="BudgetBasics Home">
-              <BrandLogo height={38} showTagline={false} idPrefix="landingHead" />
+              <BrandLogo height={48} showTagline={false} idPrefix="landingHead" />
             </Link>
           </div>
 
@@ -1077,7 +1077,7 @@ export default function Landing() {
               <div className="stitch-hotline-box">
                 <strong className="stitch-hotline-num text-gold">1-800-BEE-WISE</strong>
                 <span className="stitch-hotline-sub">24/7 Collegiate Advisory Line</span>
-                <span className="stitch-hotline-email">help@budgetbasics.edu</span>
+                <span className="stitch-hotline-email">budgetbasic58@gmail.com</span>
               </div>
             </div>
           </div>

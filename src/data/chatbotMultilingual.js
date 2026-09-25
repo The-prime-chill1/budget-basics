@@ -152,7 +152,7 @@ export const UI_TRANSLATIONS = {
 
 export const MULTILINGUAL_KNOWLEDGE = {
   'rule_50_30_20': {
-    keywords: ['50', '30', '20', 'rule', 'regla', 'règle', 'niyam', 'قاعدة', 'split', 'ratio'],
+    keywords: ['50/30/20', '50-30-20', '50 30 20', '50/30/20 rule', 'regla 50/30/20', 'règle 50/30/20', '50/30/20 niyam', 'قاعدة 50/30/20', 'split 50/30/20'],
     'en-GB': {
       title: 'The 50/30/20 Budgeting Rule',
       response:
@@ -198,7 +198,7 @@ export const MULTILINGUAL_KNOWLEDGE = {
   },
 
   'needs_vs_wants': {
-    keywords: ['need', 'want', 'besoin', 'envie', 'necesidad', 'deseo', 'zaroorat', 'احتياج', 'رغبة'],
+    keywords: ['needs vs wants', 'need vs want', 'needs and wants', 'what is a need', 'what is a want', 'difference between need and want', 'besoin vs envie', 'necesidad vs deseo', 'zaroorat vs khwahish', 'الاحتياجات مقابل الرغبات'],
     'en-GB': {
       title: 'Needs vs Wants Explained',
       response:
@@ -244,7 +244,7 @@ export const MULTILINGUAL_KNOWLEDGE = {
   },
 
   'how_much_save': {
-    keywords: ['save', 'saving', 'ahorrar', 'épargner', 'bachat', 'كم أدخر', 'ادخار', 'percentage'],
+    keywords: ['how much to save', 'how much should i save', 'how much should a student save', 'saving percentage', 'combien épargner', 'cuánto ahorrar', 'kitna bachana chahiye', 'كم أدخر'],
     'en-GB': {
       title: 'How Much Should a Student Save?',
       response:
@@ -290,7 +290,7 @@ export const MULTILINGUAL_KNOWLEDGE = {
   },
 
   'overspending': {
-    keywords: ['overspend', 'impulse', 'broke', 'gastar', 'dépenses', 'kharcha', 'إسراف', 'تبذير', 'stop spending'],
+    keywords: ['overspending', 'overspend', 'stop overspending', 'impulse buy', 'impulse spending', 'gastar de más', 'dépenser trop', 'fizool kharchi', 'إسراف', 'تبذير', 'stop spending'],
     'en-GB': {
       title: 'How to Prevent Overspending',
       response:
@@ -336,7 +336,7 @@ export const MULTILINGUAL_KNOWLEDGE = {
   },
 
   'emergency_fund': {
-    keywords: ['emergency', 'urgencia', 'urgence', 'fund', 'طوارئ', 'cushion'],
+    keywords: ['emergency fund', 'emergency savings', 'fondo de emergencia', 'fonds d urgence', 'fonds d\'urgence', 'صندوق الطوارئ', 'safety cushion', 'rainy day fund'],
     'en-GB': {
       title: 'What is an Emergency Fund?',
       response:

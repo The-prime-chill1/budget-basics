@@ -333,6 +333,45 @@ export default function Chatbot() {
     ].includes(norm);
   };
 
+  const isHelpIntent = (norm) => {
+    const helpPhrases = [
+      'need your help',
+      'need you help',
+      'need help',
+      'i need help',
+      'help me',
+      'can you help me',
+      'can you help',
+      'please help me',
+      'please help',
+      'i need assistance',
+      'need assistance',
+      'assist me',
+      'i have a problem',
+      'have a problem',
+      'need advice',
+      'i need advice',
+      'give me advice',
+      'what should i do',
+      'i am in trouble',
+      'help',
+      'madad chahiye',
+      'ayudame',
+      'necesito ayuda',
+      'aidez-moi',
+      'aidez moi',
+      'ساعدني',
+      'احتاج مساعدة'
+    ];
+    return helpPhrases.some(
+      (phrase) =>
+        norm === phrase ||
+        norm.startsWith(phrase + ' ') ||
+        norm.endsWith(' ' + phrase) ||
+        norm.includes(' ' + phrase + ' ')
+    );
+  };
+
   // Dynamic budget parser: computes accurate 50/30/20 breakdown for any mentioned number
   const parseDynamicBudget = (rawText) => {
     const text = rawText.toLowerCase();
@@ -494,6 +533,52 @@ export default function Chatbot() {
       };
     }
 
+    // 3.5. Direct Help & Assistance Intent (e.g. "i need you help", "can you help me")
+    if (isHelpIntent(norm)) {
+      // Check if user also specifically mentioned another problem (e.g. debt, rent, broke, fees)
+      let specificProblem = null;
+      let topProblemScore = 0;
+      for (const item of chatbotKnowledge) {
+        if (item.id === 'general_financial_problem') continue;
+        for (const kw of item.keywords) {
+          if (norm.includes(kw) && kw.length >= 4) {
+            if (kw.length > topProblemScore) {
+              topProblemScore = kw.length;
+              specificProblem = item;
+            }
+          }
+        }
+      }
+      if (specificProblem) {
+        return {
+          answer: specificProblem.response,
+          topicId: specificProblem.id,
+          isRtl: false
+        };
+      }
+
+      const helpResponses = {
+        'en-GB':
+          "**I'm right here with you! Tell me what's going on.**\n\nAs your student financial advisor, I can guide you through:\n• **Running out of money or being broke** (type *'broke'* or *'food'*)\n• **Managing student debts or loan apps** (type *'debt'*)\n• **Paying hostel rent & accommodation** (type *'rent'*)\n• **Affording school fees or course clearance** (type *'school fees'*)\n• **Budgeting your allowance** (e.g. *'budget ₦50,000'*)\n• **Cutting overspending & impulse buying**\n• **Finding realistic campus side hustles**\n\nWhat is the specific money challenge you're facing right now? Speak or type it below—I am listening!",
+        'en-US':
+          "**I'm right here with you! Tell me what's going on.**\n\nAs your student financial guide, I can help you with:\n• **Surviving when broke or out of cash**\n• **Dealing with college debt or credit cards**\n• **Dorm & apartment rent payments**\n• **Tuition and textbook costs**\n• **Calculating your monthly budget** (e.g. *'budget $400'*)\n• **Halting impulse purchases**\n\nWhat money dilemma is on your mind? Type or speak—I'm ready to help you work through it!",
+        'en-IN':
+          "**Main bilkul aapki madad ke liye tayar hoon! Bataiye kya pareshani hai?**\n\nMain in baaton me aapka saath de sakta hoon:\n• **Pocket money khatam ho jana ya bachat na hona**\n• **Hostel rent ya room ke kharche**\n• **Doston ya loan ka udhaar chukana**\n• **50/30/20 niyam se budget banana**\n• **Fizool kharchi rokna**\n\nAapki specific problem kya hai? Neeche likhein ya bol kar batayein!",
+        'es-ES':
+          "**¡Aquí estoy para ayudarte! Cuéntame qué está pasando.**\n\nPuedo orientarte con:\n• **Quedarte sin dinero a fin de mes**\n• **Pagar el alquiler o la residencia universitaria**\n• **Salir de deudas estudiantiles**\n• **Organizar tu presupuesto con la regla 50/30/20**\n• **Frenar compras impulsivas y gastos hormiga**\n\n¿Cuál es tu duda o dificultad ahora mismo? ¡Escríbela y la resolvemos juntos!",
+        'fr-FR':
+          "**Je suis là pour vous aider ! Dites-moi ce qui vous préoccupe.**\n\nJe peux vous guider pour :\n• **Faire face aux fins de mois difficiles**\n• **Payer votre loyer étudiant ou vos charges**\n• **Régler vos dettes et emprunts**\n• **Répartir votre budget avec la règle 50/30/20**\n• **Stopper les dépenses impulsives**\n\nQuel est votre problème financier actuel ? Posez votre question, je vous écoute !",
+        'ar-SA':
+          "**أنا هنا لمساعدتك بكل سرور! أخبرني بما يقلقك في ميزانيتك.**\n\nيمكنني إرشادك في:\n• **التعامل مع نفاد المصروف قبل نهاية الشهر**\n• **دفع إيجار السكن الجامعي أو الرسوم**\n• **سداد الديون والقروض الطلابية**\n• **تقسيم ميزانيتك الشهرية بقاعدة 50/30/20**\n• **إيقاف الشراء العاطفي والتبذير**\n\nما هو التحدي الذي تواجهه حالياً؟ اكتب سؤالك أو تحدث عبر الميكروفون وسأساعدك فوراً!"
+      };
+
+      return {
+        answer: helpResponses[activeLang] || helpResponses['en-GB'],
+        topicId: 'help_triage',
+        isRtl: activeLang === 'ar-SA'
+      };
+    }
+
     // 4. Dynamic budget calculation for custom amounts (e.g., "budget 50000", "split 100k")
     const dynamicBudget = parseDynamicBudget(norm);
     if (dynamicBudget) {
@@ -523,6 +608,21 @@ export default function Chatbot() {
       norm.includes('explique') ||
       norm.includes('اشرح');
 
+    // Helper for boundary-aware keyword matching to prevent partial false positives
+    const getKeywordScore = (queryText, kw) => {
+      const cleanKw = kw.toLowerCase().trim();
+      if (!cleanKw) return 0;
+      if (queryText === cleanKw) return 100;
+      if (cleanKw.includes(' ') || cleanKw.includes('/')) {
+        if (queryText.includes(cleanKw)) return 40 + cleanKw.length;
+      } else {
+        const escaped = cleanKw.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+        const regex = new RegExp(`(^|\\s|[.,!?;])${escaped}($|\\s|[.,!?;])`, 'i');
+        if (regex.test(queryText)) return 25;
+      }
+      return 0;
+    };
+
     // 6. Ranked relevance scoring across knowledge bases
     let bestMatch = null;
     let highestScore = 0;
@@ -531,11 +631,7 @@ export default function Chatbot() {
     for (const [topicKey, item] of Object.entries(MULTILINGUAL_KNOWLEDGE)) {
       let score = 0;
       for (const kw of item.keywords) {
-        if (norm === kw) {
-          score += 100;
-        } else if (norm.includes(kw)) {
-          score += kw.length > 5 ? 30 : 15;
-        }
+        score += getKeywordScore(norm, kw);
       }
       if (score > highestScore) {
         highestScore = score;
@@ -553,11 +649,7 @@ export default function Chatbot() {
     for (const item of chatbotKnowledge) {
       let score = 0;
       for (const kw of item.keywords) {
-        if (norm === kw) {
-          score += 100;
-        } else if (norm.includes(kw)) {
-          score += kw.length > 5 ? 30 : 15;
-        }
+        score += getKeywordScore(norm, kw);
       }
       if (score > highestScore) {
         highestScore = score;
@@ -1036,7 +1128,7 @@ export default function Chatbot() {
 
               <div className="helpline-links-grid">
                 <a
-                  href="mailto:support@budgetbasics.edu"
+                  href="mailto:budgetbasic58@gmail.com"
                   className="helpline-card-item"
                   id="helpline-email-link"
                   title="Send email to student support"
@@ -1046,7 +1138,7 @@ export default function Chatbot() {
                   </div>
                   <div className="helpline-card-content">
                     <span className="helpline-card-label">Campus Email</span>
-                    <span className="helpline-card-value">support@budgetbasics.edu</span>
+                    <span className="helpline-card-value">budgetbasic58@gmail.com</span>
                   </div>
                   <ArrowUpRight size={14} className="helpline-card-arrow" />
                 </a>

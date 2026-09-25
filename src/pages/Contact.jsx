@@ -89,7 +89,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <span className="channel-label">Email Support</span>
-                    <strong className="channel-val">support@budgetbasics.edu.ng</strong>
+                    <strong className="channel-val">budgetbasic58@gmail.com</strong>
                   </div>
                 </div>
 

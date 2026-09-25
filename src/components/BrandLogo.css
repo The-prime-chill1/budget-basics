@@ -1,34 +1,26 @@
-/* Brand logo emblem, badge typography, and hover animations */
-
+/* Brand logo emblem, badge typography, and catchy hover animations */
 
 .brand-logo-svg {
   display: block;
   user-select: none;
   overflow: visible;
-  transition: transform 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
 }
 
 .brand-logo-svg:hover {
-  transform: translateY(-1px);
-}
-
-.brand-hex-cell {
-  fill: #00513F;
-  stroke: #00513F;
-  transition: fill 0.2s ease, stroke 0.2s ease;
-}
-
-.brand-stripes-503020 rect {
-  fill: #D8E64C;
+  transform: translateY(-2px) scale(1.03);
+  filter: drop-shadow(0 6px 20px rgba(20, 184, 166, 0.35));
 }
 
 .brand-text-budget {
   fill: #0F172A;
+  letter-spacing: -0.025em;
   transition: fill 0.2s ease;
 }
 
 .brand-text-basics {
   fill: #0D9488;
+  letter-spacing: -0.02em;
   transition: fill 0.2s ease;
 }
 
@@ -42,7 +34,7 @@
 }
 
 [data-theme='dark'] .brand-text-basics {
-  fill: #14B8A6;
+  fill: #2DD4BF;
 }
 
 [data-theme='dark'] .brand-tagline-text {
@@ -50,5 +42,10 @@
 }
 
 .brand-logo-mark {
-  filter: drop-shadow(0 3px 8px rgba(15, 118, 110, 0.28));
+  filter: drop-shadow(0 4px 12px rgba(15, 118, 110, 0.35));
+}
+
+.brand-logo-mark:hover {
+  transform: translateY(-2px) scale(1.08);
+  filter: drop-shadow(0 6px 18px rgba(20, 184, 166, 0.45));
 }
