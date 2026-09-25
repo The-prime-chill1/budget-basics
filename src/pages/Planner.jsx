@@ -47,6 +47,14 @@ export default function Planner() {
 
   const [expenses, setExpenses] = useState(INITIAL_EXPENSES);
   const [monthlyAllowance, setMonthlyAllowance] = useState(() => convertFromNgn(150000));
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    category: 'Food',
+    date: new Date().toISOString().split('T')[0],
+    amount: ''
+  });
 
   // Sync default values when active currency changes
   useEffect(() => {

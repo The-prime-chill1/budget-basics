@@ -373,7 +373,35 @@ export const chatbotKnowledge = [
   },
   {
     id: 'overspending',
-    keywords: ['overspending', 'impulse', 'control', 'stop spending', 'waste', 'spend too much', 'spending too much'],
+    keywords: [
+      'overspending',
+      'impulse',
+      'control',
+      'stop spending',
+      'waste',
+      'spend too much',
+      'spending too much',
+      'spend money on a lot of',
+      'spend money on shit',
+      'spending on shit',
+      'buying shit',
+      'waste money',
+      'wasting money',
+      'wasting cash',
+      'spending on useless',
+      'spending on nonsense',
+      'cant stop spending',
+      'spending problem',
+      'my problem is i spend',
+      'problem is i spend',
+      'buy things i dont need',
+      'impulse buy',
+      'impulse shopping',
+      'money finishes fast',
+      'money disappears',
+      'blow cash',
+      'blow through money'
+    ],
     title: 'How to Avoid Overspending',
     response:
       'Here are 4 battle-tested strategies for students:\n\n1. **The 24-Hour Rule**: Wait a full day before non-essential purchases.\n2. **Use the BudgetBasics Expense Planner**: Logging daily expenses makes hidden leaks visible.\n3. **Set Weekly Caps**: Divide your monthly allowance into 4 weekly cash envelopes or digital buckets.\n4. **Unsubscribe from Marketing Emails**: Remove shopping app alerts that trigger artificial urgency.',
@@ -426,6 +454,52 @@ export const chatbotKnowledge = [
       '**The "First 24 Hours" Allowance Routine:**\n\nMost mistakes happen on Day 1 when your allowance alert rings and you feel wealthy! Follow this 3-step routine:\n\n1. **Minute 1**: Transfer 15% (e.g., ₦6,000 out of ₦40,000) into your savings vault. If it stays in your main account, you will spend it.\n2. **Hour 1**: Buy your monthly staples (rice, garri, oil, data bundle, school supplies).\n3. **Day 1**: Divide whatever is left by 4 weeks. That is your true weekly budget!'
   },
   {
+    id: 'about_budgetbasics',
+    keywords: [
+      'what is budgetbasics',
+      'about budgetbasics',
+      'tell me about budgetbasics',
+      'what is this website',
+      'what is this app',
+      'what does this app do',
+      'how does this website work',
+      'budgetbasics features',
+      'tools on this site'
+    ],
+    title: 'About BudgetBasics (NextGen Student Finance)',
+    response:
+      '**BudgetBasics** is a modern, student-first personal finance platform built to help college students and young adults manage their money with confidence, zero math anxiety, and zero judgment.\n\nHere are the core tools built into BudgetBasics:\n• **Cockpit**: Your interactive dashboard featuring a real-time Financial Fitness Score, spending health breakdown, and quick scenario sliders.\n• **Student Guide**: Financial literacy modules, relatable student scenarios, visual infographics, audio soundbites, and interactive quizzes.\n• **Needs vs. Wants Filter**: An interactive transaction analyzer that helps you classify purchases before you swipe.\n• **50/30/20 Calculator**: Allowance splitter that calculates your Needs (50%), Wants (30%), and Savings (20%) with weekly cashflow guides.\n• **Planner & Savings Goal Estimator**: Expense tracker and savings forecaster with dynamic speedrun timelines.\n• **BeeWise AI (That\'s me!)**: Your 24/7 multilingual conversational companion supporting English, Spanish, French, Hindi, and Arabic with voice speech.\n• **Global Currency Converter**: Real-time conversions across ₦, $, £, €, ₹, and global currencies.\n\nEverything runs client-side with 100% privacy—no banking logins or personal data stored!',
+    explanation:
+      '**Why BudgetBasics was created:**\n\nTraditional financial tools are built for corporate professionals with steady six-figure salaries—they don\'t understand living on erratic student stipends, hostel rent deadlines, or campus cafeteria prices.\n\nBudgetBasics was engineered specifically for students by **Team PixelForge** to turn budgeting from a stressful chore into an empowering life habit!'
+  },
+  {
+    id: 'feature_cockpit',
+    keywords: ['what is cockpit', 'cockpit', 'cockpit page', 'financial fitness score', 'dashboard'],
+    title: 'The BudgetBasics Cockpit',
+    response:
+      'The **Cockpit** is your central financial command center!\n\nKey features in the Cockpit:\n1. **Financial Fitness Score**: A live 0-100 wellness gauge that evaluates your savings rate, emergency reserve, and needs-to-wants ratio.\n2. **Allowance Quick-Slider**: Test different monthly income scenarios in real time.\n3. **Quick Navigation**: Instant shortcuts to all calculators, quizzes, and the BeeWise assistant.\n\n*Tap "Cockpit" on the navigation bar anytime to check your overall financial health!*',
+    explanation:
+      'The Cockpit translates complicated financial spreadsheets into clear, color-coded health indicators so you know at a glance if your campus budget is thriving or at risk.'
+  },
+  {
+    id: 'feature_guide',
+    keywords: ['what is guide', 'guide page', 'student guide', 'cheat sheets', 'infographics', 'financial literacy guide'],
+    title: 'The Student Financial Literacy Guide',
+    response:
+      'The **Guide** page is our interactive textbook for smart money habits:\n\n• **Core Learning Modules**: Learn budgeting fundamentals, campus survival tactics, and how compound interest works.\n• **Downloadable Cheat Sheets**: Printable PDFs covering the 50/30/20 rule, smart grocery shopping, and debt freedom.\n• **Visual Infographics**: Easy-to-understand diagrams comparing needs vs. wants and the Latte Effect.\n• **Interactive Quizzes**: Test your money IQ and earn knowledge badges!\n• **Soundbites**: Short audio lessons you can listen to while walking to class.',
+    explanation:
+      'Check out the Guide whenever you want practical, bite-sized financial wisdom without sitting through dry academic lectures!'
+  },
+  {
+    id: 'feature_needs_wants',
+    keywords: ['needs vs wants filter', 'needs vs wants page', 'categorizer', 'decision matrix', 'how to use needs vs wants'],
+    title: 'The Needs vs. Wants Decision Filter',
+    response:
+      'The **Needs vs. Wants** page is an interactive decision matrix designed to stop buyer\'s remorse before it happens!\n\nHow it works:\n1. Type any purchase you are considering (e.g. "Wireless Headphones" or "Takeout Burger").\n2. The tool scores the purchase based on survival, academic necessity, and urgency.\n3. It tells you whether it belongs in your 50% Needs or 30% Wants bucket, and calculates how many hours of study allowance it costs you!\n\n*Give it a try before your next big online checkout!*',
+    explanation:
+      'Using the Needs vs. Wants filter creates a healthy 30-second pause that cuts non-essential spending by over 40%!'
+  },
+  {
     id: 'pixelforge',
     keywords: ['pixelforge', 'team', 'creator', 'creators', 'budgetbee', 'budgetbasics', 'about', 'who made', 'author', 'developer'],
     title: 'About Team PixelForge',
@@ -439,5 +513,5 @@ export const chatbotKnowledge = [
 export const fallbackChatResponse = {
   title: 'BeeWise Financial Assistant',
   response:
-    '**I hear you, and I am listening carefully to your situation!**\n\nEven if I didn\'t match every exact word, as your student financial guide, I can help you solve any campus money challenge:\n\n• **Being broke or surviving on zero cash** (type *"I am broke"*)\n• **Managing student debts or loan apps** (type *"debt"*)\n• **Paying hostel rent or accommodation** (type *"rent"*)\n• **Affording school fees and exam clearance** (type *"school fees"*)\n• **Cutting food and grocery expenses** (type *"food"*)\n• **Resisting peer pressure and social FOMO** (type *"peer pressure"*)\n• **Recovering from impulse buys or betting losses** (type *"impulse"*)\n• **Finding realistic campus side hustles** (type *"side hustle"*)\n• **Applying the 50/30/20 rule to your allowance** (type *"50/30/20"*)\n\nFeel free to speak your question using the microphone button or type below—I am here to help you get through this!'
+    '**I hear you loud and clear, and I\'m thinking through what you just said.**\n\nAs your BudgetBasics student financial guide, I want to make sure you get the exact help you need!\n\nCould you tell me a little bit more about what is on your mind? You can ask me:\n• *"How do I stop overspending and wasting money on random stuff?"*\n• *"What is the 50/30/20 rule and how do I apply it?"*\n• *"How do I survive when I am broke?"*\n• *"How do I deal with hostel rent or student debt?"*\n• *"Can I afford concert tickets or shoes on my stipend?"*\n• *"Tell me about BudgetBasics and Team PixelForge"*\n\nJust speak or type naturally in your own words—I\'m listening and ready!'
 };

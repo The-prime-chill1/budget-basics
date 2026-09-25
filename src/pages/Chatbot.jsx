@@ -376,29 +376,280 @@ export default function Chatbot() {
     ].includes(norm);
   };
 
-  const isGratitudeIntent = (norm) => {
-    return [
+  const isComplimentOrPraiseIntent = (norm) => {
+    // Avoid false positives if the user is asking an explicit question
+    if (
+      norm.includes('afford') ||
+      norm.includes('budget ') ||
+      norm.includes('how much') ||
+      norm.includes('can i buy') ||
+      norm.includes('should i buy') ||
+      norm.includes('explain') ||
+      norm.includes('what is')
+    ) {
+      return false;
+    }
+
+    const praisePhrases = [
+      'thats nice',
+      'that is nice',
+      'that was nice',
+      'its nice',
+      'it is nice',
+      'nice',
+      'very nice',
+      'so nice',
+      'really nice',
+      'thats cool',
+      'that is cool',
+      'its cool',
+      'cool',
+      'so cool',
+      'really cool',
+      'awesome',
+      'thats awesome',
+      'that is awesome',
+      'great',
+      'thats great',
+      'that is great',
+      'good job',
+      'great job',
+      'well done',
+      'you did well',
+      'you are doing well',
+      'you are good',
+      'you are great',
+      'you are awesome',
+      'you are smart',
+      'youre smart',
+      'youre so smart',
+      'smart bot',
+      'smart ai',
+      'smart',
+      'impressive',
+      'love this',
+      'i love this',
+      'i like this',
+      'love the app',
+      'good bot',
+      'nice one',
+      'sweet',
+      'dope',
+      'fire',
+      'so sweet',
+      'amazing',
+      'superb',
+      'wonderful',
+      'clean',
+      'smooth',
+      'proud of you',
+      'you are helpful',
+      'youre helpful',
+      'very helpful',
+      'respect',
+      'props',
       'thanks',
       'thank you',
       'thank you so much',
-      'cool',
-      'awesome',
-      'great',
-      'got it',
-      'understood',
-      'makes sense',
-      'perfect',
-      'ok',
-      'okay',
+      'thanks a lot',
+      'thx',
+      'appreciate it',
+      'appreciate you',
       'shukriya',
       'dhanyawad',
+      'bahut badhiya',
       'gracias',
       'muchas gracias',
+      'buen trabajo',
       'merci',
       'merci beaucoup',
+      'bon travail',
       'شكرا',
-      'شكراً'
-    ].includes(norm);
+      'شكراً',
+      'عمل رائع',
+      'ممتاز'
+    ];
+
+    return praisePhrases.some(
+      (phrase) =>
+        norm === phrase ||
+        norm === 'ok ' + phrase ||
+        norm === 'okay ' + phrase ||
+        norm === 'wow ' + phrase ||
+        norm === 'yes ' + phrase ||
+        norm === 'yeah ' + phrase ||
+        norm.startsWith(phrase + ' ') ||
+        norm.endsWith(' ' + phrase) ||
+        (norm.length <= 40 && norm.includes(phrase))
+    );
+  };
+
+  const isOverspendingOrImpulseIntent = (norm) => {
+    const overspendingPatterns = [
+      'spend money on a lot of',
+      'spend money on a lot',
+      'spend money on shit',
+      'spend money on crap',
+      'spend money on junk',
+      'spend money on useless',
+      'spend money on dumb',
+      'spend money on nonsense',
+      'spend money on random',
+      'spending money on a lot',
+      'spending money on shit',
+      'spending money on crap',
+      'i spend money on',
+      'spending money on',
+      'i spend too much',
+      'spending too much',
+      'spend too much',
+      'i keep spending',
+      'keep on spending',
+      'cant stop spending',
+      'cannot stop spending',
+      'cant control my spending',
+      'hard to control spending',
+      'spending problem',
+      'problem is i spend',
+      'problem is my spending',
+      'problem is spending',
+      'waste money',
+      'wasting money',
+      'wasted money',
+      'waste my money',
+      'wasting my money',
+      'wasted my cash',
+      'buy things i dont need',
+      'buy things i do not need',
+      'buying things i dont need',
+      'buying things i do not need',
+      'buying a lot of shit',
+      'buy a lot of shit',
+      'buying random shit',
+      'buying dumb shit',
+      'buying useless',
+      'buy useless',
+      'impulse buy',
+      'impulse buying',
+      'impulse shopping',
+      'impulsive spending',
+      'money just finishes',
+      'money finishes fast',
+      'money disappears',
+      'money vanishes',
+      'blow through money',
+      'blow through cash',
+      'blow my cash',
+      'blow my money',
+      'spending addiction',
+      'spendthrift',
+      'overspend',
+      'overspending',
+      'stop overspending',
+      'stop spending',
+      'fizool kharchi',
+      'gasto mucho',
+      'gasto demasiado',
+      'compras impulsivas',
+      'je dépense trop',
+      'achats impulsifs',
+      'اصرف كثير',
+      'اصرف فلوسي على اشياء تافهة',
+      'اصرف بدون حساب',
+      'تبذير'
+    ];
+
+    return overspendingPatterns.some(
+      (pat) =>
+        norm === pat ||
+        norm.startsWith(pat + ' ') ||
+        norm.endsWith(' ' + pat) ||
+        norm.includes(pat)
+    );
+  };
+
+  const isProjectOrTeamInquiry = (norm) => {
+    const projectPatterns = [
+      'who made you',
+      'who made this',
+      'who built you',
+      'who built this',
+      'who created you',
+      'who created this',
+      'who is your creator',
+      'who are your creators',
+      'who is the developer',
+      'who are the developers',
+      'about the team',
+      'team pixelforge',
+      'pixelforge',
+      'who is eni',
+      'who is hamid',
+      'who is tammy',
+      'who is lawal',
+      'who is hameed',
+      'what is budgetbasics',
+      'tell me about budgetbasics',
+      'what is this project',
+      'what is this app',
+      'what is this website',
+      'what does this app do',
+      'what does this website do',
+      'how does this website work',
+      'what is cockpit',
+      'what is the cockpit',
+      'what is the planner',
+      'what is planner',
+      'what is the guide',
+      'what is guide',
+      'what is needs vs wants',
+      'what is 50 30 20',
+      'what is the currency converter',
+      'techwiz'
+    ];
+
+    return projectPatterns.some(
+      (pat) =>
+        norm === pat ||
+        norm.startsWith(pat + ' ') ||
+        norm.endsWith(' ' + pat) ||
+        norm.includes(pat)
+    );
+  };
+
+  const isConversationalOrPersonalityIntent = (norm) => {
+    const chatPatterns = [
+      'how are you',
+      'how are you doing',
+      'how do you do',
+      'how is it going',
+      'whats up',
+      'what is up',
+      'who are you',
+      'what are you',
+      'are you an ai',
+      'are you ai',
+      'are you human',
+      'are you real',
+      'can you think',
+      'do you think',
+      'are you smart',
+      'tell me a joke',
+      'say something funny',
+      'make me laugh',
+      'what can you do',
+      'what do you do',
+      'why were you made',
+      'why were you created'
+    ];
+
+    return chatPatterns.some(
+      (pat) =>
+        norm === pat ||
+        norm.startsWith(pat + ' ') ||
+        norm.endsWith(' ' + pat) ||
+        norm.includes(pat)
+    );
   };
 
   const isHelpIntent = (norm) => {
@@ -417,6 +668,10 @@ export default function Chatbot() {
       'assist me',
       'i have a problem',
       'have a problem',
+      'my problem is',
+      'my problem',
+      'i have an issue',
+      'struggling',
       'need advice',
       'i need advice',
       'give me advice',
@@ -593,7 +848,22 @@ export default function Chatbot() {
 
   // Find the most accurate answer using scored relevance matching and dynamic handlers
   const findAnswer = (query, currentTopicId, activeLang) => {
-    const norm = query.toLowerCase().trim().replace(/[?.,!¿¡]/g, '');
+    const cleanNorm = (str) =>
+      str
+        .toLowerCase()
+        .replace(/['"’`´“”]/g, '')
+        .replace(/[?.,!¿¡:;()[\]{}]/g, (match, offset, string) => {
+          if ((match === ',' || match === '.') && offset > 0 && offset < string.length - 1) {
+            const prev = string[offset - 1];
+            const next = string[offset + 1];
+            if (/\d/.test(prev) && /\d/.test(next)) return match;
+          }
+          return ' ';
+        })
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    const norm = cleanNorm(query);
 
     // 0. Open-ended "explain something to me" / question triage (user hasn't picked a topic yet)
     if (isOpenExplainIntent(norm)) {
@@ -658,33 +928,126 @@ export default function Chatbot() {
       };
     }
 
-    // 2. Greetings
-    if (isGreetingIntent(norm)) {
+    // 2. Compliments & Praise ("that's nice", "cool", "you're smart", "good job", "love this")
+    if (isComplimentOrPraiseIntent(norm)) {
+      const complimentResponses = {
+        'en-GB':
+          "**Thank you so much! 😊 That really means a lot.**\n\nOur team (**Eni, Hamid, Tammy, Lawal, and Hameed** at Team PixelForge) poured a ton of heart into building BudgetBasics so every student can master their money with zero stress, zero judgment, and complete confidence.\n\nI'm always right here in your corner! Tell me, what's on your mind today regarding your budget, savings, or campus life? I'm all ears!",
+        'en-US':
+          "**Aw, thank you so much! 😊 That really means a lot!**\n\nOur team (**Team PixelForge**) built BudgetBasics to make college personal finance feel simple, stress-free, and actually empowering.\n\nI'm always right here in your corner. What money question, college expense, or goal do you want to tackle next?",
+        'en-IN':
+          "**Bahut-bahut shukriya! 😊 Aapka feedback sunkar bahut khushi hui!**\n\nHamari Team PixelForge ne BudgetBasics isiliye banaya hai taaki har student bina kisi stress ke apni pocket money aur savings manage kar sake.\n\nMain hamesha aapki madad ke liye tayar hoon! Bataiye, aaj kaunsi financial baat par charcha karein?",
+        'es-ES':
+          "**¡Muchísimas gracias! 😊 ¡Me alegra mucho que te guste!**\n\nNuestro equipo (**Team PixelForge**) diseñó BudgetBasics para que las finanzas estudiantiles sean claras, accesibles y sin estrés.\n\n¡Estoy aquí para acompañarte siempre! ¿Qué meta o duda sobre tu presupuesto universitario resolvemos ahora?",
+        'fr-FR':
+          "**Merci infiniment ! 😊 Cela me fait très plaisir !**\n\nNotre équipe (**Team PixelForge**) a conçu BudgetBasics pour aider chaque étudiant à gérer son argent sereinement et sans tabou.\n\nJe reste à vos côtés ! Quel sujet ou défi financier souhaitez-vous aborder ensuite ?",
+        'ar-SA':
+          "**شكراً جزيلاً لك من القلب! يسعدني جداً هذا الكلام الطيب!**\n\nفريقنا في **Team PixelForge** صمم BudgetBasics لمساعدة كل طالب وطالبة على إدارة مصاريفهم الجامعية بكل ذكاء وراحة بال.\n\nأنا معك دائماً! ما هو الموضوع أو التحدي المالي الذي تحب أن نتحدث فيه الآن؟"
+      };
+
       return {
-        answer: INITIAL_MESSAGES_MAP[activeLang] || INITIAL_MESSAGES_MAP['en-GB'],
-        topicId: currentTopicId,
+        answer: complimentResponses[activeLang] || complimentResponses['en-GB'],
+        topicId: 'compliment_rapport',
         isRtl: activeLang === 'ar-SA'
       };
     }
 
-    // 3. Gratitude
-    if (isGratitudeIntent(norm)) {
-      const gratitudeAnswers = {
+    // 2.5. Overspending / Impulse Spending / Wasting Money ("spend money on a lot of shit", "my problem is i spend")
+    if (isOverspendingOrImpulseIntent(norm)) {
+      const overspendingResponses = {
         'en-GB':
-          "You're very welcome! Building mindful money habits as a student is one of the best life superpowers you can gain. Feel free to ask more, or explore our calculators above!",
+          "**I hear you 100%, and honestly? You are NOT alone in that at all.**\n\nAlmost every student battles that exact same habit. You get cash or an allowance, and before you know it, it leaks out on food delivery, random snacks, late-night online checkouts, clothes, or hanging out with coursemates.\n\nHere is the realistic, no-nonsense truth on **how to stop wasting money on random stuff without making your college life boring**:\n\n1. **The 24-Hour Cooling Rule (Your Secret Weapon)**:\n   Whenever you get the sudden urge to buy something that isn't vital food or medicine, tell yourself: *'I will buy it tomorrow if I still want it.'* 80% of the time, the dopamine rush fades by the next day, and that money stays safe in your account.\n\n2. **The 'Two-Account / Weekly Envelope' System**:\n   Never keep your daily spending money in the same account as your food staples and bills! Use our **50/30/20 Rule**:\n   • **50%** stays locked for essential **Needs** (food staples, rent, course data).\n   • **30%** is your **Wants** bucket. Divide this 30% into 4 weekly cash envelopes or separate digital cards. When that week's fun money finishes on Thursday, you cook noodles and chill until Monday. Your survival money stays 100% protected!\n\n3. **Delete Saved Bank Cards from Shopping & Food Apps**:\n   Having your card auto-filled makes impulse checkout frictionless. Forcing yourself to stand up, grab your physical card, and type 16 digits gives your brain 30 seconds to ask: *'Do I actually need this, or am I just bored?'*\n\n4. **Log It for Just 5 Days in our Expense Planner**:\n   Open the **Planner** page in the top menu and log your daily purchases for just 5 days. Seeing where the leaks are in black and white will instantly rewire how you view micro-spending!\n\nTell me: what are the specific random things you catch yourself buying most often? Let's build a quick defense plan for them together!",
         'en-US':
-          "You're totally welcome! Mastering money skills early sets you up for life. Let me know if you want to run through any other college budget questions!",
+          "**I hear you 100%, and honestly? You are NOT alone in that at all.**\n\nNearly every college student struggles with that exact same battle: cash comes in, and suddenly it disappears into DoorDash, convenience store snacks, late-night Amazon carts, and casual hangouts.\n\nHere is the real-world strategy to **stop blowing money on random stuff without feeling totally deprived**:\n\n1. **The 24-Hour Cooling Rule**:\n   Put a mandatory 24-hour pause on any non-essential purchase. 80% of the time, the urge vanishes.\n2. **The 30% Wants Weekly Cap**:\n   Take your 30% fun-money bucket from the **50/30/20 rule** and divide it by 4 weeks. When that week's cash is gone, social spending pauses until next week.\n3. **Remove One-Click Checkout**:\n   Delete your saved cards from Apple Pay / food delivery apps so friction stops impulsive taps.\n4. **Track with our Planner**:\n   Open the **Planner** in the menu and log your expenses for 5 days. Seeing the numbers will surprise you in the best way!\n\nWhat are the biggest spending triggers you deal with right now? Let's fix them together!",
         'en-IN':
-          "Aapka bahut-bahut swagat hai! College time me bachat ki aadat daalna life ka sabse bada asset hai. Koi aur sawaal ho toh be-jhijhak poochhein!",
+          "**Main aapki baat 100% samajh raha hoon, aur sach bataun toh yeh problem lagbhag har student face karta hai!**\n\nPaise aate hi bina soche samjhe canteen ke snacks, online shopping, ya doston ke saath outing me kharch ho jaate hain.\n\nIs fizool kharchi ko rokne ke 4 practical tareeqe:\n\n1. **24-Ghante ka Niyam**: Jab bhi koi aisi cheez khareedne ka mann kare jo zaroori nahi hai, 24 ghante intezaar karein. 80% baar man badal jaata hai!\n2. **Hafte ke 4 Envelopes**: Apne mahine ke pocket money ko 4 hafton me baantein. Ek hafte ka quota khatam ho jaye toh agle hafte ka wait karein.\n3. **Apps se Saved Card hatayein**: Swiggy/Zomato/Amazon se saved cards delete kar dein taaki bina soche checkout na ho sake.\n4. **Hamara Planner use karein**: Menu me **Planner** khol kar 5 din ke kharche note karein, aapko turant pata chal jayega paisa kahan leak ho raha hai!\n\nAap sabse zyada kis cheez par kharch karte hain? Mujhe batayein, hum milkar solution nikalenge!",
         'es-ES':
-          "¡De nada! Aprender a manejar tu dinero en la universidad es una superhabilidad para toda la vida. ¡Pregúntame cualquier otra duda cuando quieras!",
+          "**¡Te entiendo perfectamente y de verdad que no estás solo en esto!**\n\nA casi todos los universitarios les pasa igual: el dinero llega y se esfuma en comida rápida, compras espontáneas o salidas sin planificar.\n\nAquí tienes 4 trucos reales para **frenar los gastos hormiga y compras impulsivas**:\n\n1. **La regla de las 24 horas**: Espera un día entero antes de comprar cualquier capricho. El 80% de las veces se te pasarán las ganas.\n2. **Divide en 4 semanas**: Separa tu dinero del mes en 4 sobres semanales. Si se agota tu cupo semanal, descansas hasta el lunes.\n3. **Borra tarjetas guardadas**: Quita tus tarjetas de las apps de delivery o compras para evitar el clic compulsivo.\n4. **Usa nuestro Planner**: Registra tus compras 5 días seguidos en la pestaña Planner para ver exactamente por dónde se escapa tu dinero.\n\n¿En qué notas que gastas más sin darte cuenta? ¡Cuéntame y lo solucionamos juntos!",
         'fr-FR':
-          "Je vous en prie ! Gérer son budget étudiant avec sérénité est une compétence précieuse pour l'avenir. N'hésitez pas si vous avez d'autres questions !",
+          "**Je vous comprends à 100 % et vous n'êtes absolument pas le seul dans cette situation !**\n\nPresque tous les étudiants vivent cette même réalité : l'argent s'évapore en petits achats du quotidien, livraisons de repas et sorties improvisées.\n\nVoici 4 conseils réalistes pour **stopper ces fuites d'argent sans vous priver de tout** :\n\n1. **La règle des 24 heures** : Patientez 24h avant tout achat non essentiel. Dans 80 % des cas, l'envie retombe d'elle-même.\n2. **La méthode des 4 enveloppes hebdomadaires** : Répartissez votre budget sorties sur 4 semaines pour ne jamais vous retrouver à sec.\n3. **Supprimez les cartes bancaires enregistrées** dans vos applis de shopping pour recréer une barrière anti-impulsion.\n4. **Utilisez notre outil Planner** pour noter vos dépenses pendant 5 jours et identifier vos fuites d'argent.\n\nQuelles sont les dépenses spontanées qui vous coûtent le plus cher ? Discutons-en !",
         'ar-SA':
-          "على الرحب والسعة دائماً! بناء عادات مالية ذكية أثناء دراستك الجامعية هو أعظم استثمار لمستقبلك. اسألني في أي وقت عن أي موضوع آخر!"
+          "**أفهمك تماماً وأشعر بك! وهذه المشكلة يمر بها كل طالب جامعي تقريباً.**\n\nالمال ينفد بسرعة على وجبات التوصيل، المشروبات، والمشتريات العشوائية التي لا نشعر بقيمتها إلا بعد فوات الأوان.\n\nإليك 4 خطوات عملية **لإيقاف هذا النزيف المالي دون حرمان نفسك**:\n\n1. **قاعدة الـ 24 ساعة**: أي شيء ترغب بشرائه وليس من الضروريات الملحة، انتظر 24 ساعة كاملة. في 80% من الحالات ستجد أن الرغبة تلاشت واحتفظت بمالك.\n2. **تقسيم المصروف إلى 4 أسابيع**: قسّم ميزانية رغباتك (30% من قاعدة 50/30/20) على أسابيع الشهر. إذا انتهى مخصص الأسبوع، توقف حتى يبدأ الأسبوع التالي.\n3. **احذف بطاقتك البنكية المخزنة من تطبيقات التوصيل والتسوق** لخلق حاجز يمنع الشراء بضغطة زر واحدة.\n4. **استخدم صفحة الـ Planner في موقعنا** لتسجيل مصاريفك لـ 5 أيام فقط لترى بوضوح أين تتسرب أموالك!\n\nما هي أكثر الأشياء التي تجد نفسك تصرف عليها بشكل عشوائي؟ شاركني لنضع لها حلاً ذكياً معاً!"
       };
+
       return {
-        answer: gratitudeAnswers[activeLang] || gratitudeAnswers['en-GB'],
+        answer: overspendingResponses[activeLang] || overspendingResponses['en-GB'],
+        topicId: 'overspending',
+        isRtl: activeLang === 'ar-SA'
+      };
+    }
+
+    // 2.8. Project, Team & Platform Inquiries ("who made you", "what is budgetbasics", "tell me about cockpit")
+    if (isProjectOrTeamInquiry(norm)) {
+      if (norm.includes('team') || norm.includes('who made') || norm.includes('who built') || norm.includes('creator') || norm.includes('developer') || norm.includes('pixelforge') || norm.includes('eni') || norm.includes('hameed') || norm.includes('tammy') || norm.includes('lawal') || norm.includes('hamid')) {
+        return {
+          answer:
+            "**BudgetBasics (NextGen BudgetBee) is proudly built by Team PixelForge!**\n\nMeet the dedicated student developers behind this project:\n• **Eni**: Main Architecture, Landing Page, Navigation & Systems Integration\n• **Hamid**: Budgeting Basics & Interactive Needs vs Wants Quiz Engine\n• **Tammy**: Dynamic 50/30/20 Calculator & Savings Goals Estimator\n• **Lawal**: Session Expense Planner & Student Money Mistakes Guide\n• **Hameed**: BeeWise AI Chatbot, Multi-Currency & Smart Search Features\n\nOur mission is to empower college students and beginners with stress-free, privacy-first personal finance literacy. Every calculation is 100% client-side with no banking logins required!",
+          topicId: 'pixelforge',
+          isRtl: false
+        };
+      }
+      if (norm.includes('cockpit')) {
+        return {
+          answer:
+            "**The Cockpit** is your central financial dashboard in BudgetBasics!\n\nKey features in the Cockpit:\n• **Financial Fitness Score**: A live 0-100 metric calculating your savings buffer, spending health, and allowance stability.\n• **Interactive Sliders**: Test real-time changes to your monthly allowance.\n• **Quick Action Hub**: Instant shortcuts to all calculators, quizzes, and learning guides.\n\n*Tap 'Cockpit' in the navigation bar to see your current score!*",
+          topicId: 'feature_cockpit',
+          isRtl: false
+        };
+      }
+      if (norm.includes('planner')) {
+        return {
+          answer:
+            "**The Planner** combines two powerful tools:\n\n1. **Savings Goal Estimator**: Set a milestone (like a laptop, textbook fund, or gadget). Use the dynamic monthly savings slider or type directly to see your exact timeline in months, with speedrun preset targets!\n2. **Session Expense Planner**: Log everyday campus expenses into Needs or Wants to catch money leaks before your allowance runs out.\n\n*Tap 'Planner' in the navigation bar to test it out!*",
+          topicId: 'feature_planner',
+          isRtl: false
+        };
+      }
+      if (norm.includes('guide')) {
+        return {
+          answer:
+            "**The Student Guide** is our comprehensive financial literacy hub!\n\nIt features:\n• **Core Learning Modules**: Practical lessons on allowance budgeting, debt avoidance, and emergency savings.\n• **Infographics & Soundbites**: Visual diagrams and audio lessons you can listen to on the go.\n• **Interactive Quizzes**: Test your money IQ and earn completion badges.\n• **Downloadable Cheat Sheets**: Printable PDFs for campus survival.\n\n*Tap 'Guide' in the navigation menu to explore all modules!*",
+          topicId: 'feature_guide',
+          isRtl: false
+        };
+      }
+      if (norm.includes('needs') || norm.includes('wants')) {
+        return {
+          answer:
+            "**The Needs vs. Wants Filter** is your decision matrix to prevent buyer's remorse!\n\nEnter any purchase you're thinking about making. It evaluates survival necessity, academic impact, and urgency to tell you whether it belongs in your 50% Needs or 30% Wants bucket—and how many hours of allowance it costs you!\n\n*Tap 'Needs vs Wants' in the top menu to run a test!*",
+          topicId: 'feature_needs_wants',
+          isRtl: false
+        };
+      }
+      return {
+        answer:
+          "**BudgetBasics** is a modern, student-first personal finance platform built by **Team PixelForge** to help college students and beginners take complete control of their money without any stress or boring math!\n\nCore platform features:\n• **Cockpit**: Live Financial Fitness Score & dashboard\n• **Guide**: Practical student money lessons, infographics, and audio soundbites\n• **Needs vs. Wants**: Purchase decision filter and quiz\n• **50/30/20 Calculator**: Allowance allocation tool with weekly spending guides\n• **Planner**: Savings goal speedrun estimator & expense logger\n• **BeeWise AI (Me!)**: Multilingual 24/7 AI tutor with voice speech\n• **Currency Converter**: Real-time conversion across ₦, $, £, €, ₹, and global currencies\n\nWhat tool would you like to explore together?",
+        topicId: 'about_budgetbasics',
+        isRtl: false
+      };
+    }
+
+    // 2.9. Conversational Personality & Small Talk ("how are you", "who are you", "can you think")
+    if (isConversationalOrPersonalityIntent(norm)) {
+      if (norm.includes('joke') || norm.includes('funny') || norm.includes('laugh')) {
+        return {
+          answer:
+            "**Here's a campus finance joke for you:** 😄\n\n*Why did the student eat their homework?*\n\nBecause their professor told them it was a **piece of cake**, and it was day 25 of the month and their food allowance was at ₦0! 🍰😂\n\n*Remember: With our 50/30/20 rule, you'll never have to eat your homework before month-end!*",
+          topicId: 'humor',
+          isRtl: false
+        };
+      }
+      return {
+        answer:
+          "**I'm buzzing with energy, thank you for asking! 😄**\n\nI'm **BeeWise**, the AI financial tutor built specifically for BudgetBasics. I'm programmed to think like an empathetic student mentor—helping you handle being broke, allocating your allowance, cutting overspending, or calculating savings goals without any boring banking lectures!\n\nHow is your semester and money looking today? Anything I can help you solve?",
+        topicId: 'personality',
+        isRtl: false
+      };
+    }
+
+    // 3. Greetings
+    if (isGreetingIntent(norm)) {
+      return {
+        answer: INITIAL_MESSAGES_MAP[activeLang] || INITIAL_MESSAGES_MAP['en-GB'],
         topicId: currentTopicId,
         isRtl: activeLang === 'ar-SA'
       };
@@ -849,10 +1212,98 @@ export default function Chatbot() {
       };
     }
 
-    // 8. Empathetic fallback response
+    // 8. Empathetic adaptive thinking fallback for natural human conversation
+    const generateThinkingFallback = () => {
+      if (
+        norm.includes('think') ||
+        norm.includes('your thought') ||
+        norm.includes('your opinion') ||
+        norm.includes('what you think') ||
+        norm.includes('tell me what you think') ||
+        norm.includes('can you think') ||
+        norm.includes('are you thinking')
+      ) {
+        return (
+          "**I love that you're asking me what I think! Here is my honest perspective:**\n\n" +
+          "When you are in college, money isn't just cold math or balance sheets—it's intimately tied to your everyday emotions, social pressure from friends, stress from exams, and late-night cravings. That is why traditional banking advice feels so out of touch for students!\n\n" +
+          "Our team at **Team PixelForge** (**Eni, Hamid, Tammy, Lawal, and Hameed**) built BudgetBasics around a human-first philosophy:\n" +
+          "• **No Guilt**: Spending on fun (30% Wants) is a normal, healthy part of being young.\n" +
+          "• **Automated Habits**: Locking your 50% Needs first takes the anxiety out of the rest of the month.\n" +
+          "• **Smart Pauses**: Tools like our **Needs vs. Wants Filter** give your brain just 30 seconds to breathe before tapping checkout.\n\n" +
+          "What specific situation are you thinking through right now? Let's break it down together!"
+        );
+      }
+
+      if (
+        norm.includes('stress') ||
+        norm.includes('worried') ||
+        norm.includes('anxious') ||
+        norm.includes('scared') ||
+        norm.includes('overwhelm') ||
+        norm.includes('freaking out') ||
+        norm.includes('tired of') ||
+        norm.includes('frustrat')
+      ) {
+        return (
+          "**Take a deep breath with me. Money stress in college can feel overwhelming, but you are not alone and you CAN handle this.**\n\n" +
+          "When financial pressure piles up, the biggest mistake is trying to solve every single bill and expense all at once. Let's do this step-by-step:\n\n" +
+          "1. **Pause for today**: Don't make any major spending or panic borrowing decisions right now.\n" +
+          "2. **Check your survival essentials**: As long as you have basic meals and safety, you have time to maneuver.\n" +
+          "3. **Talk it out with me**: Tell me what is causing the most stress right now—is it rent, empty pockets, debt, or food? We'll solve that single thing first."
+        );
+      }
+
+      if (
+        norm.includes('broke') ||
+        norm.includes('no cash') ||
+        norm.includes('no money') ||
+        norm.includes('zero') ||
+        norm.includes('empty account') ||
+        norm.includes('sapa')
+      ) {
+        return (
+          "**I hear you loud and clear. Being down to zero cash on campus is tough, but here is your emergency survival game plan:**\n\n" +
+          "1. **Never take high-interest loan apps**: They turn a temporary ₦5,000 cash shortage into a ₦30,000 nightmare.\n" +
+          "2. **Pool campus resources**: Cook communal meals with coursemates or check campus pantry and fellowship support.\n" +
+          "3. **Audit loose cash**: Check forgotten digital wallets, fintech cashback points, or spare change.\n\n" +
+          "*Type 'broke' or 'help' anytime for our complete student survival triage checklist!*"
+        );
+      }
+
+      if (
+        norm.includes('buy') ||
+        norm.includes('spend') ||
+        norm.includes('shopping') ||
+        norm.includes('clothes') ||
+        norm.includes('shoes') ||
+        norm.includes('food') ||
+        norm.includes('order')
+      ) {
+        return (
+          "**Thinking about buying something? Let's run a quick 3-point check before you tap pay:**\n\n" +
+          "1. **Is it a Survival Need (50%) or a Lifestyle Want (30%)?** If you don't buy it today, will your health or exams suffer?\n" +
+          "2. **The 24-Hour Cooling Rule**: Wait until tomorrow. If the urge is still there, it's genuine; if not, you just saved real cash!\n" +
+          "3. **Check our Needs vs. Wants tool**: Tap **'Needs vs Wants'** in the navigation bar to see exactly how many hours of allowance this item costs you!\n\n" +
+          "Tell me: what are you thinking of buying and how much does it cost? I'll calculate whether you can safely afford it right now!"
+        );
+      }
+
+      return (
+        "**I hear you, and I'm thinking carefully through what you just said!**\n\n" +
+        "You can talk to me just like you would talk to a real campus mentor or friend who knows personal finance inside and out. No robotic jargon, no banking lectures!\n\n" +
+        "Here are a few ways we can tackle your finances together right now:\n" +
+        "• **Fix overspending or impulse buying** (e.g. *'I keep wasting money'*)\n" +
+        "• **Affordability calculations** (e.g. *'Can I afford ₦8,000 on ₦35,000 stipend?'*)\n" +
+        "• **Surviving on zero cash** (type *'broke'* or *'food'*)\n" +
+        "• **Setting up your monthly budget** (e.g. *'budget ₦50,000'*)\n" +
+        "• **Learn about BudgetBasics tools** (e.g. *'tell me about Cockpit'* or *'who made you'*)\n\n" +
+        "Tell me more about what is going on with your money or campus life—I am right here with you!"
+      );
+    };
+
     const fallbacks = {
-      'en-GB': fallbackChatResponse.response,
-      'en-US': fallbackChatResponse.response,
+      'en-GB': generateThinkingFallback(),
+      'en-US': generateThinkingFallback(),
       'en-IN':
         "Mujhe is exact phrase par jankari nahi mili, lekin BeeWise ke taur par main in topics me aapki madad kar sakta hoon:\n\n• **50/30/20 Budgeting Niyam**\n• **Needs vs Wants ka classification**\n• **Fizool kharchi rokne ke tareeqe**\n• **Emergency fund tayar karna**\n• **Pocket money manage karna**\n\nNeeche diye gaye kisi bhi prompt par click karein ya apna sawaal poochhein!",
       'es-ES':
@@ -864,7 +1315,7 @@ export default function Chatbot() {
     };
 
     return {
-      answer: fallbacks[activeLang] || fallbackChatResponse.response,
+      answer: fallbacks[activeLang] || generateThinkingFallback(),
       topicId: currentTopicId,
       isRtl: activeLang === 'ar-SA'
     };
