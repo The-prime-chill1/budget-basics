@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   Lightbulb,
   ChevronRight,
+  ChevronDown,
   MessageSquare,
   HelpCircle,
   Globe,
@@ -1006,8 +1007,28 @@ export default function Chatbot() {
             <div className="chat-lang-bar" aria-label="Select Chat Language">
               <div className="chat-lang-label">
                 <Globe size={14} className="text-gold" />
-                <span>Languages:</span>
+                <span>Language:</span>
               </div>
+
+              {/* Mobile Language Dropdown */}
+              <div className="chat-lang-select-wrapper">
+                <select
+                  id="mobile-chat-lang-select"
+                  className="chat-lang-select"
+                  value={selectedLang}
+                  onChange={(e) => handleChangeLanguage(e.target.value)}
+                  aria-label="Select AI Language"
+                >
+                  {SUPPORTED_LANGUAGES.map((l) => (
+                    <option key={l.id} value={l.id}>
+                      {l.code} • {l.name}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown size={14} className="chat-lang-select-arrow" />
+              </div>
+
+              {/* Desktop Language Pills */}
               <div className="chat-lang-pills">
                 {SUPPORTED_LANGUAGES.map((l) => (
                   <button
@@ -1018,7 +1039,7 @@ export default function Chatbot() {
                     title={l.name}
                   >
                     <span className="lang-badge">{l.code}</span>
-                    <span className="lang-name">{l.name.split(' ')[0]}</span>
+                    <span className="lang-name">{l.name.replace(/\(.*?\)/g, '').trim()}</span>
                   </button>
                 ))}
               </div>

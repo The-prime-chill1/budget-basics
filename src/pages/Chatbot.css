@@ -229,12 +229,11 @@
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  padding: 0.5rem 0.75rem;
+  padding: 0.45rem 0.75rem;
   background-color: var(--surface-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 
 .chat-lang-label {
@@ -249,18 +248,76 @@
   flex-shrink: 0;
 }
 
-.chat-lang-pills {
+/* Mobile Dropdown Container */
+.chat-lang-select-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  flex-wrap: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.chat-lang-select {
+  width: 100%;
+  padding: 0.4rem 2rem 0.4rem 0.85rem;
+  border-radius: var(--radius-full);
+  background-color: var(--surface-low);
+  border: 1.5px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s ease;
+  line-height: 1.35;
+}
+
+.chat-lang-select:hover {
+  border-color: var(--primary-gold);
+  background-color: var(--surface-card);
+}
+
+.chat-lang-select:focus {
+  border-color: var(--primary-gold);
+  background-color: var(--surface-card);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+}
+
+[data-theme='dark'] .chat-lang-select {
+  background-color: #1e293b;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+}
+
+[data-theme='dark'] .chat-lang-select:hover {
+  border-color: #f59e0b;
+}
+
+[data-theme='dark'] .chat-lang-select:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);
+}
+
+.chat-lang-select-arrow {
+  position: absolute;
+  right: 0.75rem;
+  pointer-events: none;
+  color: var(--text-muted);
+  transition: transform 0.15s ease;
+}
+
+.chat-lang-pills {
+  display: none;
 }
 
 .chat-lang-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.25rem 0.6rem;
+  padding: 0.25rem 0.65rem;
   border-radius: var(--radius-full);
   font-size: 0.75rem;
   font-weight: 700;
@@ -290,8 +347,29 @@
   color: #fde68a;
 }
 
-.lang-flag {
-  font-size: 0.85rem;
+/* Responsive display: Dropdown on mobile/tablet, pills on desktop */
+@media (max-width: 768px) {
+  .chat-lang-bar {
+    overflow-x: visible !important;
+  }
+  .chat-lang-pills {
+    display: none !important;
+  }
+  .chat-lang-select-wrapper {
+    display: flex !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .chat-lang-select-wrapper {
+    display: none !important;
+  }
+  .chat-lang-pills {
+    display: flex !important;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
 }
 
 .suggested-chips-scroll {
