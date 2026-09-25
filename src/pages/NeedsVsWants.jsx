@@ -18,7 +18,8 @@ import {
   Heart,
   Check,
   Compass,
-  Star
+  Star,
+  Sparkles
 } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
 import './NeedsVsWants.css';
@@ -357,14 +358,38 @@ export default function NeedsVsWants() {
           </div>
 
           <div className="mindful-banner-card bee-card">
-            <div className="banner-visual-box">
-              <img src="/human.jpg" alt="Student Studying" className="banner-img" />
-              <div className="banner-overlay-tag">Mindful Spending = Zero Stress Finals</div>
+            <div className="mindful-card-top">
+              <div className="banner-visual-box">
+                <img src="/human.jpg" alt="Student Studying" className="banner-img" />
+                <div className="banner-overlay-tag">Mindful Spending &bull; Zero Stress Finals</div>
+              </div>
+
+              <div className="mindful-guide-content">
+                <div className="mindful-guide-header">
+                  <Sparkles size={16} className="text-gold" />
+                  <span className="mindful-guide-title">30-Second Impulse Defense</span>
+                </div>
+                <div className="mindful-checklist">
+                  <div className="mindful-check-point">
+                    <span className="point-bullet">1</span>
+                    <span className="point-text"><strong>Step Away:</strong> Close the browser tab or set your phone down for 30s to break impulse dopamine.</span>
+                  </div>
+                  <div className="mindful-check-point">
+                    <span className="point-bullet">2</span>
+                    <span className="point-text"><strong>Cost-Per-Use:</strong> Divide price by realistic uses. Will you still value this next month?</span>
+                  </div>
+                  <div className="mindful-check-point">
+                    <span className="point-bullet">3</span>
+                    <span className="point-text"><strong>Campus Alternatives:</strong> Check if your college library, club depot, or peers loan it free.</span>
+                  </div>
+                </div>
+              </div>
             </div>
+
             <div className="banner-footer-row">
-              <span className="banner-prompt-text">Need an AI judgment on a specific purchase?</span>
+              <span className="banner-prompt-text">Need an AI verdict on a purchase?</span>
               <Link to="/chatbot" className="banner-link">
-                <span>Ask BeeWise</span>
+                <span>Ask BeeWise AI</span>
                 <ArrowRight size={14} />
               </Link>
             </div>

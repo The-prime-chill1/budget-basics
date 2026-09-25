@@ -343,6 +343,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+  min-height: 380px;
 }
 
 .spotlight-header {
@@ -416,16 +417,24 @@
 }
 
 .mindful-banner-card {
-  padding: 0.75rem;
+  padding: 1rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  justify-content: space-between;
+  gap: 0.85rem;
+  min-height: 380px;
+}
+
+.mindful-card-top {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
 .banner-visual-box {
   position: relative;
-  height: 140px;
+  height: 145px;
   border-radius: var(--radius-md);
   overflow: hidden;
 }
@@ -440,7 +449,7 @@
   position: absolute;
   bottom: 0.75rem;
   left: 0.75rem;
-  background-color: rgba(15, 23, 42, 0.85);
+  background-color: rgba(15, 23, 42, 0.88);
   color: #ffffff;
   padding: 0.35rem 0.75rem;
   border-radius: var(--radius-full);
@@ -449,11 +458,73 @@
   backdrop-filter: blur(4px);
 }
 
+.mindful-guide-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 0.85rem;
+  background-color: var(--surface-low);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.mindful-guide-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.mindful-guide-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.mindful-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.mindful-check-point {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+.point-bullet {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: rgba(245, 158, 11, 0.18);
+  color: #b45309;
+  font-size: 0.65rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+[data-theme='dark'] .point-bullet {
+  background-color: rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+}
+
+.point-text strong {
+  color: var(--text-primary);
+}
+
 .banner-footer-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 0.35rem;
+  padding: 0.5rem 0.35rem 0 0.35rem;
+  border-top: 1px dashed var(--border-subtle);
 }
 
 .banner-prompt-text {
@@ -469,6 +540,10 @@
   font-weight: 800;
   color: #855300;
   text-decoration: none;
+}
+
+[data-theme='dark'] .banner-link {
+  color: var(--primary-gold);
 }
 
 .banner-link:hover {
