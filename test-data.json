@@ -1,0 +1,146 @@
+{
+  "project": "BudgetBasics — NextGen BudgetBee",
+  "competition": "Aptech TechWiz 7",
+  "category": "Web Innovation Unleashed",
+  "currency": "NGN (₦)",
+  "testScenarios": {
+    "studentMonthlyAllowances": [
+      {
+        "id": "scenario-standard",
+        "description": "Standard Campus Allowance (Reference Baseline)",
+        "monthlyIncome": 60000,
+        "expected503020Split": {
+          "needs50": 30000,
+          "wants30": 18000,
+          "savings20": 12000
+        }
+      },
+      {
+        "id": "scenario-frugal",
+        "description": "Frugal / Low-Income Student Stipend",
+        "monthlyIncome": 35000,
+        "expected503020Split": {
+          "needs50": 17500,
+          "wants30": 10500,
+          "savings20": 7000
+        }
+      },
+      {
+        "id": "scenario-internship",
+        "description": "High-Tier Internship / Work-Study Stipend",
+        "monthlyIncome": 120000,
+        "expected503020Split": {
+          "needs50": 60000,
+          "wants30": 36000,
+          "savings20": 24000
+        }
+      }
+    ],
+    "savingsGoalsTestVectors": [
+      {
+        "goalName": "Campus Refurbished Laptop",
+        "targetAmount": 180000,
+        "currentSavings": 45000,
+        "monthlyContribution": 15000,
+        "expectedRemaining": 135000,
+        "expectedMonthsToTarget": 9,
+        "validationRules": {
+          "rejectNegativeNumbers": true,
+          "rejectZeroContribution": true,
+          "rejectEmptyFields": true
+        }
+      },
+      {
+        "goalName": "Certification Exam Voucher",
+        "targetAmount": 50000,
+        "currentSavings": 20000,
+        "monthlyContribution": 10000,
+        "expectedRemaining": 30000,
+        "expectedMonthsToTarget": 3,
+        "validationRules": {
+          "rejectNegativeNumbers": true,
+          "rejectZeroContribution": true,
+          "rejectEmptyFields": true
+        }
+      },
+      {
+        "goalName": "Emergency Room Cushion",
+        "targetAmount": 60000,
+        "currentSavings": 60000,
+        "monthlyContribution": 5000,
+        "expectedRemaining": 0,
+        "expectedMonthsToTarget": 0,
+        "expectedStatus": "Target Achieved (Triggers Confetti Celebration)"
+      }
+    ],
+    "sampleExpensePlannerTransactions": [
+      {
+        "id": "exp-001",
+        "date": "2026-09-01",
+        "category": "Education",
+        "description": "Semester Lecture Notes & Departmental Handouts",
+        "amount": 4500
+      },
+      {
+        "id": "exp-002",
+        "date": "2026-09-03",
+        "category": "Food",
+        "description": "Weekly Bulk Grocery (Rice, Pasta, Cooking Oil)",
+        "amount": 14000
+      },
+      {
+        "id": "exp-003",
+        "date": "2026-09-05",
+        "category": "Transport",
+        "description": "BRT / Campus Shuttle Weekly Pass",
+        "amount": 3500
+      },
+      {
+        "id": "exp-004",
+        "date": "2026-09-08",
+        "category": "Utilities",
+        "description": "Monthly Campus Hostel Internet Data Bundle",
+        "amount": 5000
+      },
+      {
+        "id": "exp-005",
+        "date": "2026-09-12",
+        "category": "Entertainment",
+        "description": "Weekend Campus Movie Night with Classmates",
+        "amount": 3000
+      },
+      {
+        "id": "exp-006",
+        "date": "2026-09-15",
+        "category": "Shopping",
+        "description": "Replacement Scientific Calculator Battery & Pen Pack",
+        "amount": 1200
+      },
+      {
+        "id": "exp-007",
+        "date": "2026-09-18",
+        "category": "Miscellaneous",
+        "description": "Urgent Pharmacy Cold Relief & Paracetamol",
+        "amount": 1800
+      }
+    ],
+    "needsVsWantsClassificationKey": [
+      { "item": "Campus Hostel Rent / Off-Campus Shared Room", "classification": "Need", "rationale": "Essential shelter for academic study." },
+      { "item": "Core Course Textbooks & Printing", "classification": "Need", "rationale": "Mandatory study materials directly required to pass courses." },
+      { "item": "Daily Campus Shuttle / Bus Fare", "classification": "Need", "rationale": "Critical transit to attend required lectures and labs." },
+      { "item": "Bulk Rice, Beans & Cooking Staples", "classification": "Need", "rationale": "Essential nutrition to sustain daily health." },
+      { "item": "Monthly Academic Internet Data Bundle", "classification": "Need", "rationale": "Required for online lectures and assignment submissions." },
+      { "item": "Premium Coffee Shop Latte & Pastry", "classification": "Want", "rationale": "Pleasurable comfort; campus tap water and tea are low-cost alternatives." },
+      { "item": "Video Streaming Subscription (Netflix / Disney+)", "classification": "Want", "rationale": "Discretionary leisure; can be paused or shared." },
+      { "item": "Designer Brand Sneakers", "classification": "Want", "rationale": "Aesthetic lifestyle choice; standard durable footwear satisfies the need." },
+      { "item": "Late-Night Fast Food & Pizza Delivery", "classification": "Want", "rationale": "High convenience markup; hostel cooking costs 70% less." },
+      { "item": "In-Game Microtransactions & Skins", "classification": "Want", "rationale": "Purely digital cosmetic entertainment." }
+    ],
+    "aiChatbotPromptTestVectors": [
+      { "query": "What is the 50/30/20 rule?", "expectedKeywordTrigger": "50/30/20", "expectedContains": "50% Needs, 30% Wants, 20% Savings" },
+      { "query": "How do I cut down on food expenses?", "expectedKeywordTrigger": "food", "expectedContains": "cook in bulk" },
+      { "query": "How do I handle an emergency on campus?", "expectedKeywordTrigger": "emergency", "expectedContains": "emergency cushion" },
+      { "query": "Should I invest in cryptocurrency?", "expectedKeywordTrigger": "fallback", "expectedContains": "educational guide" }
+    ]
+  }
+}

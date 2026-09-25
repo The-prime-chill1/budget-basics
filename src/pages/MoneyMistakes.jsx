@@ -12,7 +12,8 @@ import {
   Sparkles,
   Zap,
   BookOpen,
-  DollarSign
+  DollarSign,
+  Download
 } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading';
 import { moneyMistakes } from '../data/mistakes';
@@ -37,6 +38,55 @@ export default function MoneyMistakes() {
   };
 
   const totalRisksChecked = Object.values(checkedRisks).filter(Boolean).length;
+
+  const handleDownloadChecklist = () => {
+    const checklistText = `========================================================
+BUDGETBASICS — STUDENT FINANCIAL HEALTH CHECKLIST
+NextGen BudgetBee (Aptech TechWiz 7 Project)
+Date Generated: ${new Date().toLocaleDateString()}
+========================================================
+
+YOUR AUDIT SUMMARY:
+- Habits Flagged: ${totalRisksChecked} of 4
+- Status: ${totalRisksChecked === 0 ? 'Exemplary Financial Hygiene' : 'Attention Areas Identified'}
+
+AUDIT CHECKLIST BREAKDOWN:
+1. [${checkedRisks['impulse'] ? 'FLAGGED' : 'CLEAN'}] Post-Allowance Impulse Spending
+   Risk: Spending large allowance portions within the first 72 hours.
+   Action: Apply the 48-Hour Cooling Off Rule before discretionary buys.
+
+2. [${checkedRisks['micro'] ? 'FLAGGED' : 'CLEAN'}] Untracked Micro-Transactions (Under ₦1,000)
+   Risk: Small unlogged snacks and rides accumulate to over 30% of funds.
+   Action: Log daily outlays into the BudgetBasics Expense Planner.
+
+3. [${checkedRisks['sub'] ? 'FLAGGED' : 'CLEAN'}] Unused Subscriptions & Auto-Debits
+   Risk: Streaming, music, and unused apps silently drain accounts.
+   Action: Audit recurring bank mandates; share student/family plans.
+
+4. [${checkedRisks['plan'] ? 'FLAGGED' : 'CLEAN'}] Operating Without a Written Allocation
+   Risk: Mental budgeting produces unexpected month-end shortfalls.
+   Action: Allocate allowance strictly with the 50/30/20 formula.
+
+========================================================
+WEEKLY CAMPUS MONEY DISCIPLINE RULES:
+[ ] 1. Allocate your allowance on Day 1 using 50% Needs, 30% Wants, 20% Savings.
+[ ] 2. Transfer your 20% savings buffer before making any discretionary purchases.
+[ ] 3. Ask before every non-essential purchase: "Do I need this to graduate?"
+[ ] 4. Audit your remaining weekly safe spend balance every Sunday evening.
+
+Live Platform: https://budgetbasics-two.vercel.app/
+========================================================`;
+
+    const blob = new Blob([checklistText], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `BudgetBasics-Student-Checklist-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="money-mistakes-page page-wrapper animate-fade-in">
@@ -200,10 +250,21 @@ export default function MoneyMistakes() {
                 </div>
               )}
 
-              <Link to="/expense-planner" className="btn btn-primary btn-sm">
-                <span>Open Expense Planner</span>
-                <ArrowRight size={14} />
-              </Link>
+              <div className="audit-actions-group" style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  onClick={handleDownloadChecklist}
+                  className="btn btn-outline btn-sm"
+                  title="Download your personalized student financial checklist as a text file"
+                >
+                  <Download size={14} />
+                  <span>Download Checklist (.txt)</span>
+                </button>
+                <Link to="/expense-planner" className="btn btn-primary btn-sm">
+                  <span>Open Expense Planner</span>
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
             </div>
           </div>
         </section>

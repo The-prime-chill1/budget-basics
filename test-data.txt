@@ -1,0 +1,78 @@
+================================================================================
+BUDGETBASICS — APTECH TECHWIZ 7 STANDALONE TEST DATA
+Theme: NextGen BudgetBee | Category: Web Innovation Unleashed
+Live Production URL: https://budgetbasics-two.vercel.app/
+================================================================================
+
+1. TEST ALLOWANCES (50/30/20 ALLOCATOR)
+--------------------------------------------------------------------------------
+Case A: Reference Baseline Allowance (₦60,000 / month)
+- Input: 60000
+- Expected Needs (50%):   ₦30,000.00
+- Expected Wants (30%):   ₦18,000.00
+- Expected Savings (20%): ₦12,000.00
+
+Case B: Frugal Allowance (₦35,000 / month)
+- Input: 35000
+- Expected Needs (50%):   ₦17,500.00
+- Expected Wants (30%):   ₦10,500.00
+- Expected Savings (20%): ₦7,000.00
+
+Case C: Internship Allowance (₦120,000 / month)
+- Input: 120000
+- Expected Needs (50%):   ₦60,000.00
+- Expected Wants (30%):   ₦36,000.00
+- Expected Savings (20%): ₦24,000.00
+
+2. SAVINGS GOAL TEST VECTORS
+--------------------------------------------------------------------------------
+Goal 1: Campus Laptop Refurbishment
+- Target: ₦180,000 | Current: ₦45,000 | Monthly: ₦15,000
+- Expected Remaining: ₦135,000
+- Expected Duration: 9 Months
+
+Goal 2: Professional Certification Voucher
+- Target: ₦50,000 | Current: ₦20,000 | Monthly: ₦10,000
+- Expected Remaining: ₦30,000
+- Expected Duration: 3 Months
+
+Goal 3: Target Hit Celebration Test
+- Target: ₦60,000 | Current: ₦60,000 | Monthly: ₦5,000
+- Expected: Remaining ₦0 (Triggers Goal Completion Confetti Celebration)
+
+3. EXPENSE PLANNER SAMPLE TRANSACTIONS (7 CATEGORIES)
+--------------------------------------------------------------------------------
+Date       | Category       | Description                            | Amount (₦)
+2026-09-01 | Education      | Department Handouts & Lab Manual       | 4,500
+2026-09-03 | Food           | Weekly Bulk Groceries (Rice & Oil)     | 14,000
+2026-09-05 | Transport      | Weekly Campus Bus Pass                 | 3,500
+2026-09-08 | Utilities      | Hostel Internet Data Bundle            | 5,000
+2026-09-12 | Entertainment  | Weekend Campus Movie with Friends      | 3,000
+2026-09-15 | Shopping       | Scientific Calculator Battery          | 1,200
+2026-09-18 | Miscellaneous  | Campus Pharmacy Cold Medication        | 1,800
+--------------------------------------------------------------------------------
+Total Sample Outlays: ₦33,000
+
+4. NEEDS VS WANTS 10-ITEM CLASSIFICATION ANSWER KEY
+--------------------------------------------------------------------------------
+1. Hostel Rent / Accommodation     -> NEED (Essential Shelter)
+2. Core Course Textbooks           -> NEED (Academic Requirement)
+3. Campus Shuttle Transit          -> NEED (Required Mobility)
+4. Bulk Cooking Groceries          -> NEED (Essential Sustenance)
+5. Academic Internet Data          -> NEED (Mandatory Study Tools)
+6. Premium Coffee Shop Latte       -> WANT (Discretionary Beverage)
+7. Video Streaming Subscription    -> WANT (Leisure Entertainment)
+8. Designer Sneakers               -> WANT (Discretionary Fashion)
+9. Late-Night Fast Food Delivery   -> WANT (Convenience Premium)
+10. Gaming In-App Cosmetic Skins   -> WANT (Pure Digital Leisure)
+
+5. BEEWISE AI CHATBOT KEYWORD TEST VECTORS
+--------------------------------------------------------------------------------
+Prompt: "What is 50-30-20?"     -> Responds with 50/30/20 formula breakdown
+Prompt: "How can I cut food cost?" -> Responds with bulk cooking advice
+Prompt: "I have an emergency"   -> Responds with emergency cushion guidance
+Prompt: "Should I buy Bitcoin?" -> Triggers educational disclaimer fallback
+
+================================================================================
+END OF TEST DATA FILE
+================================================================================
