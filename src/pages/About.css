@@ -1,5 +1,36 @@
 /* About page layout, mission hero card, and team member grid */
 
+.about-brand-emblem-showcase {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem auto 1.75rem auto;
+  padding: 1rem 2rem;
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  width: fit-content;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-theme='dark'] .about-brand-emblem-showcase {
+  background-color: #0f172a;
+  border-color: #1e293b;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.about-brand-emblem-showcase:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(15, 118, 110, 0.15);
+}
+
+.about-hero-logo {
+  height: 52px;
+  width: auto;
+  max-width: 100%;
+}
+
 .about-hero-card {
   display: grid;
   grid-template-columns: 1.5fr 1fr;

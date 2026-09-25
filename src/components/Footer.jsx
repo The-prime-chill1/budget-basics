@@ -50,7 +50,7 @@ export default function Footer() {
         <div className="footer-hero-strip">
           <div className="footer-brand-lockup">
             <Link to="/" className="footer-brand-link" aria-label="BudgetBasics Homepage">
-              <BrandLogo height={38} showTagline={true} idPrefix="ftrLogo" />
+              <BrandLogo height={48} showTagline={true} idPrefix="ftrLogo" className="footer-brand-logo-img" />
             </Link>
             <span className="footer-tagline-chip">
               NextGen BudgetBee &bull; Aptech TechWiz 7
@@ -162,30 +162,6 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
-        </div>
-
-        <div className="footer-team-strip">
-          <span className="team-strip-label">
-            <Layers size={14} className="text-gold" />
-            <span>Team PixelForge Division:</span>
-          </span>
-          <div className="team-members-chips">
-            <Link to="/about" className="team-chip" title="Enioluwafe Gbadamosi — Main Structure & Integration">
-              <strong>Enioluwafe Gbadamosi</strong> (Main Structure)
-            </Link>
-            <Link to="/about" className="team-chip" title="Hamid — Budgeting Basics & Needs vs Wants">
-              <strong>Hamid</strong> (Budgeting)
-            </Link>
-            <Link to="/about" className="team-chip" title="Tammy — 50/30/20 & Savings Calculators">
-              <strong>Tammy</strong> (Calculators)
-            </Link>
-            <Link to="/about" className="team-chip" title="Lawal Abiodun — Expense Planner & Mistakes">
-              <strong>Lawal Abiodun</strong> (Expenses)
-            </Link>
-            <Link to="/about" className="team-chip" title="Lam Abdulhameed Olawale — AI Chatbot & Search">
-              <strong>Lam Abdulhameed Olawale</strong> (AI &amp; Search)
-            </Link>
           </div>
         </div>
 

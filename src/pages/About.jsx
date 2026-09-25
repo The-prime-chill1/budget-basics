@@ -19,6 +19,7 @@ import {
   AtSign
 } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading';
+import BrandLogo from '../components/BrandLogo';
 import { useCurrency } from '../context/CurrencyContext';
 import './About.css';
 
@@ -27,6 +28,10 @@ export default function About() {
   return (
     <div className="about-page page-wrapper animate-fade-in">
       <div className="app-container">
+        <div className="about-brand-emblem-showcase">
+          <BrandLogo variant="full" height={58} className="about-hero-logo" />
+        </div>
+
         <SectionHeading
           badge="Project Identity & Mission"
           title="About BudgetBasics"
