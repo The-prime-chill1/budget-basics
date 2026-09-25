@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Sparkles,
@@ -92,6 +93,52 @@ export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMobileSection, setActiveMobileSection] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const headerRef = useRef(null);
+
+  // Prevent background scroll when mobile drawer is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  // Click outside to close desktop dropdowns, Escape key listener, & resize safeguard
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (headerRef.current && !headerRef.current.contains(e.target)) {
+        setActiveDropdown(null);
+      }
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setActiveDropdown(null);
+        setMobileMenuOpen(false);
+        setActiveMobileSection(null);
+      }
+    };
+
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setMobileMenuOpen(false);
+        setActiveMobileSection(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const num = Math.max(0, Number(monthlyIncome) || 0);
   const needsAmount = Math.round(num * 0.5);
@@ -99,6 +146,258 @@ export default function Landing() {
   const savingsAmount = Math.round(num * 0.2);
 
   const currentSectionObj = SITEMAP_NAV_SECTIONS.find((s) => s.id === activeMobileSection);
+
+  // Render Mobile Off-Canvas Drawer into document.body via Portal
+  // Eliminates backdrop-filter containment & height constraints across all mobile devices
+  const renderMobileDrawer = () => {
+    if (!mobileMenuOpen || typeof document === 'undefined') return null;
+
+    return createPortal(
+      <div
+        id="landing-mobile-nav-drawer"
+        className="stripe-mob-drawer-overlay animate-fade-in"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile Navigation Menu"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            setMobileMenuOpen(false);
+            setActiveMobileSection(null);
+          }
+        }}
+      >
+        <div className="stripe-mob-drawer-panel">
+          {/* Header Row */}
+          {!activeMobileSection ? (
+            <div className="stripe-drawer-head">
+              <Link
+                to="/"
+                className="stripe-drawer-brand"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setActiveMobileSection(null);
+                }}
+              >
+                <BrandLogo variant="mark" height={28} idPrefix="landingDrawerLogo" />
+                <span className="stripe-drawer-brand-name">BudgetBasics</span>
+              </Link>
+              <button
+                type="button"
+                className="stripe-drawer-close-btn"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setActiveMobileSection(null);
+                }}
+                aria-label="Close menu"
+              >
+                <X size={18} />
+              </button>
+            </div>
+          ) : (
+            <div className="stripe-drawer-head">
+              <button
+                type="button"
+                className="stripe-drawer-back-btn"
+                onClick={() => setActiveMobileSection(null)}
+                aria-label="Back to main navigation"
+              >
+                <ChevronLeft size={18} />
+                <span>Back</span>
+              </button>
+              <button
+                type="button"
+                className="stripe-drawer-close-btn"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setActiveMobileSection(null);
+                }}
+                aria-label="Close menu"
+              >
+                <X size={18} />
+              </button>
+            </div>
+          )}
+
+          {/* Top Capsule Search Box */}
+          <form
+            className="drawer-search-wrap"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (drawerSearch.trim()) {
+                setMobileMenuOpen(false);
+                setActiveMobileSection(null);
+                navigate(`/search?q=${encodeURIComponent(drawerSearch.trim())}`);
+              }
+            }}
+          >
+            <Search size={15} className="drawer-search-icon" />
+            <input
+              type="text"
+              placeholder="Search guides, tools, calculators..."
+              value={drawerSearch}
+              onChange={(e) => setDrawerSearch(e.target.value)}
+              className="drawer-search-input"
+              aria-label="Search BudgetBasics"
+            />
+          </form>
+
+          {/* Drawer Content */}
+          <div className="stripe-drawer-content">
+            {!activeMobileSection ? (
+              // VIEW 1: Main Menu with side carets
+              <div className="stripe-main-nav-flow animate-fade-in">
+                <div className="stripe-nav-links-list">
+                  {SITEMAP_NAV_SECTIONS.map((sec) => {
+                    const Icon = sec.icon;
+                    return (
+                      <button
+                        key={sec.id}
+                        type="button"
+                        className="stripe-nav-row-btn"
+                        onClick={() => setActiveMobileSection(sec.id)}
+                      >
+                        <div className="stripe-nav-row-left">
+                          {Icon && <span className="stripe-row-icon-box"><Icon size={17} /></span>}
+                          <span className="stripe-row-title">{sec.title}</span>
+                        </div>
+                        <ChevronRight size={17} className="stripe-row-caret" />
+                      </button>
+                    );
+                  })}
+
+                  <Link
+                    to="/50-30-20"
+                    className="stripe-nav-row-btn"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setActiveMobileSection(null);
+                    }}
+                  >
+                    <div className="stripe-nav-row-left">
+                      <span className="stripe-row-icon-box"><PieChart size={17} /></span>
+                      <span className="stripe-row-title">50/30/20 Formula</span>
+                    </div>
+                    <ChevronRight size={17} className="stripe-row-caret" />
+                  </Link>
+
+                  <Link
+                    to="/chatbot"
+                    className="stripe-nav-row-btn highlight-row"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setActiveMobileSection(null);
+                    }}
+                  >
+                    <div className="stripe-nav-row-left">
+                      <span className="stripe-row-icon-box text-gold"><Sparkles size={17} /></span>
+                      <span className="stripe-row-title">BeeWise AI Assistant</span>
+                    </div>
+                    <ChevronRight size={17} className="stripe-row-caret" />
+                  </Link>
+                </div>
+
+                {/* Callout Box */}
+                <div className="stripe-callout-card">
+                  <span className="stripe-callout-heading">Not sure where to start?</span>
+                  <Link
+                    to="/chatbot"
+                    className="stripe-callout-item"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setActiveMobileSection(null);
+                    }}
+                  >
+                    <strong className="callout-link-title">Ask BeeWise AI</strong>
+                    <span className="callout-link-sub">Tell us about your campus allowance &amp; situation</span>
+                  </Link>
+                  <Link
+                    to="/sitemap"
+                    className="stripe-callout-item"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setActiveMobileSection(null);
+                    }}
+                  >
+                    <strong className="callout-link-title">Explore Visual Sitemap</strong>
+                    <span className="callout-link-sub">Browse all financial modules &amp; architecture</span>
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              // VIEW 2: Sublinks View
+              <div className="stripe-sublinks-flow animate-fade-in">
+                <div className="stripe-sublinks-category-header">
+                  {currentSectionObj?.title}
+                </div>
+
+                <div className="stripe-sublinks-list">
+                  {currentSectionObj?.links.map((link) => (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      className="stripe-sublink-entry"
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        setActiveMobileSection(null);
+                      }}
+                    >
+                      <div className="stripe-sublink-name">{link.name}</div>
+                      <div className="stripe-sublink-desc">{link.desc}</div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Bottom User Profile Card */}
+          <div className="drawer-profile-card">
+            <div className="drawer-profile-header">
+              <div className="drawer-avatar-wrap">
+                <img
+                  src="/human.jpg"
+                  alt="Student Avatar"
+                  className="drawer-avatar-img"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/mascot-bee.png';
+                  }}
+                />
+                <span className="drawer-avatar-status-dot"></span>
+              </div>
+              <div className="drawer-profile-info">
+                <span className="drawer-profile-name">{session.userId}</span>
+                <span className="drawer-profile-rank">Campus Sage &bull; Anonymous</span>
+              </div>
+            </div>
+            <div className="drawer-profile-actions">
+              <Link
+                to="/cockpit"
+                className="drawer-profile-btn drawer-profile-btn-primary"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setActiveMobileSection(null);
+                }}
+              >
+                Launch Cockpit
+              </Link>
+              <Link
+                to="/chatbot"
+                className="drawer-profile-btn drawer-profile-btn-outline"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setActiveMobileSection(null);
+                }}
+              >
+                Ask AI Tutor
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>,
+      document.body
+    );
+  };
 
   return (
     <div className="stitch-landing-root animate-fade-in">
@@ -108,7 +407,7 @@ export default function Landing() {
       {/* ================================================================
           0. STITCH HEADER (Exact Stripe Information Architecture)
           ================================================================ */}
-      <header className="stitch-header">
+      <header className="stitch-header" ref={headerRef}>
         <div className="stitch-header-inner">
           <div className="stitch-brand-wrap">
             <Link to="/" className="stitch-brand-link" aria-label="BudgetBasics Home">
@@ -184,249 +483,18 @@ export default function Landing() {
                 setMobileMenuOpen(!mobileMenuOpen);
                 setActiveMobileSection(null);
               }}
-              aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Menu'}
+              aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
               aria-expanded={mobileMenuOpen}
+              aria-controls="landing-mobile-nav-drawer"
             >
               {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
-
-        {/* Stripe-Style Mobile Navigation Drawer */}
-        {mobileMenuOpen && (
-          <div
-            className="stripe-mob-drawer-overlay animate-fade-in"
-            onClick={(e) => {
-              if (e.target === e.currentTarget) {
-                setMobileMenuOpen(false);
-                setActiveMobileSection(null);
-              }
-            }}
-          >
-            <div className="stripe-mob-drawer-panel">
-              {/* Header Row */}
-              {!activeMobileSection ? (
-                <div className="stripe-drawer-head">
-                  <div className="stripe-drawer-brand">
-                    <BrandLogo variant="mark" height={28} idPrefix="landingDrawerLogo" />
-                    <span className="stripe-drawer-brand-name">BudgetBasics</span>
-                  </div>
-                  <button
-                    type="button"
-                    className="stripe-drawer-close-btn"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      setActiveMobileSection(null);
-                    }}
-                    aria-label="Close menu"
-                  >
-                    <X size={18} />
-                  </button>
-                </div>
-              ) : (
-                <div className="stripe-drawer-head">
-                  <button
-                    type="button"
-                    className="stripe-drawer-back-btn"
-                    onClick={() => setActiveMobileSection(null)}
-                    aria-label="Back to main navigation"
-                  >
-                    <ChevronLeft size={18} />
-                    <span>Back</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="stripe-drawer-close-btn"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      setActiveMobileSection(null);
-                    }}
-                    aria-label="Close menu"
-                  >
-                    <X size={18} />
-                  </button>
-                </div>
-              )}
-
-              {/* Top Capsule Search Box (Inspired by Reference Design) */}
-              <form
-                className="drawer-search-wrap"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (drawerSearch.trim()) {
-                    setMobileMenuOpen(false);
-                    setActiveMobileSection(null);
-                    navigate(`/search?q=${encodeURIComponent(drawerSearch.trim())}`);
-                  }
-                }}
-              >
-                <Search size={15} className="drawer-search-icon" />
-                <input
-                  type="text"
-                  placeholder="Search guides, tools, calculators..."
-                  value={drawerSearch}
-                  onChange={(e) => setDrawerSearch(e.target.value)}
-                  className="drawer-search-input"
-                  aria-label="Search BudgetBasics"
-                />
-              </form>
-
-              {/* Drawer Content */}
-              <div className="stripe-drawer-content">
-                {!activeMobileSection ? (
-                  // VIEW 1: Main Menu with side carets
-                  <div className="stripe-main-nav-flow animate-fade-in">
-                    <div className="stripe-nav-links-list">
-                      {SITEMAP_NAV_SECTIONS.map((sec) => {
-                        const Icon = sec.icon;
-                        return (
-                          <button
-                            key={sec.id}
-                            type="button"
-                            className="stripe-nav-row-btn"
-                            onClick={() => setActiveMobileSection(sec.id)}
-                          >
-                            <div className="stripe-nav-row-left">
-                              {Icon && <span className="stripe-row-icon-box"><Icon size={17} /></span>}
-                              <span className="stripe-row-title">{sec.title}</span>
-                            </div>
-                            <ChevronRight size={17} className="stripe-row-caret" />
-                          </button>
-                        );
-                      })}
-
-                      <Link
-                        to="/50-30-20"
-                        className="stripe-nav-row-btn"
-                        onClick={() => {
-                          setMobileMenuOpen(false);
-                          setActiveMobileSection(null);
-                        }}
-                      >
-                        <div className="stripe-nav-row-left">
-                          <span className="stripe-row-icon-box"><PieChart size={17} /></span>
-                          <span className="stripe-row-title">50/30/20 Formula</span>
-                        </div>
-                        <ChevronRight size={17} className="stripe-row-caret" />
-                      </Link>
-
-                      <Link
-                        to="/chatbot"
-                        className="stripe-nav-row-btn highlight-row"
-                        onClick={() => {
-                          setMobileMenuOpen(false);
-                          setActiveMobileSection(null);
-                        }}
-                      >
-                        <div className="stripe-nav-row-left">
-                          <span className="stripe-row-icon-box text-gold"><Sparkles size={17} /></span>
-                          <span className="stripe-row-title">BeeWise AI Assistant</span>
-                        </div>
-                        <ChevronRight size={17} className="stripe-row-caret" />
-                      </Link>
-                    </div>
-
-                    {/* Callout Box */}
-                    <div className="stripe-callout-card">
-                      <span className="stripe-callout-heading">Not sure where to start?</span>
-                      <Link
-                        to="/chatbot"
-                        className="stripe-callout-item"
-                        onClick={() => {
-                          setMobileMenuOpen(false);
-                          setActiveMobileSection(null);
-                        }}
-                      >
-                        <strong className="callout-link-title">Ask BeeWise AI</strong>
-                        <span className="callout-link-sub">Tell us about your campus allowance &amp; situation</span>
-                      </Link>
-                      <Link
-                        to="/sitemap"
-                        className="stripe-callout-item"
-                        onClick={() => {
-                          setMobileMenuOpen(false);
-                          setActiveMobileSection(null);
-                        }}
-                      >
-                        <strong className="callout-link-title">Explore Visual Sitemap</strong>
-                        <span className="callout-link-sub">Browse all financial modules &amp; architecture</span>
-                      </Link>
-                    </div>
-                  </div>
-                ) : (
-                  // VIEW 2: Sublinks View
-                  <div className="stripe-sublinks-flow animate-fade-in">
-                    <div className="stripe-sublinks-category-header">
-                      {currentSectionObj?.title}
-                    </div>
-
-                    <div className="stripe-sublinks-list">
-                      {currentSectionObj?.links.map((link) => (
-                        <Link
-                          key={link.path}
-                          to={link.path}
-                          className="stripe-sublink-entry"
-                          onClick={() => {
-                            setMobileMenuOpen(false);
-                            setActiveMobileSection(null);
-                          }}
-                        >
-                          <div className="stripe-sublink-name">{link.name}</div>
-                          <div className="stripe-sublink-desc">{link.desc}</div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Bottom User Profile Card (Matching Reference Design) */}
-              <div className="drawer-profile-card">
-                <div className="drawer-profile-header">
-                  <div className="drawer-avatar-wrap">
-                    <img
-                      src="/human.jpg"
-                      alt="Student Avatar"
-                      className="drawer-avatar-img"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = '/mascot-bee.png';
-                      }}
-                    />
-                    <span className="drawer-avatar-status-dot"></span>
-                  </div>
-                  <div className="drawer-profile-info">
-                    <span className="drawer-profile-name">{session.userId}</span>
-                    <span className="drawer-profile-rank">Campus Sage &bull; Anonymous</span>
-                  </div>
-                </div>
-                <div className="drawer-profile-actions">
-                  <Link
-                    to="/cockpit"
-                    className="drawer-profile-btn drawer-profile-btn-primary"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      setActiveMobileSection(null);
-                    }}
-                  >
-                    Launch Cockpit
-                  </Link>
-                  <Link
-                    to="/chatbot"
-                    className="drawer-profile-btn drawer-profile-btn-outline"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      setActiveMobileSection(null);
-                    }}
-                  >
-                    Ask AI Tutor
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </header>
+
+      {/* Render Mobile Navigation Drawer via Portal directly into document.body */}
+      {renderMobileDrawer()}
 
       {/* ================================================================
           1. HERO SECTION
