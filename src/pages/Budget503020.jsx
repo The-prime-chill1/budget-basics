@@ -8,7 +8,12 @@ import {
   Sliders,
   Calculator,
   Lightbulb,
-  Award
+  Award,
+  Calendar,
+  TrendingUp,
+  Zap,
+  Copy,
+  Check
 } from 'lucide-react';
 import { calculate503020 } from '../utils/budgetCalculations';
 import { useCurrency } from '../context/CurrencyContext';
@@ -54,6 +59,7 @@ export default function Budget503020() {
     step2: false,
     step3: false
   });
+  const [copied, setCopied] = useState(false);
 
   // Automatically update income when user switches currency in the navbar
   useEffect(() => {
@@ -69,6 +75,31 @@ export default function Budget503020() {
 
   const handlePreset = (amt) => {
     setIncomeInput(amt.toString());
+  };
+
+  const handleCopyPlan = () => {
+    const weeklyNeeds = Math.round(calc.needs / 4);
+    const weeklyWants = Math.round(calc.wants / 4);
+    const weeklySavings = Math.round(calc.savings / 4);
+    const text = `📋 My Student 50/30/20 Budget Plan (${currency.code})
+Total Monthly Income: ${format(numericIncome)}
+
+• 50% Needs (Rent, Groceries, Transit, Course Materials):
+  ${format(calc.needs)} / month (~${format(weeklyNeeds)} / week)
+
+• 30% Wants (Entertainment, Dining Out, Subscriptions):
+  ${format(calc.wants)} / month (~${format(weeklyWants)} / week)
+
+• 20% Savings & Debt (Emergency Fund, Target Savings):
+  ${format(calc.savings)} / month (~${format(weeklySavings)} / week)
+
+🎯 1-Year Projected Savings: ${format(calc.savings * 12)}
+Generated on BudgetBasics: https://budgetbasics.org`;
+
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }).catch(() => {});
   };
 
   const currentScenario = SCENARIOS[activeScenario];
@@ -312,6 +343,95 @@ export default function Budget503020() {
                 </span>
               </label>
             </div>
+
+            <div className="action-weekly-envelopes">
+              <div className="weekly-envelopes-header">
+                <div className="weekly-head-left">
+                  <Calendar size={16} className="weekly-icon" />
+                  <span className="weekly-heading">Weekly Spending Envelopes</span>
+                </div>
+                <span className="weekly-pill">Paced for 4 Weeks</span>
+              </div>
+              <p className="weekly-desc">
+                Pace your cash flow week-by-week so you never run empty before month's end:
+              </p>
+              <div className="weekly-grid">
+                <div className="weekly-chip weekly-chip-needs">
+                  <div className="chip-cat">
+                    <span className="chip-dot dot-needs"></span>
+                    <span>Needs</span>
+                  </div>
+                  <strong className="chip-amt">{format(Math.round(calc.needs / 4))}</strong>
+                  <span className="chip-sub">/ week</span>
+                </div>
+                <div className="weekly-chip weekly-chip-wants">
+                  <div className="chip-cat">
+                    <span className="chip-dot dot-wants"></span>
+                    <span>Wants</span>
+                  </div>
+                  <strong className="chip-amt">{format(Math.round(calc.wants / 4))}</strong>
+                  <span className="chip-sub">/ week max</span>
+                </div>
+                <div className="weekly-chip weekly-chip-savings">
+                  <div className="chip-cat">
+                    <span className="chip-dot dot-savings"></span>
+                    <span>Savings</span>
+                  </div>
+                  <strong className="chip-amt">{format(Math.round(calc.savings / 4))}</strong>
+                  <span className="chip-sub">/ week</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="savings-milestone-forecast">
+              <div className="milestone-head">
+                <TrendingUp size={16} className="milestone-icon" />
+                <span className="milestone-title">Your 20% Growth Engine</span>
+              </div>
+              <div className="milestones-row">
+                <div className="milestone-box">
+                  <span className="milestone-time">3 Months</span>
+                  <strong className="milestone-val">{format(calc.savings * 3)}</strong>
+                  <span className="milestone-label">Semester Cushion</span>
+                </div>
+                <div className="milestone-box">
+                  <span className="milestone-time">6 Months</span>
+                  <strong className="milestone-val">{format(calc.savings * 6)}</strong>
+                  <span className="milestone-label">Emergency Shield</span>
+                </div>
+                <div className="milestone-box highlight-box">
+                  <span className="milestone-time">12 Months</span>
+                  <strong className="milestone-val">{format(calc.savings * 12)}</strong>
+                  <span className="milestone-label">Graduation Vault</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="rule-tip-banner">
+              <Zap size={16} className="rule-tip-icon" />
+              <div className="rule-tip-content">
+                <strong>The 24-Hour Rule:</strong> Transfer your 20% ({format(calc.savings)}) within the first 24 hours of receiving income. Never save what is left after spending—spend what is left after saving!
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className={`copy-plan-btn ${copied ? 'copied' : ''}`}
+              onClick={handleCopyPlan}
+              title="Copy your 50/30/20 breakdown to clipboard"
+            >
+              {copied ? (
+                <>
+                  <Check size={16} className="btn-icon-done" />
+                  <span>50/30/20 Plan Copied to Clipboard!</span>
+                </>
+              ) : (
+                <>
+                  <Copy size={16} />
+                  <span>Copy My 50/30/20 Plan Summary</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
       </div>
