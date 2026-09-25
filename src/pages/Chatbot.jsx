@@ -22,8 +22,10 @@ import {
   Bot,
   Sparkles,
   ArrowUpRight,
+  ArrowRight,
   Headphones
 } from 'lucide-react';
+import { useCurrency } from '../context/CurrencyContext';
 import { chatbotKnowledge, fallbackChatResponse } from '../data/chatbotResponses';
 import {
   SUPPORTED_LANGUAGES,
@@ -45,6 +47,7 @@ const INITIAL_MESSAGES_MAP = {
 
 // Client-side financial assistant: matches keywords against local curated responses with speech synthesis & multilingual support
 export default function Chatbot() {
+  const { currency, format, convertFromNgn } = useCurrency();
   const [selectedLang, setSelectedLang] = useState('en-GB');
   const [autoSpeak, setAutoSpeak] = useState(false);
   const [isListening, setIsListening] = useState(false);
@@ -451,11 +454,76 @@ export default function Chatbot() {
     if (text.includes('$') || text.includes('dollar')) symbol = '$';
     else if (text.includes('£') || text.includes('pound')) symbol = '£';
     else if (text.includes('€') || text.includes('euro')) symbol = '€';
+    else if (text.includes('₹') || text.includes('rupee') || text.includes('rs') || text.includes('inr')) symbol = '₹';
 
     return {
       answer: `**Savings Timeline Calculation:**\n\n• **Target Goal**: ${symbol}${target.toLocaleString()}\n• **Monthly Contribution**: ${symbol}${monthly.toLocaleString()}\n• **Estimated Timeframe**: **${monthsNeeded} month${monthsNeeded === 1 ? '' : 's'}**\n\n**Accelerate Your Goal:**\n1. Cut one non-essential habit to boost your monthly deposit by 15%.\n2. Put any unexpected gifts or side hustle gigs straight into this target fund.\n3. Track your real-time milestone bar on our **Savings Goals** page!`,
       topicId: 'savings_goals'
     };
+  };
+
+  // Dynamic affordability evaluator (e.g., "Can I afford ₹4,760 concert tickets this weekend on my remaining ₹22,400 stipend without wrecking groceries?")
+  const parseAffordabilityQuery = (rawText) => {
+    const text = rawText.toLowerCase();
+    const isAffordIntent =
+      text.includes('afford') ||
+      text.includes('can i buy') ||
+      text.includes('can i spend') ||
+      text.includes('can i get') ||
+      text.includes('should i buy') ||
+      text.includes('concert') ||
+      text.includes('ticket');
+
+    if (!isAffordIntent) return null;
+
+    let symbol = currency?.symbol || '₹';
+    if (text.includes('₹') || text.includes('rupee') || text.includes('rs') || text.includes('inr')) symbol = '₹';
+    else if (text.includes('$') || text.includes('dollar')) symbol = '$';
+    else if (text.includes('£') || text.includes('pound')) symbol = '£';
+    else if (text.includes('€') || text.includes('euro')) symbol = '€';
+    else if (text.includes('₦') || text.includes('naira') || text.includes('ngn')) symbol = '₦';
+
+    const numRegex = /(?:[₹₦$£€]|rs\.?|inr|ngn)?\s*(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)\s*(k|thousand|million)?/gi;
+    const nums = [];
+    let m;
+    while ((m = numRegex.exec(text)) !== null) {
+      let raw = m[1].replace(/,/g, '');
+      let val = parseFloat(raw);
+      if (!isNaN(val) && val > 0) {
+        const mult = (m[2] || '').toLowerCase();
+        if (mult === 'k' || mult === 'thousand') val *= 1000;
+        nums.push(val);
+      }
+    }
+
+    if (nums.length < 2) return null;
+
+    const cost = Math.min(nums[0], nums[1]);
+    const stipend = Math.max(nums[0], nums[1]);
+
+    const wants = Math.round(stipend * 0.3);
+    const needs = Math.round(stipend * 0.5);
+    const remainingWants = wants - cost;
+
+    let itemLabel = 'Concert Ticket';
+    if (text.includes('concert') || text.includes('ticket')) itemLabel = 'Concert Ticket';
+    else if (text.includes('shoe') || text.includes('sneaker')) itemLabel = 'Shoes / Fashion';
+    else if (text.includes('laptop') || text.includes('phone') || text.includes('headphone')) itemLabel = 'Tech Accessory';
+    else if (text.includes('dinner') || text.includes('outing')) itemLabel = 'Weekend Outing';
+    else itemLabel = 'Expense Item';
+
+    if (cost <= wants) {
+      return {
+        answer: `**Good news: Yes, you can do this safely! Here is how:**\n\n• **Current 30% Wants Bucket**: **${symbol}${wants.toLocaleString()} available**\n• **${itemLabel}**: **-${symbol}${cost.toLocaleString()}**\n• **Remaining Fun Cash for next week**: **${symbol}${remainingWants.toLocaleString()}**\n\nYour **${symbol}${needs.toLocaleString()} grocery reserve** stays 100% untouched. Go make memories guilt-free!`,
+        topicId: 'affordability_check'
+      };
+    } else {
+      const deficit = cost - wants;
+      return {
+        answer: `**Caution: This purchase will stretch your 30% Wants limit!**\n\n• **Current 30% Wants Bucket**: **${symbol}${wants.toLocaleString()} available**\n• **${itemLabel}**: **-${symbol}${cost.toLocaleString()}**\n• **Exceeds Wants By**: **-${symbol}${deficit.toLocaleString()}**\n\nYour **${symbol}${needs.toLocaleString()} grocery & essential reserve** would be affected. To protect your campus living buffer, consider saving over 2 weeks or finding a coursemate discount!`,
+        topicId: 'affordability_check'
+      };
+    }
   };
 
   // Find the most accurate answer using scored relevance matching and dynamic handlers
@@ -576,6 +644,16 @@ export default function Chatbot() {
         answer: helpResponses[activeLang] || helpResponses['en-GB'],
         topicId: 'help_triage',
         isRtl: activeLang === 'ar-SA'
+      };
+    }
+
+    // 3.8. Dynamic affordability checking (e.g. concert tickets, clothes, tech)
+    const affordCheck = parseAffordabilityQuery(norm);
+    if (affordCheck) {
+      return {
+        answer: affordCheck.answer,
+        topicId: affordCheck.topicId,
+        isRtl: false
       };
     }
 
@@ -793,14 +871,21 @@ export default function Chatbot() {
                 </div>
                 <div>
                   <div className="tutor-title-row">
-                    <h2 className="beewise-title">{activeUi.title}</h2>
-                    <span className="active-tutor-pill">Multilingual</span>
+                    <h2 className="beewise-title">BeeWise Assistant</h2>
+                    <span className="online-beacon-dot" title="Real-time Financial Model Synced"></span>
                   </div>
-                  <span className="beewise-subtitle">{activeUi.subtitle}</span>
+                  <span className="beewise-subtitle">
+                    <span className="status-live-sync">• Online • 50/30/20 Synced</span>
+                  </span>
                 </div>
               </div>
 
               <div className="chat-header-actions">
+                <div className="stipend-sync-badge hide-on-mobile" title="Simulated Active Student Balance">
+                  <span className="stipend-sync-label">Stipend:</span>
+                  <strong className="stipend-sync-amt">{format(convertFromNgn(22400))} Left</strong>
+                </div>
+
                 <button
                   type="button"
                   className={`chat-action-btn auto-voice-btn ${autoSpeak ? 'active' : ''}`}
@@ -852,6 +937,14 @@ export default function Chatbot() {
             </div>
 
             <div className="suggested-chips-scroll">
+              <button
+                type="button"
+                className="suggest-chip highlight-chip"
+                onClick={() => handleSend(`Can I afford ${currency.symbol}4,760 concert tickets this weekend on my remaining ${currency.symbol}22,400 stipend without wrecking groceries?`)}
+              >
+                <Sparkles size={13} className="chip-icon text-gold" />
+                <span>Can I afford {currency.symbol}4,760 concert tickets on {currency.symbol}22,400 stipend?</span>
+              </button>
               {activeUi.prompts.map((p, idx) => (
                 <button
                   key={idx}
@@ -987,7 +1080,7 @@ export default function Chatbot() {
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                placeholder={activeUi.inputPlaceholder}
+                placeholder="Ask BeeWise: 'How much should I spend on dorm groceries?'"
                 className="bee-input chat-text-input"
                 aria-label="Chat input"
                 dir={selectedLang === 'ar-SA' ? 'rtl' : 'ltr'}
@@ -1000,7 +1093,7 @@ export default function Chatbot() {
                 title="Send message"
                 aria-label="Send message"
               >
-                <Send size={16} />
+                <ArrowRight size={18} />
               </button>
             </form>
           </div>

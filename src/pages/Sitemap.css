@@ -290,8 +290,68 @@
   line-height: 1.6;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .sitemap-canvas-frame {
-    padding: 1.25rem;
+    padding: 1rem;
+    overflow-x: visible;
+  }
+
+  .sitemap-tree-container {
+    min-width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+    padding: 0;
+  }
+
+  .tree-root-col {
+    width: 100%;
+  }
+
+  .tree-root-card {
+    padding: 1rem;
+  }
+
+  .tree-connectors-col {
+    display: none;
+  }
+
+  .tree-pillars-col {
+    width: 100%;
+    gap: 1.25rem;
+  }
+
+  .tree-pillar-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+
+  .pillar-header-pill {
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+    padding: 0.55rem 1rem;
+    font-size: 0.885rem;
+  }
+
+  .pillar-arrow {
+    display: none;
+  }
+
+  .pillar-leaves-flow,
+  .pillar-leaves-stack {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .flow-arrow {
+    display: none;
+  }
+
+  .tree-leaf-card {
+    width: 100%;
+    justify-content: flex-start;
   }
 }

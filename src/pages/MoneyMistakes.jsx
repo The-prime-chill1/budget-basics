@@ -17,10 +17,12 @@ import {
   Download
 } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading';
+import { useCurrency } from '../context/CurrencyContext';
 import { moneyMistakes } from '../data/mistakes';
 import './MoneyMistakes.css';
 
 export default function MoneyMistakes() {
+  const { currency, format } = useCurrency();
   const [openAccordionId, setOpenAccordionId] = useState('mistake-1');
 
   const [checkedRisks, setCheckedRisks] = useState({});
@@ -54,7 +56,7 @@ AUDIT CHECKLIST BREAKDOWN:
    Risk: Spending large allowance portions within the first 72 hours.
    Action: Apply the 48-Hour Cooling Off Rule before discretionary buys.
 
-2. [${checkedRisks['micro'] ? 'FLAGGED' : 'CLEAN'}] Untracked Micro-Transactions (Under ₦1,000)
+2. [${checkedRisks['micro'] ? 'FLAGGED' : 'CLEAN'}] Untracked Micro-Transactions (Under ${currency.symbol}1,000)
    Risk: Small unlogged snacks and rides accumulate to over 30% of funds.
    Action: Log daily outlays into the BudgetBasics Expense Planner.
 
@@ -199,7 +201,7 @@ Live Platform: https://budgetbasics-two.vercel.app/
                   className="audit-checkbox"
                 />
                 <span className="check-text">
-                  I rarely track small purchases (under ₦1,000) and wonder where my allowance disappeared.
+                  I rarely track small purchases (under {currency.symbol}1,000) and wonder where my allowance disappeared.
                 </span>
               </label>
 

@@ -20,6 +20,7 @@ import {
   Compass,
   Star
 } from 'lucide-react';
+import { useCurrency } from '../context/CurrencyContext';
 import './NeedsVsWants.css';
 
 const DRILL_ITEMS = [
@@ -245,14 +246,14 @@ export default function NeedsVsWants() {
                 >
                   <div className="acc-btn-left">
                     <Coffee size={16} className="acc-icon" />
-                    <span className="acc-name">The Latte Factor ($7 Daily Leaks)</span>
+                    <span className="acc-name">The Latte Factor (Daily Leaks)</span>
                   </div>
                   {openMistake === 'latte' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                 </button>
                 {openMistake === 'latte' && (
                   <div className="mistake-acc-content animate-fade-in">
                     <p>
-                      <strong>The Trap:</strong> Dismissing daily small canteen drinks that total over $210 monthly.
+                      <strong>The Trap:</strong> Dismissing daily small canteen drinks that add up significantly each month.
                     </p>
                     <p>
                       <strong>The Fix:</strong> Carry a thermos and log daily incidental purchases in the Planner.

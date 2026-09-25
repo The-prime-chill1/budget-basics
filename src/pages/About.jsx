@@ -19,9 +19,11 @@ import {
   AtSign
 } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading';
+import { useCurrency } from '../context/CurrencyContext';
 import './About.css';
 
 export default function About() {
+  const { currency } = useCurrency();
   return (
     <div className="about-page page-wrapper animate-fade-in">
       <div className="app-container">
@@ -57,8 +59,8 @@ export default function About() {
               <span className="stat-desc">Sign-up Barriers</span>
             </div>
             <div className="about-stat-box">
-              <strong className="stat-number">₦</strong>
-              <span className="stat-desc">Nigerian Currency Standard</span>
+              <strong className="stat-number">{currency.symbol}</strong>
+              <span className="stat-desc">Active: {currency.code} ({currency.name})</span>
             </div>
           </div>
         </div>

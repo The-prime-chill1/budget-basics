@@ -1,19 +1,17 @@
 // 50/30/20 rule calculator with interactive donut visualization, category breakdown, and weekly limits
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Home as HomeIcon,
   Coffee,
   Shield,
   Info,
-  CheckSquare,
-  Square,
   Sliders,
-  Sparkles,
   Calculator,
   Lightbulb,
   Award
 } from 'lucide-react';
 import { calculate503020 } from '../utils/budgetCalculations';
+import { useCurrency } from '../context/CurrencyContext';
 import './Budget503020.css';
 
 const SCENARIOS = {
@@ -47,8 +45,8 @@ const SCENARIOS = {
 };
 
 export default function Budget503020() {
-  const [incomeInput, setIncomeInput] = useState('1000');
-  const [currencySymbol, setCurrencySymbol] = useState('$');
+  const { currency, format } = useCurrency();
+  const [incomeInput, setIncomeInput] = useState(() => (currency.defaultAmount || 60000).toString());
   const [activeScenario, setActiveScenario] = useState('dorm');
 
   const [actionSteps, setActionSteps] = useState({
@@ -56,6 +54,11 @@ export default function Budget503020() {
     step2: false,
     step3: false
   });
+
+  // Automatically update income when user switches currency in the navbar
+  useEffect(() => {
+    setIncomeInput((currency.defaultAmount || 60000).toString());
+  }, [currency.code]);
 
   const numericIncome = Number(incomeInput.replace(/,/g, '')) || 0;
   const calc = calculate503020(numericIncome);
@@ -75,7 +78,7 @@ export default function Budget503020() {
       <div className="hero-concept-card bee-card-hero">
         <div className="concept-header-row">
           <div className="concept-mascot-frame">
-            <img src="/mascot-bee.png" alt="Bee" className="mascot-img" />
+            <img src="/mascot-bee.png" alt="Bee Mascot" className="mascot-img" />
           </div>
           <div className="concept-title-group">
             <span className="concept-badge-pill">Concept 101 &bull; Warren Formula</span>
@@ -90,235 +93,228 @@ export default function Budget503020() {
       <div className="budget-desktop-layout">
         <div className="budget-col-left">
           <div className="allocator-card bee-card">
-        <div className="allocator-head">
-          <div>
-            <span className="allocator-sub">INTERACTIVE ALLOCATOR</span>
-            <h2 className="allocator-title">Monthly Student Cash Flow</h2>
-          </div>
-          <Calculator size={20} className="allocator-icon" />
-        </div>
-
-        <div className="income-input-group">
-          <label htmlFor="student-income" className="input-field-label">
-            Total Monthly Allowance / Paycheck ({currencySymbol})
-          </label>
-          <div className="input-with-preset">
-            <div className="symbol-input-box">
-              <span className="currency-prefix">{currencySymbol}</span>
-              <input
-                id="student-income"
-                type="number"
-                value={incomeInput}
-                onChange={(e) => setIncomeInput(e.target.value)}
-                placeholder="1000"
-                className="bee-input income-field"
-                min="10"
-              />
+            <div className="allocator-head">
+              <div>
+                <span className="allocator-sub">INTERACTIVE ALLOCATOR</span>
+                <h2 className="allocator-title">Monthly Student Cash Flow</h2>
+              </div>
+              <Calculator size={20} className="allocator-icon" />
             </div>
-            <button
-              type="button"
-              className="preset-btn"
-              onClick={() => handlePreset(currencySymbol === '$' ? 1000 : 100000)}
-            >
-              Preset {currencySymbol === '$' ? '$1k' : '₦100k'}
-            </button>
-            <button
-              type="button"
-              className="currency-toggle-btn"
-              onClick={() => {
-                const next = currencySymbol === '$' ? '₦' : '$';
-                setCurrencySymbol(next);
-                setIncomeInput(next === '$' ? '1000' : '100000');
-              }}
-              title="Toggle $ / ₦ currency"
-            >
-              {currencySymbol === '$' ? 'Switch to ₦' : 'Switch to $'}
-            </button>
-          </div>
-        </div>
 
-        <div className="allocation-ratio-block">
-          <div className="ratio-title-row">
-            <span className="ratio-label">Visual Allocation Ratio</span>
-            <strong className="ratio-status">100% Balanced</strong>
-          </div>
-          <div className="three-segment-bar">
-            <div className="seg seg-50-needs" style={{ width: '50%' }}></div>
-            <div className="seg seg-30-wants" style={{ width: '30%' }}></div>
-            <div className="seg seg-20-savings" style={{ width: '20%' }}></div>
-          </div>
-          <div className="ratio-legend">
-            <span className="leg-item leg-needs"><span className="dot dot-needs"></span> 50% Needs</span>
-            <span className="leg-item leg-wants"><span className="dot dot-wants"></span> 30% Wants</span>
-            <span className="leg-item leg-savings"><span className="dot dot-savings"></span> 20% Savings</span>
-          </div>
-        </div>
-
-        <div className="category-cards-stack">
-          <div className="cat-card cat-card-needs">
-            <div className="cat-card-header">
-              <div className="cat-icon-frame bg-needs">
-                <HomeIcon size={18} />
-              </div>
-              <div className="cat-header-text">
-                <span className="cat-pill pill-needs">50% Essential</span>
-                <h3 className="cat-name">Needs</h3>
-              </div>
-              <div className="cat-amount-box">
-                <strong className="cat-amount">{currencySymbol}{Math.round(calc.needs).toLocaleString()}</strong>
-                <span className="cat-freq">/ month</span>
+            <div className="income-input-group">
+              <label htmlFor="student-income" className="input-field-label">
+                Total Monthly Allowance / Paycheck ({currency.code})
+              </label>
+              <div className="input-with-preset">
+                <div className="symbol-input-box">
+                  <span className="currency-prefix">{currency.symbol}</span>
+                  <input
+                    id="student-income"
+                    type="number"
+                    value={incomeInput}
+                    onChange={(e) => setIncomeInput(e.target.value)}
+                    placeholder={currency.defaultAmount.toString()}
+                    className="bee-input income-field"
+                    min="1"
+                  />
+                </div>
+                <div className="presets-button-group">
+                  {currency.presets.map((p) => (
+                    <button
+                      key={p.label}
+                      type="button"
+                      className={`preset-btn ${Number(numericIncome) === p.value ? 'active' : ''}`}
+                      onClick={() => handlePreset(p.value)}
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
-            <p className="cat-body-text">
-              Housing / room rent, dining plan or grocery staples, campus transit passes, textbooks, and health insurance copays.
-            </p>
-          </div>
 
-          <div className="cat-card cat-card-wants">
-            <div className="cat-card-header">
-              <div className="cat-icon-frame bg-wants">
-                <Coffee size={18} />
+            <div className="allocation-ratio-block">
+              <div className="ratio-title-row">
+                <span className="ratio-label">Visual Allocation Ratio</span>
+                <strong className="ratio-status">100% Balanced</strong>
               </div>
-              <div className="cat-header-text">
-                <span className="cat-pill pill-wants">30% Lifestyle</span>
-                <h3 className="cat-name">Wants</h3>
+              <div className="three-segment-bar">
+                <div className="seg seg-50-needs" style={{ width: '50%' }} title="50% Needs"></div>
+                <div className="seg seg-30-wants" style={{ width: '30%' }} title="30% Wants"></div>
+                <div className="seg seg-20-savings" style={{ width: '20%' }} title="20% Savings"></div>
               </div>
-              <div className="cat-amount-box">
-                <strong className="cat-amount">{currencySymbol}{Math.round(calc.wants).toLocaleString()}</strong>
-                <span className="cat-freq">/ month</span>
+              <div className="ratio-legend">
+                <span className="legend-item"><span className="legend-dot dot-needs"></span> 50% Needs</span>
+                <span className="legend-item"><span className="legend-dot dot-wants"></span> 30% Wants</span>
+                <span className="legend-item"><span className="legend-dot dot-savings"></span> 20% Savings</span>
               </div>
             </div>
-            <p className="cat-body-text">
-              Cold brew runs, Spotify & streaming subs, gaming drops, campus social events, and weekend road trips.
-            </p>
-          </div>
 
-          <div className="cat-card cat-card-savings">
-            <div className="cat-card-header">
-              <div className="cat-icon-frame bg-savings">
-                <Shield size={18} />
+            <div className="category-cards-stack">
+              <div className="cat-card cat-card-needs">
+                <div className="cat-card-header">
+                  <div className="cat-icon-frame bg-needs">
+                    <HomeIcon size={18} />
+                  </div>
+                  <div className="cat-header-text">
+                    <span className="cat-pill pill-needs">50% Essential</span>
+                    <h3 className="cat-name">Needs</h3>
+                  </div>
+                  <div className="cat-amount-box">
+                    <strong className="cat-amount">{format(calc.needs)}</strong>
+                    <span className="cat-freq">/ month</span>
+                  </div>
+                </div>
+                <p className="cat-body-text">
+                  Housing / room rent, dining plan or grocery staples, campus transit passes, textbooks, and health insurance copays.
+                </p>
               </div>
-              <div className="cat-header-text">
-                <span className="cat-pill pill-savings">20% Growth</span>
-                <h3 className="cat-name">Savings & Debt</h3>
+
+              <div className="cat-card cat-card-wants">
+                <div className="cat-card-header">
+                  <div className="cat-icon-frame bg-wants">
+                    <Coffee size={18} />
+                  </div>
+                  <div className="cat-header-text">
+                    <span className="cat-pill pill-wants">30% Lifestyle</span>
+                    <h3 className="cat-name">Wants</h3>
+                  </div>
+                  <div className="cat-amount-box">
+                    <strong className="cat-amount">{format(calc.wants)}</strong>
+                    <span className="cat-freq">/ month</span>
+                  </div>
+                </div>
+                <p className="cat-body-text">
+                  Cold brew runs, Spotify & streaming subs, gaming drops, campus social events, and weekend road trips.
+                </p>
               </div>
-              <div className="cat-amount-box">
-                <strong className="cat-amount">{currencySymbol}{Math.round(calc.savings).toLocaleString()}</strong>
-                <span className="cat-freq">/ month</span>
+
+              <div className="cat-card cat-card-savings">
+                <div className="cat-card-header">
+                  <div className="cat-icon-frame bg-savings">
+                    <Shield size={18} />
+                  </div>
+                  <div className="cat-header-text">
+                    <span className="cat-pill pill-savings">20% Growth</span>
+                    <h3 className="cat-name">Savings & Debt</h3>
+                  </div>
+                  <div className="cat-amount-box">
+                    <strong className="cat-amount">{format(calc.savings)}</strong>
+                    <span className="cat-freq">/ month</span>
+                  </div>
+                </div>
+                <p className="cat-body-text">
+                  High-yield rainy day fund, emergency repairs, graduation security cushion, or prepaying unsubsidized student interest.
+                </p>
               </div>
             </div>
-            <p className="cat-body-text">
-              High-yield rainy day fund, emergency repairs, graduation security cushion, or prepaying unsubsidized student interest.
-            </p>
+
+            <div className="guideline-note-box">
+              <Info size={16} className="note-icon" />
+              <p className="note-text">
+                <strong>Student Guideline Note:</strong> This calculation is an educational guideline and estimate for learning purposes only. Individual needs may adjust ratios based on tuition variations, living rent-free at home, or campus stipends.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div className="guideline-note-box">
-          <Info size={16} className="note-icon" />
-          <p className="note-text">
-            <strong>Student Guideline Note:</strong> This calculation is an educational guideline and estimate for learning purposes only. Individual needs may adjust ratios based on tuition variations, living rent-free at home, or campus stipends.
-          </p>
+        <div className="budget-col-right">
+          <div className="scenarios-card bee-card">
+            <div className="scenarios-head">
+              <div>
+                <span className="scenarios-sub">REAL STUDENT SCENARIOS</span>
+                <h2 className="scenarios-title">Adapt the Rule to Your Life</h2>
+              </div>
+              <Sliders size={20} className="scenarios-icon" />
+            </div>
+
+            <div className="scenario-tabs-pill">
+              {['dorm', 'commuter', 'working'].map((tabKey) => (
+                <button
+                  key={tabKey}
+                  type="button"
+                  className={`scenario-tab-btn ${activeScenario === tabKey ? 'active' : ''}`}
+                  onClick={() => setActiveScenario(tabKey)}
+                >
+                  {tabKey.charAt(0).toUpperCase() + tabKey.slice(1)}
+                </button>
+              ))}
+            </div>
+
+            <div className="scenario-body-box">
+              <div className="scenario-title-row">
+                <h3 className="scenario-name">{currentScenario.title}</h3>
+                <span className="scenario-badge-pill">{currentScenario.badge}</span>
+              </div>
+
+              <p className="scenario-quote">“{currentScenario.quote}”</p>
+
+              <div className="scenario-split-banner">
+                <span className="split-label">Suggested Split:</span>
+                <strong className="split-val">
+                  {currentScenario.needsPct}% Needs + {currentScenario.wantsPct}% Wants + {currentScenario.savingsPct}% Savings
+                </strong>
+              </div>
+
+              <div className="mini-scenario-bar">
+                <div className="seg seg-50-needs" style={{ width: `${currentScenario.needsPct}%` }}></div>
+                <div className="seg seg-30-wants" style={{ width: `${currentScenario.wantsPct}%` }}></div>
+                <div className="seg seg-20-savings" style={{ width: `${currentScenario.savingsPct}%` }}></div>
+              </div>
+
+              <div className="scenario-advice-callout">
+                <Lightbulb size={18} className="callout-icon" />
+                <p className="callout-text">{currentScenario.advice}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="action-steps-card bee-card">
+            <div className="action-steps-header">
+              <Award size={20} className="steps-star-icon" />
+              <h3 className="action-steps-title">BeeWise Action Steps</h3>
+            </div>
+
+            <div className="steps-checklist">
+              <label className="step-check-row">
+                <input
+                  type="checkbox"
+                  checked={actionSteps.step1}
+                  onChange={() => toggleActionStep('step1')}
+                  className="step-checkbox"
+                />
+                <span className={`step-text ${actionSteps.step1 ? 'step-done' : ''}`}>
+                  Calculate your total net monthly income after taxes & financial aid deposits.
+                </span>
+              </label>
+
+              <label className="step-check-row">
+                <input
+                  type="checkbox"
+                  checked={actionSteps.step2}
+                  onChange={() => toggleActionStep('step2')}
+                  className="step-checkbox"
+                />
+                <span className={`step-text ${actionSteps.step2 ? 'step-done' : ''}`}>
+                  Automate the 20% ({format(calc.savings)}) into a High-Yield Savings Account on the 1st of every month.
+                </span>
+              </label>
+
+              <label className="step-check-row">
+                <input
+                  type="checkbox"
+                  checked={actionSteps.step3}
+                  onChange={() => toggleActionStep('step3')}
+                  className="step-checkbox"
+                />
+                <span className={`step-text ${actionSteps.step3 ? 'step-done' : ''}`}>
+                  Review active subscriptions to keep wants locked at or below 30% ({format(calc.wants)}).
+                </span>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
-    <div className="budget-col-right">
-      <div className="scenarios-card bee-card">
-        <div className="scenarios-head">
-          <div>
-            <span className="scenarios-sub">REAL STUDENT SCENARIOS</span>
-            <h2 className="scenarios-title">Adapt the Rule to Your Life</h2>
-          </div>
-          <Sliders size={20} className="scenarios-icon" />
-        </div>
-
-        <div className="scenario-tabs-pill">
-          {['dorm', 'commuter', 'working'].map((tabKey) => (
-            <button
-              key={tabKey}
-              type="button"
-              className={`scenario-tab-btn ${activeScenario === tabKey ? 'active' : ''}`}
-              onClick={() => setActiveScenario(tabKey)}
-            >
-              {tabKey.charAt(0).toUpperCase() + tabKey.slice(1)}
-            </button>
-          ))}
-        </div>
-
-        <div className="scenario-body-box">
-          <div className="scenario-title-row">
-            <h3 className="scenario-name">{currentScenario.title}</h3>
-            <span className="scenario-badge-pill">{currentScenario.badge}</span>
-          </div>
-
-          <p className="scenario-quote">“{currentScenario.quote}”</p>
-
-          <div className="scenario-split-banner">
-            <span className="split-label">Suggested Split:</span>
-            <strong className="split-val">
-              {currentScenario.needsPct}% Needs + {currentScenario.wantsPct}% Wants + {currentScenario.savingsPct}% Savings
-            </strong>
-          </div>
-
-          <div className="mini-scenario-bar">
-            <div className="seg seg-50-needs" style={{ width: `${currentScenario.needsPct}%` }}></div>
-            <div className="seg seg-30-wants" style={{ width: `${currentScenario.wantsPct}%` }}></div>
-            <div className="seg seg-20-savings" style={{ width: `${currentScenario.savingsPct}%` }}></div>
-          </div>
-
-          <div className="scenario-advice-callout">
-            <Lightbulb size={18} className="callout-icon" />
-            <p className="callout-text">{currentScenario.advice}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="action-steps-card bee-card">
-        <div className="action-steps-header">
-          <Award size={20} className="steps-star-icon" />
-          <h3 className="action-steps-title">BeeWise Action Steps</h3>
-        </div>
-
-        <div className="steps-checklist">
-          <label className="step-check-row">
-            <input
-              type="checkbox"
-              checked={actionSteps.step1}
-              onChange={() => toggleActionStep('step1')}
-              className="step-checkbox"
-            />
-            <span className={`step-text ${actionSteps.step1 ? 'step-done' : ''}`}>
-              Calculate your total net monthly income after taxes & financial aid deposits.
-            </span>
-          </label>
-
-          <label className="step-check-row">
-            <input
-              type="checkbox"
-              checked={actionSteps.step2}
-              onChange={() => toggleActionStep('step2')}
-              className="step-checkbox"
-            />
-            <span className={`step-text ${actionSteps.step2 ? 'step-done' : ''}`}>
-              Automate the 20% ({currencySymbol}{Math.round(calc.savings)}) into a High-Yield Savings Account on the 1st of every month.
-            </span>
-          </label>
-
-          <label className="step-check-row">
-            <input
-              type="checkbox"
-              checked={actionSteps.step3}
-              onChange={() => toggleActionStep('step3')}
-              className="step-checkbox"
-            />
-            <span className={`step-text ${actionSteps.step3 ? 'step-done' : ''}`}>
-              Review active subscriptions to keep wants locked at or below 30% ({currencySymbol}{Math.round(calc.wants)}).
-            </span>
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
   );
 }

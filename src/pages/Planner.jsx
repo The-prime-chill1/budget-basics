@@ -16,6 +16,7 @@ import {
   FileText
 } from 'lucide-react';
 import Modal from '../components/Modal';
+import { useCurrency } from '../context/CurrencyContext';
 import { calculateSavingsGoal } from '../utils/budgetCalculations';
 import './Planner.css';
 
@@ -37,6 +38,8 @@ const INITIAL_EXPENSES = [
 ];
 
 export default function Planner() {
+  const { currency, format } = useCurrency();
+  const sym = currency.symbol;
   const [goalName, setGoalName] = useState('Emergency Laptop Fund');
   const [targetAmount, setTargetAmount] = useState('1200');
   const [currentSaved, setCurrentSaved] = useState('300');
@@ -158,7 +161,7 @@ export default function Planner() {
 
           <div className="fields-2col">
             <div className="field-group">
-              <label className="field-label">Target Amount ($)</label>
+              <label className="field-label">Target Amount ({sym})</label>
               <input
                 type="number"
                 value={targetAmount}
@@ -168,7 +171,7 @@ export default function Planner() {
               />
             </div>
             <div className="field-group">
-              <label className="field-label">Current Saved ($)</label>
+              <label className="field-label">Current Saved ({sym})</label>
               <input
                 type="number"
                 value={currentSaved}
@@ -181,8 +184,8 @@ export default function Planner() {
 
           <div className="field-group">
             <div className="slider-header-row">
-              <label className="field-label">Expected Monthly Savings ($)</label>
-              <span className="monthly-rate-pill">${monthlySavings}/mo</span>
+              <label className="field-label">Expected Monthly Savings ({sym})</label>
+              <span className="monthly-rate-pill">{format(monthlySavings)}/mo</span>
             </div>
             <div className="slider-input-combo">
               <input
@@ -203,7 +206,7 @@ export default function Planner() {
           <div className="goal-metrics-row">
             <div>
               <span className="res-label">REMAINING TO SAVE</span>
-              <strong className="res-amount">${goalCalc.remainingAmount.toFixed(2)}</strong>
+              <strong className="res-amount">{format(goalCalc.remainingAmount, true)}</strong>
             </div>
             <div className="res-time-box">
               <span className="res-label">TIME TO TARGET</span>
@@ -227,7 +230,7 @@ export default function Planner() {
           <div className="star-callout-card">
             <Star size={18} className="star-icon" />
             <p className="callout-text">
-              Great buzz! At <strong>${monthlySavings}/mo</strong>, you will achieve your <strong>{goalName || 'Goal'}</strong> in approximately <strong>{goalCalc.estimatedMonths} months</strong>!
+              Great buzz! At <strong>{format(monthlySavings)}/mo</strong>, you will achieve your <strong>{goalName || 'Goal'}</strong> in approximately <strong>{goalCalc.estimatedMonths} months</strong>!
             </p>
           </div>
         </div>
@@ -260,7 +263,7 @@ export default function Planner() {
               <span className="stat-name">Total Planned</span>
               <FileText size={18} className="stat-icon-receipt text-gold" />
             </div>
-            <strong className="stat-amount">${totalPlanned.toFixed(2)}</strong>
+            <strong className="stat-amount">{format(totalPlanned, true)}</strong>
             <span className="stat-helper">Current active log total</span>
           </div>
 
@@ -269,8 +272,8 @@ export default function Planner() {
               <span className="stat-name">Demo Allowance</span>
               <span className="on-track-pill">On Track</span>
             </div>
-            <strong className="stat-amount stat-emerald">${remainingAllowance.toFixed(2)}</strong>
-            <span className="stat-helper">Base: ${monthlyAllowance} monthly budget</span>
+            <strong className="stat-amount stat-emerald">{format(remainingAllowance, true)}</strong>
+            <span className="stat-helper">Base: {format(monthlyAllowance)} monthly budget</span>
           </div>
         </div>
 
@@ -292,7 +295,7 @@ export default function Planner() {
                   <span className="expense-sub">{item.category} &bull; {item.date}</span>
                 </div>
                 <div className="expense-right-actions">
-                  <span className="expense-cost">-${Number(item.amount).toFixed(2)}</span>
+                  <span className="expense-cost">-{format(Number(item.amount), true)}</span>
                   <button
                     type="button"
                     className="action-icon-btn"
@@ -364,7 +367,7 @@ export default function Planner() {
               />
             </div>
             <div className="field-group">
-              <label className="field-label">Amount ($)</label>
+              <label className="field-label">Amount ({sym})</label>
               <input
                 type="number"
                 step="0.01"

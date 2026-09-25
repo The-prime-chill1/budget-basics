@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading';
 import EmptyState from '../components/EmptyState';
+import { useCurrency } from '../context/CurrencyContext';
 import { featuredTips } from '../data/tips';
 import { moneyMistakes } from '../data/mistakes';
 import { infographicsData } from '../data/gallery';
@@ -68,7 +69,7 @@ const ALL_SEARCHABLE_ITEMS = [
     type: 'Core Concept',
     category: 'Saving',
     title: 'Student Emergency Buffer Fund',
-    summary: 'A ₦10,000 to ₦30,000 cash reserve to protect against sudden medical or academic emergencies.',
+    summary: 'A small cash reserve to protect against sudden medical or academic emergencies.',
     details: 'Keeps students resilient without high-interest borrowing or falling behind on tuition.',
     link: '/savings-goals',
     icon: Target

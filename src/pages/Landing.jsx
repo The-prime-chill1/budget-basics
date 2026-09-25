@@ -34,6 +34,8 @@ import {
   Search
 } from 'lucide-react';
 import BrandLogo from '../components/BrandLogo';
+import CurrencySelector from '../components/CurrencySelector';
+import { useCurrency } from '../context/CurrencyContext';
 import { getOrCreateStudentSession } from '../utils/userSession';
 import './Landing.css';
 import '../components/Navbar.css';
@@ -90,7 +92,12 @@ export default function Landing() {
   const [session] = useState(() => getOrCreateStudentSession());
   const [drawerSearch, setDrawerSearch] = useState('');
   const navigate = useNavigate();
-  const [monthlyIncome, setMonthlyIncome] = useState(1200);
+  const { currency, format, convertFromNgn } = useCurrency();
+  const [monthlyIncome, setMonthlyIncome] = useState(() => currency.defaultAmount || 60000);
+
+  useEffect(() => {
+    setMonthlyIncome(currency.defaultAmount || 60000);
+  }, [currency.code]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMobileSection, setActiveMobileSection] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -362,6 +369,7 @@ export default function Landing() {
               </div>
             </div>
             <div className="drawer-profile-actions">
+              <CurrencySelector className="drawer-currency-selector" />
               <Link
                 to="/cockpit"
                 className="drawer-profile-btn drawer-profile-btn-primary"
@@ -398,7 +406,7 @@ export default function Landing() {
         <div className="stitch-header-inner">
           <div className="stitch-brand-wrap">
             <Link to="/" className="stitch-brand-link" aria-label="BudgetBasics Home">
-              <BrandLogo height={48} showTagline={false} idPrefix="landingHead" />
+              <BrandLogo height={56} showTagline={false} idPrefix="landingHead" />
             </Link>
           </div>
 
@@ -443,11 +451,6 @@ export default function Landing() {
                 )}
               </div>
             ))}
-
-            <Link to="/chatbot" className="stitch-nav-link stitch-nav-guide">
-              <Sparkles size={14} className="text-gold" />
-              <span>AI Assistant</span>
-            </Link>
           </nav>
 
           <div className="stitch-header-actions">
@@ -459,6 +462,7 @@ export default function Landing() {
             <Link to="/cockpit" className="stitch-launch-btn">
               <span>Launch Web App</span>
             </Link>
+            <CurrencySelector />
 
             <button
               type="button"
@@ -583,120 +587,127 @@ export default function Landing() {
 
       <section className="landing-calc-section" id="calculator-preview">
         <div className="calc-container-box">
-          <div className="calc-header-center">
-            <span className="landing-kicker">Interactive Sandbox</span>
-            <h2 className="calc-section-title">Try The 50/30/20 Split In 5 Seconds</h2>
-            <p className="calc-section-subtitle">
-              Drag the slider or enter your monthly allowance, paycheck, or stipend to visualize immediate financial clarity.
-            </p>
-          </div>
-
-          <div className="calc-inner-card">
-            <div className="calc-input-row">
-              <label htmlFor="monthly-income-input" className="calc-input-label">
-                Monthly Inflow (Work-Study / Stipend / Aid)
-              </label>
-              <div className="calc-currency-wrapper">
-                <span className="calc-currency-prefix">$</span>
-                <input
-                  id="monthly-income-input"
-                  type="number"
-                  min="100"
-                  max="10000"
-                  step="50"
-                  value={monthlyIncome}
-                  onChange={(e) => setMonthlyIncome(e.target.value)}
-                  className="calc-number-input"
-                />
-              </div>
-            </div>
-
-            <div className="calc-slider-box">
-              <input
-                type="range"
-                min="300"
-                max="4000"
-                step="25"
-                value={monthlyIncome}
-                onChange={(e) => setMonthlyIncome(e.target.value)}
-                className="calc-range-slider"
+          <div className="calc-split-layout">
+            <div className="calc-image-column">
+              <img
+                src="/student-budgeting-hero.jpg"
+                alt="Diverse university students collaboratively planning their budget with charts and a piggy bank"
+                className="calc-hero-image"
               />
-              <div className="calc-slider-scale">
-                <span>$300/mo (Light part-time)</span>
-                <span>$4,000/mo (Full stipend)</span>
-              </div>
-            </div>
-
-            <div className="calc-presets-row">
-              <span className="calc-preset-label">Quick Campus Scenarios:</span>
-              <div className="calc-preset-btns">
-                <button
-                  type="button"
-                  onClick={() => setMonthlyIncome(500)}
-                  className={`calc-preset-btn ${Number(monthlyIncome) === 500 ? 'active' : ''}`}
-                >
-                  $500 Work-Study
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setMonthlyIncome(1200)}
-                  className={`calc-preset-btn ${Number(monthlyIncome) === 1200 ? 'active' : ''}`}
-                >
-                  $1,200 Undergrad
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setMonthlyIncome(2400)}
-                  className={`calc-preset-btn ${Number(monthlyIncome) === 2400 ? 'active' : ''}`}
-                >
-                  $2,400 Grad Fellow
-                </button>
-              </div>
-            </div>
-
-            <div className="calc-stacked-bar">
-              <div className="calc-bar-segment seg-calc-needs" style={{ width: '50%' }} title="50% Needs"></div>
-              <div className="calc-bar-segment seg-calc-wants" style={{ width: '30%' }} title="30% Wants"></div>
-              <div className="calc-bar-segment seg-calc-savings" style={{ width: '20%' }} title="20% Savings"></div>
-            </div>
-
-            <div className="calc-outputs-grid">
-              <div className="calc-output-card">
-                <div className="calc-card-top">
-                  <span className="calc-bucket-tag">50% Needs</span>
-                  <span className="bucket-indicator bg-gold"></span>
+              <div className="calc-image-overlay">
+                <div className="calc-image-badge">
+                  <Sparkles size={14} />
+                  <span>Smart Money Moves Start Here</span>
                 </div>
-                <strong className="calc-bucket-amount">${needsAmount.toLocaleString()}</strong>
-                <p className="calc-bucket-desc">Rent, dining plan, groceries, transit &amp; textbooks.</p>
-              </div>
-
-              <div className="calc-output-card">
-                <div className="calc-card-top">
-                  <span className="calc-bucket-tag">30% Wants</span>
-                  <span className="bucket-indicator bg-indigo"></span>
-                </div>
-                <strong className="calc-bucket-amount">${wantsAmount.toLocaleString()}</strong>
-                <p className="calc-bucket-desc">Weekend boba, streaming, gaming &amp; concerts.</p>
-              </div>
-
-              <div className="calc-output-card">
-                <div className="calc-card-top">
-                  <span className="calc-bucket-tag">20% Savings</span>
-                  <span className="bucket-indicator bg-emerald"></span>
-                </div>
-                <strong className="calc-bucket-amount text-emerald">${savingsAmount.toLocaleString()}</strong>
-                <p className="calc-bucket-desc">Emergency buffer, future travel, post-grad seed.</p>
               </div>
             </div>
 
-            <div className="calc-next-banner">
-              <p className="next-banner-text">
-                <Lightbulb size={16} className="text-gold" style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: '4px' }} />
-                <strong>Next step:</strong> Turn this breakdown into your personal real-time dashboard.
-              </p>
-              <Link to="/50-30-20" className="bee-btn bee-btn-gold calc-lock-btn">
-                <span>Lock In This Budget &rarr;</span>
-              </Link>
+            <div className="calc-content-column">
+              <div className="calc-header-left">
+                <span className="landing-kicker">Interactive Sandbox</span>
+                <h2 className="calc-section-title">Try The 50/30/20 Split In 5 Seconds</h2>
+                <p className="calc-section-subtitle">
+                  Drag the slider or enter your monthly allowance, paycheck, or stipend to visualize immediate financial clarity.
+                </p>
+              </div>
+
+              <div className="calc-inner-card">
+                <div className="calc-input-row">
+                  <label htmlFor="monthly-income-input" className="calc-input-label">
+                    Monthly Inflow (Work-Study / Stipend / Aid)
+                  </label>
+                  <div className="calc-currency-wrapper">
+                    <span className="calc-currency-prefix">{currency.symbol}</span>
+                    <input
+                      id="monthly-income-input"
+                      type="number"
+                      min={currency.minSlider}
+                      max={currency.maxSlider}
+                      step={currency.step}
+                      value={monthlyIncome}
+                      onChange={(e) => setMonthlyIncome(e.target.value)}
+                      className="calc-number-input"
+                    />
+                  </div>
+                </div>
+
+                <div className="calc-slider-box">
+                  <input
+                    type="range"
+                    min={currency.minSlider}
+                    max={currency.maxSlider}
+                    step={currency.step}
+                    value={monthlyIncome}
+                    onChange={(e) => setMonthlyIncome(e.target.value)}
+                    className="calc-range-slider"
+                  />
+                  <div className="calc-slider-scale">
+                    <span>{format(currency.minSlider)} (Light part-time)</span>
+                    <span>{format(currency.maxSlider)} (Full stipend)</span>
+                  </div>
+                </div>
+
+                <div className="calc-presets-row">
+                  <span className="calc-preset-label">Quick Campus Scenarios:</span>
+                  <div className="calc-preset-btns">
+                    {currency.presets.map((preset) => (
+                      <button
+                        key={preset.label}
+                        type="button"
+                        onClick={() => setMonthlyIncome(preset.value)}
+                        className={`calc-preset-btn ${Number(monthlyIncome) === preset.value ? 'active' : ''}`}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="calc-stacked-bar">
+                  <div className="calc-bar-segment seg-calc-needs" style={{ width: '50%' }} title="50% Needs"></div>
+                  <div className="calc-bar-segment seg-calc-wants" style={{ width: '30%' }} title="30% Wants"></div>
+                  <div className="calc-bar-segment seg-calc-savings" style={{ width: '20%' }} title="20% Savings"></div>
+                </div>
+
+                <div className="calc-outputs-grid">
+                  <div className="calc-output-card">
+                    <div className="calc-card-top">
+                      <span className="calc-bucket-tag">50% Needs</span>
+                      <span className="bucket-indicator bg-gold"></span>
+                    </div>
+                    <strong className="calc-bucket-amount">{format(needsAmount)}</strong>
+                    <p className="calc-bucket-desc">Rent, dining plan, groceries, transit &amp; textbooks.</p>
+                  </div>
+
+                  <div className="calc-output-card">
+                    <div className="calc-card-top">
+                      <span className="calc-bucket-tag">30% Wants</span>
+                      <span className="bucket-indicator bg-indigo"></span>
+                    </div>
+                    <strong className="calc-bucket-amount">{format(wantsAmount)}</strong>
+                    <p className="calc-bucket-desc">Weekend outings, streaming, gaming &amp; hobbies.</p>
+                  </div>
+
+                  <div className="calc-output-card">
+                    <div className="calc-card-top">
+                      <span className="calc-bucket-tag">20% Savings</span>
+                      <span className="bucket-indicator bg-emerald"></span>
+                    </div>
+                    <strong className="calc-bucket-amount text-emerald">{format(savingsAmount)}</strong>
+                    <p className="calc-bucket-desc">Emergency buffer, future travel, post-grad seed.</p>
+                  </div>
+                </div>
+
+                <div className="calc-next-banner">
+                  <p className="next-banner-text">
+                    <Lightbulb size={16} className="text-gold" style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: '4px' }} />
+                    <strong>Next step:</strong> Turn this breakdown into your personal real-time dashboard.
+                  </p>
+                  <Link to="/50-30-20" className="bee-btn bee-btn-gold calc-lock-btn">
+                    <span>Lock In This Budget &rarr;</span>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -790,7 +801,7 @@ export default function Landing() {
                 </li>
                 <li>
                   <XCircle size={18} className="text-rose" />
-                  <span><strong>Forgotten recurring traps:</strong> 5 hidden free trials turning into surprise $14.99 charges right during exams.</span>
+                  <span><strong>Forgotten recurring traps:</strong> 5 hidden free trials turning into surprise {format(convertFromNgn(15000))} charges right during exams.</span>
                 </li>
                 <li>
                   <XCircle size={18} className="text-rose" />
@@ -815,7 +826,7 @@ export default function Landing() {
                 </li>
                 <li>
                   <CheckCircle2 size={18} className="text-emerald" />
-                  <span><strong>Zero-Jargon Warmth:</strong> Designed with colorful milestone meters that celebrate every $10 milestone you preserve.</span>
+                  <span><strong>Zero-Jargon Warmth:</strong> Designed with colorful milestone meters that celebrate every {format(convertFromNgn(10000))} milestone you preserve.</span>
                 </li>
               </ul>
             </div>
@@ -868,13 +879,13 @@ export default function Landing() {
                   </span>
                 </div>
               </div>
-              <span className="chat-stipend-tag">Stipend: $400 Left</span>
+              <span className="chat-stipend-tag">Stipend: {format(convertFromNgn(400000))} Left</span>
             </div>
 
             <div className="chat-messages-flow">
               <div className="chat-row user-row">
                 <div className="chat-bubble user-bubble">
-                  Can I afford $85 concert tickets this weekend on my remaining $400 stipend without wrecking groceries?
+                  Can I afford {format(convertFromNgn(85000))} concert tickets this weekend on my remaining {format(convertFromNgn(400000))} stipend without wrecking groceries?
                 </div>
               </div>
 
@@ -887,19 +898,19 @@ export default function Landing() {
                   <div className="bot-breakdown-card">
                     <div className="breakdown-line">
                       <span>Current 30% Wants Bucket:</span>
-                      <strong>$120 available</strong>
+                      <strong>{format(convertFromNgn(120000))} available</strong>
                     </div>
                     <div className="breakdown-line">
                       <span>Concert Ticket:</span>
-                      <strong className="text-rose">-$85.00</strong>
+                      <strong className="text-rose">-{format(convertFromNgn(85000))}</strong>
                     </div>
                     <div className="breakdown-line border-top text-emerald">
                       <span>Remaining Fun Cash for next week:</span>
-                      <strong>$35.00</strong>
+                      <strong>{format(convertFromNgn(35000))}</strong>
                     </div>
                   </div>
                   <p className="bot-p-sub">
-                    Your $200 grocery reserve stays 100% untouched. Go make memories guilt-free!
+                    Your {format(convertFromNgn(200000))} grocery reserve stays 100% untouched. Go make memories guilt-free!
                   </p>
                 </div>
               </div>

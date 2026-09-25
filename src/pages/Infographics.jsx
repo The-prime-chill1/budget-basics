@@ -1,109 +1,66 @@
-// Visual learning gallery displaying financial diagrams, cheat sheets, and downloadable summaries
-import React, { useState } from 'react';
+// Visual learning gallery displaying financial diagrams, high-res infographics, and student blueprints
+import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import {
-  Image as ImageIcon,
   Filter,
   Maximize2,
   CheckCircle2,
   ArrowRight,
-  PieChart,
-  Layers,
-  Sparkles,
-  Zap,
-  TrendingDown,
   Clock,
-  ShieldCheck
+  Sparkles,
+  Lightbulb,
+  Search,
+  ExternalLink,
+  Coins,
+  X,
+  ZoomIn
 } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading';
 import Modal from '../components/Modal';
 import { infographicsData, galleryCategories } from '../data/gallery';
+import { useCurrency } from '../context/CurrencyContext';
 import './Infographics.css';
 
 export default function Infographics() {
   const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedInfographic, setSelectedInfographic] = useState(null);
+  const [lightboxImage, setLightboxImage] = useState(null);
+  const { format, currency } = useCurrency();
 
-  const filteredItems = activeCategory === 'All'
-    ? infographicsData
-    : infographicsData.filter((item) => item.category === activeCategory);
+  // Filter items based on active category and search input
+  const filteredItems = useMemo(() => {
+    return infographicsData.filter((item) => {
+      const matchesCategory = activeCategory === 'All' || item.category === activeCategory;
+      const query = searchQuery.toLowerCase().trim();
+      const matchesSearch =
+        !query ||
+        item.title.toLowerCase().includes(query) ||
+        item.caption.toLowerCase().includes(query) ||
+        item.summary.toLowerCase().includes(query) ||
+        item.category.toLowerCase().includes(query);
 
-  const renderVisualGraphic = (type) => {
+      return matchesCategory && matchesSearch;
+    });
+  }, [activeCategory, searchQuery]);
+
+  // Map infographic types to relevant interactive tool links
+  const getToolLink = (type) => {
     switch (type) {
       case 'pie-breakdown':
-        return (
-          <div className="graphic-canvas graphic-pie">
-            <svg viewBox="0 0 100 100" className="canvas-svg">
-              <circle cx="50" cy="50" r="35" fill="none" stroke="#2563eb" strokeWidth="18" strokeDasharray="110 220" strokeDashoffset="55" />
-              <circle cx="50" cy="50" r="35" fill="none" stroke="#d97706" strokeWidth="18" strokeDasharray="66 220" strokeDashoffset="-55" />
-              <circle cx="50" cy="50" r="35" fill="none" stroke="#059669" strokeWidth="18" strokeDasharray="44 220" strokeDashoffset="-121" />
-            </svg>
-            <div className="graphic-labels-row">
-              <span className="lbl lbl-need">50% Needs</span>
-              <span className="lbl lbl-want">30% Wants</span>
-              <span className="lbl lbl-savings">20% Savings</span>
-            </div>
-          </div>
-        );
+        return { path: '/50-30-20', label: 'Open 50/30/20 Calculator' };
       case 'flow-tree':
-        return (
-          <div className="graphic-canvas graphic-flow">
-            <div className="flow-step step-1">Essential for Health/School?</div>
-            <div className="flow-arrows-split">
-              <div className="split-branch branch-green">YES &rarr; Need (50%)</div>
-              <div className="split-branch branch-orange">NO &rarr; Delay 30 Days</div>
-            </div>
-          </div>
-        );
+        return { path: '/needs-vs-wants', label: 'Try Decision Challenge' };
       case 'cycle-flow':
-        return (
-          <div className="graphic-canvas graphic-cycle">
-            <div className="cycle-ring">
-              <span className="cycle-node node-plan">1. Plan</span>
-              <span className="cycle-node node-track">2. Track</span>
-              <span className="cycle-node node-review">3. Review</span>
-              <span className="cycle-node node-adjust">4. Adjust</span>
-            </div>
-          </div>
-        );
+        return { path: '/budgeting-basics', label: 'Read Budgeting Guide' };
       case 'challenge-grid':
-        return (
-          <div className="graphic-canvas graphic-challenge">
-            <div className="challenge-mini-grid">
-              {[300, 400, 500, 600, 700, 800, 1000, 1200].map((val, i) => (
-                <div key={i} className="mini-box">Day {i + 1}: ₦{val}</div>
-              ))}
-            </div>
-            <div className="challenge-goal-tag">Target: ₦25,000 Buffer</div>
-          </div>
-        );
+        return { path: '/savings-goals', label: 'Set Savings Milestone' };
       case 'comparison-bars':
-        return (
-          <div className="graphic-canvas graphic-comparison">
-            <div className="bar-row">
-              <span>1 Day: ₦1,000</span>
-              <div className="comp-bar bar-1"></div>
-            </div>
-            <div className="bar-row">
-              <span>1 Month: ₦30,000</span>
-              <div className="comp-bar bar-2"></div>
-            </div>
-            <div className="bar-row">
-              <span>1 Year: ₦365,000</span>
-              <div className="comp-bar bar-3"></div>
-            </div>
-          </div>
-        );
+        return { path: '/expense-planner', label: 'Track Daily Expenses' };
       case 'ladder-steps':
-        return (
-          <div className="graphic-canvas graphic-ladder">
-            <div className="ladder-step step-4">4. Goal Mastery (Invest/Grow)</div>
-            <div className="ladder-step step-3">3. Buffer Cushion (₦25k Safety)</div>
-            <div className="ladder-step step-2">2. Daily Tracking (Awareness)</div>
-            <div className="ladder-step step-1">1. Allowance Knowing</div>
-          </div>
-        );
+        return { path: '/cockpit', label: 'Open Financial Cockpit' };
       default:
-        return null;
+        return { path: '/cockpit', label: 'Open Platform Cockpit' };
     }
   };
 
@@ -111,20 +68,23 @@ export default function Infographics() {
     <div className="infographics-page page-wrapper animate-fade-in">
       <div className="app-container">
         <SectionHeading
-          badge="Visual Learning Gallery"
           title="Financial Infographics & Visual Diagrams"
           subtitle="Explore concept maps, visual budgeting flows, and daily savings blueprints built cleanly with modern CSS & SVG."
         />
 
-        <div className="gallery-filter-bar">
+        <div className="gallery-toolbar-card">
           <div className="gallery-filter-group">
-            <Filter size={16} className="filter-icon" />
-            <span className="filter-label">Filter Topic:</span>
-            <div className="filter-pills">
+            <div className="filter-label-wrap">
+              <Filter size={15} className="filter-icon" />
+              <span className="filter-label">Filter Topic:</span>
+            </div>
+            <div className="filter-pills" role="tablist" aria-label="Infographic Categories">
               {galleryCategories.map((cat) => (
                 <button
                   key={cat}
                   type="button"
+                  role="tab"
+                  aria-selected={activeCategory === cat}
                   className={`filter-pill ${activeCategory === cat ? 'active' : ''}`}
                   onClick={() => setActiveCategory(cat)}
                 >
@@ -133,63 +93,136 @@ export default function Infographics() {
               ))}
             </div>
           </div>
+
+          <div className="gallery-search-wrap">
+            <Search size={14} className="gallery-search-icon" />
+            <input
+              type="text"
+              className="gallery-search-input"
+              placeholder="Search diagrams, formulas or topics..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label="Search infographic library"
+            />
+          </div>
+        </div>
+
+        <div className="gallery-status-bar">
           <span className="gallery-count-text">
-            Showing {filteredItems.length} visual{filteredItems.length !== 1 ? 's' : ''}
+            Showing <strong>{filteredItems.length}</strong> of {infographicsData.length} educational diagram{filteredItems.length !== 1 ? 's' : ''}
+          </span>
+          <span className="gallery-currency-badge">
+            <Coins size={13} />
+            <span>Active Currency: <strong>{currency.code} ({currency.symbol})</strong></span>
           </span>
         </div>
 
-        <div className="gallery-grid">
-          {filteredItems.map((info) => (
-            <div
-              key={info.id}
-              className="gallery-card card interactive"
-              onClick={() => setSelectedInfographic(info)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && setSelectedInfographic(info)}
-              aria-label={`View details for ${info.title}`}
+        {filteredItems.length === 0 ? (
+          <div className="gallery-empty-state">
+            <p>No infographic diagrams found matching "{searchQuery}".</p>
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm"
+              onClick={() => {
+                setActiveCategory('All');
+                setSearchQuery('');
+              }}
             >
-              <div className="gallery-visual-frame">
-                {renderVisualGraphic(info.type)}
-                <div className="visual-overlay">
-                  <span className="overlay-pill">
-                    <Maximize2 size={13} />
-                    <span>View Diagram</span>
-                  </span>
+              Reset Filters
+            </button>
+          </div>
+        ) : (
+          <div className="gallery-grid">
+            {filteredItems.map((info) => (
+              <article
+                key={info.id}
+                className="gallery-card card interactive"
+                onClick={() => setSelectedInfographic(info)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && setSelectedInfographic(info)}
+                aria-label={`View diagram for ${info.title}`}
+              >
+                <div className="gallery-visual-frame">
+                  <img
+                    src={info.image}
+                    alt={info.alt}
+                    className="gallery-image-asset"
+                    loading="lazy"
+                  />
+                  <div className="visual-frame-badges">
+                    <span className="frame-category-pill">{info.category}</span>
+                    <span className="frame-time-pill">
+                      <Clock size={11} />
+                      <span>{info.readingTime}</span>
+                    </span>
+                  </div>
+                  <div className="visual-overlay">
+                    <span className="overlay-pill">
+                      <Maximize2 size={13} />
+                      <span>Inspect Diagram</span>
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              <div className="gallery-card-body">
-                <div className="card-top-meta">
-                  <span className="badge badge-want">{info.category}</span>
-                  <span className="info-badge-text">{info.badge}</span>
+                <div className="gallery-card-body">
+                  <div className="card-top-meta">
+                    <span className="info-badge-tag">{info.badge}</span>
+                  </div>
+                  <h3 className="info-card-title">{info.title}</h3>
+                  <p className="info-card-caption">{info.caption}</p>
+
+                  <div className="card-footer-action">
+                    <span className="card-action-text">View Full Infographic</span>
+                    <ArrowRight size={14} className="card-action-arrow" />
+                  </div>
                 </div>
-                <h3 className="info-card-title">{info.title}</h3>
-                <p className="info-card-caption">{info.caption}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+              </article>
+            ))}
+          </div>
+        )}
 
+        {/* Detailed Educational Modal Dialog */}
         <Modal
           isOpen={!!selectedInfographic}
           onClose={() => setSelectedInfographic(null)}
           title={selectedInfographic?.title}
-          maxWidth="640px"
+          maxWidth="760px"
         >
           {selectedInfographic && (
             <div className="modal-info-detail animate-fade-in">
-              <div className="modal-graphic-hero">
-                {renderVisualGraphic(selectedInfographic.type)}
+              <div className="modal-top-meta-row">
+                <div className="modal-meta-tags">
+                  <span className="badge badge-want">{selectedInfographic.category}</span>
+                  <span className="section-badge">{selectedInfographic.badge}</span>
+                </div>
+                <span className="modal-reading-time">
+                  <Clock size={12} />
+                  <span>{selectedInfographic.readingTime}</span>
+                </span>
               </div>
 
-              <div className="modal-badge-row">
-                <span className="badge badge-want">{selectedInfographic.category}</span>
-                <span className="section-badge">{selectedInfographic.badge}</span>
+              {/* Infographic Visual Container with Zoom Option */}
+              <div className="modal-graphic-hero">
+                <img
+                  src={selectedInfographic.image}
+                  alt={selectedInfographic.alt}
+                  className="modal-hero-image"
+                />
+                <button
+                  type="button"
+                  className="modal-zoom-btn"
+                  onClick={() => setLightboxImage(selectedInfographic)}
+                  title="Expand to Fullscreen High-Resolution"
+                >
+                  <ZoomIn size={14} />
+                  <span>Expand High-Res</span>
+                </button>
               </div>
 
               <p className="modal-info-summary">{selectedInfographic.summary}</p>
 
+              {/* Key Educational Takeaways List */}
               <div className="modal-keypoints-box">
                 <h4 className="keypoints-title">Key Educational Takeaways:</h4>
                 <ul className="keypoints-list">
@@ -202,7 +235,19 @@ export default function Infographics() {
                 </ul>
               </div>
 
-              <div className="modal-actions">
+              {/* Sage Campus Pro-Tip Callout */}
+              {selectedInfographic.proTip && (
+                <div className="modal-protip-box">
+                  <div className="protip-header">
+                    <Lightbulb size={16} className="protip-icon" />
+                    <strong>Campus Sage Pro-Tip:</strong>
+                  </div>
+                  <p className="protip-text">{selectedInfographic.proTip}</p>
+                </div>
+              )}
+
+              {/* Modal Footer Actions */}
+              <div className="modal-actions-bar">
                 <button
                   type="button"
                   className="btn btn-secondary"
@@ -210,10 +255,56 @@ export default function Infographics() {
                 >
                   Close Diagram
                 </button>
+
+                {(() => {
+                  const tool = getToolLink(selectedInfographic.type);
+                  return (
+                    <Link
+                      to={tool.path}
+                      className="btn btn-primary modal-action-btn"
+                      onClick={() => setSelectedInfographic(null)}
+                    >
+                      <span>{tool.label}</span>
+                      <ExternalLink size={14} />
+                    </Link>
+                  );
+                })()}
               </div>
             </div>
           )}
         </Modal>
+
+        {/* Fullscreen High-Resolution Lightbox Overlay */}
+        {lightboxImage && (
+          <div
+            className="infographic-lightbox-overlay animate-fade-in"
+            onClick={() => setLightboxImage(null)}
+            role="dialog"
+            aria-modal="true"
+            aria-label="High Resolution Infographic Preview"
+          >
+            <div className="lightbox-content-box" onClick={(e) => e.stopPropagation()}>
+              <div className="lightbox-top-bar">
+                <h4 className="lightbox-title">{lightboxImage.title}</h4>
+                <button
+                  type="button"
+                  className="lightbox-close-btn"
+                  onClick={() => setLightboxImage(null)}
+                  aria-label="Close high-res view"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+              <div className="lightbox-image-wrap">
+                <img
+                  src={lightboxImage.image}
+                  alt={lightboxImage.alt}
+                  className="lightbox-full-image"
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

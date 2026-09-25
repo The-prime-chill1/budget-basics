@@ -85,9 +85,8 @@ export const NAV_SECTIONS = [
   {
     id: 'connect',
     title: 'Get Help / Connect',
-    icon: Bot,
+    icon: MessageSquare,
     links: [
-      { name: 'AI Q&A Assistant', path: '/chatbot', desc: 'BeeWise conversational student tutor' },
       { name: 'About BudgetBasics', path: '/about', desc: 'Project mission, educational standards & audience' },
       { name: 'Student Feedback', path: '/feedback', desc: 'Client-side evaluation and platform rating form' },
       { name: 'Contact Campus Help', path: '/contact', desc: 'Student support directory & academic hotline' },

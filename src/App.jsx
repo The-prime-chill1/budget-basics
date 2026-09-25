@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import TipsTicker from './components/TipsTicker';
 import Footer from './components/Footer';
 import BottomNav from './components/BottomNav';
+import FloatingAI from './components/FloatingAI';
 
 import Home from './pages/Home';
 import BudgetingBasics from './pages/BudgetingBasics';
@@ -22,6 +23,8 @@ import About from './pages/About';
 import Search from './pages/Search';
 import Sitemap from './pages/Sitemap';
 import Landing from './pages/Landing';
+
+import { CurrencyProvider } from './context/CurrencyContext';
 
 // Resets viewport scroll to top on route change
 function ScrollToTop() {
@@ -59,8 +62,9 @@ export default function App() {
   };
 
   return (
-    <div className={`app-shell ${isLandingPage ? 'landing-mode' : ''}`}>
-      <ScrollToTop />
+    <CurrencyProvider>
+      <div className={`app-shell ${isLandingPage ? 'landing-mode' : ''}`}>
+        <ScrollToTop />
 
       {!isLandingPage && (
         <>
@@ -104,6 +108,9 @@ export default function App() {
           <BottomNav />
         </>
       )}
-    </div>
+
+      <FloatingAI />
+      </div>
+    </CurrencyProvider>
   );
 }

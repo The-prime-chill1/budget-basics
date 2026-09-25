@@ -1,63 +1,177 @@
-/* Reusable modal overlay, dialog window, and animation keyframes */
+/* Senior Developer Modal System: Perfectly centered, zero top drift, smooth independent scrolling */
+
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(4px);
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(10, 25, 30, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  z-index: 200;
+  z-index: 1000;
+  overflow: hidden; /* Overlay does not scroll; only modal body scrolls */
+  animation: modalBackdropFadeIn 0.2s ease-out;
+}
+
+@keyframes modalBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-content {
   width: 100%;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-xl);
-  overflow: hidden;
-  max-height: 90vh;
+  background-color: #ffffff;
+  border: 1.5px solid #DCE2CF;
+  border-radius: 20px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35), 0 10px 25px -5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  max-height: calc(100vh - 3rem); /* Guaranteed equal top and bottom spacing */
+  position: relative;
+  overflow: hidden;
+  margin: 0; /* Centered by flex parent */
+  animation: modalPopCenter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme='dark'] .modal-content {
+  background-color: #0b2523;
+  border-color: #1E4A47;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.75);
+}
+
+@keyframes modalPopCenter {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 1.75rem;
-  border-bottom: 1px solid var(--border-subtle);
+  padding: 1.15rem 1.75rem;
+  border-bottom: 1px solid #ECEFE6;
+  flex-shrink: 0; /* Keep header permanently fixed at the top */
+  background-color: #ffffff;
+  z-index: 10;
+}
+
+[data-theme='dark'] .modal-header {
+  background-color: #0b2523;
+  border-bottom-color: #1E4A47;
 }
 
 .modal-title {
   font-size: 1.25rem;
+  font-weight: 800;
+  color: #00513F;
   margin: 0;
+  line-height: 1.3;
+}
+
+[data-theme='dark'] .modal-title {
+  color: #00C4B4;
 }
 
 .modal-close-btn {
-  background: none;
-  border: none;
-  color: var(--text-muted);
+  background: transparent;
+  border: 1.5px solid #DCE2CF;
+  color: #4B6B66;
   cursor: pointer;
-  padding: 0.25rem;
-  border-radius: var(--radius-sm);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color var(--transition-fast), background-color var(--transition-fast);
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+[data-theme='dark'] .modal-close-btn {
+  border-color: #1E4A47;
+  color: #9DBDB7;
 }
 
 .modal-close-btn:hover {
-  color: var(--text-primary);
-  background-color: var(--bg-subtle);
+  color: #00513F;
+  border-color: #00513F;
+  background-color: rgba(0, 81, 63, 0.08);
+  transform: rotate(90deg);
 }
 
+[data-theme='dark'] .modal-close-btn:hover {
+  color: #00C4B4;
+  border-color: #00C4B4;
+  background-color: rgba(0, 196, 180, 0.15);
+}
+
+/* Modal Body - Fluid Flexbox Scrolling */
 .modal-body {
-  padding: 1.75rem;
+  padding: 1.5rem 1.75rem;
   overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1 1 auto;
+  min-height: 0; /* Critical: Enables scrolling inside flex child */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #00513F #F0F4E8;
+}
+
+[data-theme='dark'] .modal-body {
+  scrollbar-color: #00C4B4 #081d1b;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 7px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: #F0F4E8;
+  border-radius: 999px;
+}
+
+[data-theme='dark'] .modal-body::-webkit-scrollbar-track {
+  background: #081d1b;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: #00513F;
+  border-radius: 999px;
+}
+
+[data-theme='dark'] .modal-body::-webkit-scrollbar-thumb {
+  background: #00C4B4;
+}
+
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 1rem;
+  }
+
+  .modal-content {
+    max-height: calc(100vh - 2rem);
+  }
+
+  .modal-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .modal-body {
+    padding: 1.25rem;
+  }
 }
