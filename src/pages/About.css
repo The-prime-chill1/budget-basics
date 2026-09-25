@@ -140,12 +140,24 @@
 @media (max-width: 992px) {
   .about-hero-card {
     grid-template-columns: 1fr;
+    gap: 1.75rem;
+    padding: 1.75rem 1.4rem;
+    margin-bottom: 2.5rem;
   }
   .values-grid {
     grid-template-columns: 1fr;
+    gap: 1.35rem;
+  }
+  .value-card {
+    padding: 1.6rem 1.35rem;
   }
   .audience-section {
     grid-template-columns: 1fr;
+    padding: 1.75rem 1.4rem;
+    gap: 1.75rem;
+  }
+  .pixelforge-card {
+    padding: 1.75rem 1.35rem;
   }
 }
 
