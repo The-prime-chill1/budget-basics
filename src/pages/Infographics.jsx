@@ -1,5 +1,6 @@
 // Visual learning gallery displaying financial diagrams, high-res infographics, and student blueprints
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import {
   Filter,
@@ -119,11 +120,13 @@ export default function Infographics() {
 
     if (selectedInfographic) {
       document.body.style.overflow = 'hidden';
+      document.body.classList.add('studio-modal-active');
       window.addEventListener('keydown', handleKeyDown);
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.body.classList.remove('studio-modal-active');
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [selectedInfographic, currentIndex, filteredItems, isVisualFullscreen]);
@@ -315,14 +318,15 @@ export default function Infographics() {
         )}
 
         {/* Astonishing High-Resolution Infographic Studio Modal */}
-        {selectedInfographic && (
-          <div
-            className="infographic-studio-backdrop animate-fade-in"
-            onClick={handleCloseModal}
-            role="dialog"
-            aria-modal="true"
-            aria-label={selectedInfographic.title}
-          >
+        {selectedInfographic &&
+          createPortal(
+            <div
+              className="infographic-studio-backdrop animate-fade-in"
+              onClick={handleCloseModal}
+              role="dialog"
+              aria-modal="true"
+              aria-label={selectedInfographic.title}
+            >
             <div
               className={`infographic-studio-modal ${isVisualFullscreen ? 'fullscreen-canvas' : ''}`}
               onClick={(e) => e.stopPropagation()}
@@ -562,7 +566,8 @@ export default function Infographics() {
                 )}
               </div>
             </div>
-          </div>
+          </div>,
+          document.body
         )}
       </div>
     </div>

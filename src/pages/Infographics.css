@@ -354,19 +354,30 @@
 .infographic-studio-backdrop {
   position: fixed;
   inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 9999;
+  z-index: 100000;
   background: rgba(3, 14, 16, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.25rem;
+  padding: 1.5rem;
   overflow: hidden;
   box-sizing: border-box;
   animation: studioBackdropFade 0.22s ease-out;
+}
+
+body.studio-modal-active .floating-ai-bubble {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(20px) !important;
+  transition: opacity 0.2s ease, transform 0.2s ease !important;
 }
 
 @keyframes studioBackdropFade {
@@ -379,10 +390,11 @@
 }
 
 .infographic-studio-modal {
-  width: min(1200px, 94vw);
-  height: min(850px, 90vh);
-  max-width: calc(100vw - 2rem);
-  max-height: calc(100vh - 2rem);
+  width: min(1140px, 92vw);
+  height: min(840px, 90vh);
+  max-width: min(1140px, calc(100vw - 3rem));
+  max-height: calc(100vh - 3rem);
+  margin: auto;
   background-color: var(--surface-card);
   border: 1.5px solid rgba(0, 81, 63, 0.25);
   border-radius: 24px;
