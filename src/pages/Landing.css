@@ -356,16 +356,59 @@
   }
 }
 
-@media (max-width: 640px) {
-  .stitch-sign-in-btn {
-    display: none;
+@media (max-width: 768px) {
+  .stitch-header {
+    height: 68px !important;
   }
-  .student-badge-label {
+
+  .stitch-header-inner {
+    padding: 0 0.85rem !important;
+    gap: 0.5rem !important;
+  }
+
+  .stitch-brand-wrap {
+    flex-shrink: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .stitch-brand-link svg {
+    height: 34px !important;
+    width: auto !important;
+    max-width: 140px !important;
+  }
+
+  .stitch-student-badge {
     display: none !important;
   }
-  .stitch-student-badge {
-    padding: 0.35rem 0.65rem;
-    font-size: 0.75rem;
+
+  .stitch-launch-btn {
+    display: none !important;
+  }
+
+  .stitch-sign-in-btn {
+    display: none !important;
+  }
+
+  .stitch-header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .stitch-mobile-menu-btn {
+    display: flex !important;
+    width: 38px !important;
+    height: 38px !important;
+    flex-shrink: 0 !important;
+    border-radius: 10px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .stitch-brand-link svg {
+    height: 30px !important;
+    max-width: 125px !important;
   }
 }
 
