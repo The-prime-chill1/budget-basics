@@ -1,5 +1,5 @@
 // Unified planning workspace combining the savings goals forecaster and session expense logger
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Flag,
   Plus,
@@ -38,27 +38,47 @@ const INITIAL_EXPENSES = [
 ];
 
 export default function Planner() {
-  const { currency, format } = useCurrency();
+  const { currency, format, convertFromNgn } = useCurrency();
   const sym = currency.symbol;
   const [goalName, setGoalName] = useState('Emergency Laptop Fund');
-  const [targetAmount, setTargetAmount] = useState('1200');
-  const [currentSaved, setCurrentSaved] = useState('300');
-  const [monthlySavings, setMonthlySavings] = useState(150);
+  const [targetAmount, setTargetAmount] = useState(() => convertFromNgn(300000).toString());
+  const [currentSaved, setCurrentSaved] = useState(() => convertFromNgn(60000).toString());
+  const [monthlySavings, setMonthlySavings] = useState(() => convertFromNgn(30000));
 
   const [expenses, setExpenses] = useState(INITIAL_EXPENSES);
-  const [monthlyAllowance, setMonthlyAllowance] = useState(500);
+  const [monthlyAllowance, setMonthlyAllowance] = useState(() => convertFromNgn(150000));
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingId, setEditingId] = useState(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    category: 'Food',
-    date: new Date().toISOString().split('T')[0],
-    amount: ''
-  });
+  // Sync default values when active currency changes
+  useEffect(() => {
+    setTargetAmount(convertFromNgn(300000).toString());
+    setCurrentSaved(convertFromNgn(60000).toString());
+    setMonthlySavings(convertFromNgn(30000));
+    setMonthlyAllowance(convertFromNgn(150000));
+  }, [currency.code]);
 
-  const targetNum = Number(targetAmount) || 0;
-  const savedNum = Number(currentSaved) || 0;
+  const targetNum = Math.max(0, Number(targetAmount) || 0);
+  const savedNum = Math.max(0, Number(currentSaved) || 0);
+  const remainingTarget = Math.max(0, targetNum - savedNum);
+
+  // Dynamic slider range: scales intelligently with the goal amount or remaining balance
+  const currencyBaseMax = currency.code === 'NGN' ? 250000 : currency.code === 'INR' ? 50000 : 2500;
+  const computedSliderMax = Math.max(
+    currencyBaseMax,
+    targetNum > 0 ? Math.ceil(targetNum) : currencyBaseMax,
+    remainingTarget > 0 ? Math.ceil(remainingTarget) : currencyBaseMax,
+    monthlySavings > 0 ? Math.ceil(monthlySavings * 1.5) : currencyBaseMax
+  );
+
+  let sliderStep = 10;
+  if (computedSliderMax >= 1000000) sliderStep = 10000;
+  else if (computedSliderMax >= 250000) sliderStep = 5000;
+  else if (computedSliderMax >= 50000) sliderStep = 1000;
+  else if (computedSliderMax >= 10000) sliderStep = 250;
+  else if (computedSliderMax >= 2000) sliderStep = 50;
+  else sliderStep = 25;
+
+  const sliderMin = sliderStep;
+
   const goalCalc = calculateSavingsGoal(targetNum, savedNum, monthlySavings);
 
   const totalPlanned = expenses.reduce((acc, curr) => acc + Number(curr.amount || 0), 0);
@@ -185,20 +205,65 @@ export default function Planner() {
           <div className="field-group">
             <div className="slider-header-row">
               <label className="field-label">Expected Monthly Savings ({sym})</label>
-              <span className="monthly-rate-pill">{format(monthlySavings)}/mo</span>
+              <span className="monthly-rate-pill">{format(monthlySavings || 0)}/mo</span>
             </div>
             <div className="slider-input-combo">
               <input
                 type="range"
-                min="25"
-                max="500"
-                step="25"
-                value={monthlySavings}
+                min={sliderMin}
+                max={computedSliderMax}
+                step={sliderStep}
+                value={Math.min(computedSliderMax, Math.max(0, monthlySavings || 0))}
                 onChange={(e) => setMonthlySavings(Number(e.target.value))}
                 className="monthly-slider"
+                aria-label="Expected Monthly Savings Slider"
               />
-              <div className="slider-val-box">{monthlySavings}</div>
+              <div className="slider-input-wrapper">
+                <span className="slider-input-prefix">{sym}</span>
+                <input
+                  type="number"
+                  min="0"
+                  value={monthlySavings === 0 ? '' : monthlySavings}
+                  onChange={(e) => {
+                    const val = e.target.value === '' ? 0 : Math.max(0, Number(e.target.value));
+                    setMonthlySavings(val);
+                  }}
+                  className="slider-val-input"
+                  placeholder="0"
+                  aria-label="Expected Monthly Savings Amount"
+                />
+              </div>
             </div>
+
+            {remainingTarget > 0 && (
+              <div className="quick-timeline-chips">
+                <span className="timeline-chips-label">Speedrun:</span>
+                <button
+                  type="button"
+                  className="timeline-chip"
+                  onClick={() => setMonthlySavings(Math.ceil(remainingTarget / 3))}
+                  title="Reach goal in 3 months"
+                >
+                  3 mo ({format(Math.ceil(remainingTarget / 3))}/mo)
+                </button>
+                <button
+                  type="button"
+                  className="timeline-chip"
+                  onClick={() => setMonthlySavings(Math.ceil(remainingTarget / 6))}
+                  title="Reach goal in 6 months"
+                >
+                  6 mo ({format(Math.ceil(remainingTarget / 6))}/mo)
+                </button>
+                <button
+                  type="button"
+                  className="timeline-chip"
+                  onClick={() => setMonthlySavings(Math.ceil(remainingTarget / 12))}
+                  title="Reach goal in 12 months"
+                >
+                  12 mo ({format(Math.ceil(remainingTarget / 12))}/mo)
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -230,7 +295,20 @@ export default function Planner() {
           <div className="star-callout-card">
             <Star size={18} className="star-icon" />
             <p className="callout-text">
-              Great buzz! At <strong>{format(monthlySavings)}/mo</strong>, you will achieve your <strong>{goalName || 'Goal'}</strong> in approximately <strong>{goalCalc.estimatedMonths} months</strong>!
+              {goalCalc.isCompleted ? (
+                <span>
+                  Fantastic buzz! You have already achieved your <strong>{goalName || 'Goal'}</strong> target!
+                </span>
+              ) : monthlySavings <= 0 ? (
+                <span>
+                  Enter an expected monthly savings amount above to estimate your milestone completion time.
+                </span>
+              ) : (
+                <span>
+                  Great buzz! At <strong>{format(monthlySavings)}/mo</strong>, you will achieve your <strong>{goalName || 'Goal'}</strong> in approximately <strong>{goalCalc.estimatedMonths} {goalCalc.estimatedMonths === 1 ? 'month' : 'months'}</strong>
+                  {goalCalc.estimatedMonths >= 12 ? ` (about ${(goalCalc.estimatedMonths / 12).toFixed(1)} years)` : ''}!
+                </span>
+              )}
             </p>
           </div>
         </div>

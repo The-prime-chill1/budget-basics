@@ -197,6 +197,103 @@
   cursor: pointer;
 }
 
+.slider-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.slider-input-prefix {
+  position: absolute;
+  left: 0.65rem;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.825rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.slider-val-input {
+  width: 100%;
+  padding: 0.45rem 0.55rem 0.45rem 1.65rem;
+  background-color: var(--surface-low);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  text-align: right;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.slider-val-input:hover {
+  border-color: var(--primary-gold);
+}
+
+.slider-val-input:focus {
+  border-color: var(--primary-gold);
+  background-color: var(--surface-card);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+}
+
+[data-theme='dark'] .slider-val-input {
+  background-color: #1e293b;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+}
+
+[data-theme='dark'] .slider-val-input:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
+}
+
+/* Speedrun quick timeline chips */
+.quick-timeline-chips {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.45rem;
+}
+
+.timeline-chips-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.timeline-chip {
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  background-color: var(--surface-low);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.725rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.timeline-chip:hover {
+  background-color: #fef3c7;
+  border-color: #f59e0b;
+  color: #855300;
+  transform: translateY(-1px);
+}
+
+[data-theme='dark'] .timeline-chip:hover {
+  background-color: rgba(245, 158, 11, 0.2);
+  border-color: #f59e0b;
+  color: #fde68a;
+}
+
 .slider-val-box {
   width: 52px;
   padding: 0.5rem;
