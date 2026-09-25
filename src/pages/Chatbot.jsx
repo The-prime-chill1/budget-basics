@@ -18,7 +18,11 @@ import {
   Mic,
   MicOff,
   Volume2,
-  VolumeX
+  VolumeX,
+  Bot,
+  Sparkles,
+  ArrowUpRight,
+  Headphones
 } from 'lucide-react';
 import { chatbotKnowledge, fallbackChatResponse } from '../data/chatbotResponses';
 import {
@@ -28,16 +32,15 @@ import {
   detectQueryLanguage
 } from '../data/chatbotMultilingual';
 import FormattedChatMessage from '../components/FormattedChatMessage';
-import Modal from '../components/Modal';
 import './Chatbot.css';
 
 const INITIAL_MESSAGES_MAP = {
-  'en-GB': "Bzz! Hello there! I'm **BeeWise**, your personal financial tutor. Ask me anything about student savings, the 50/30/20 rule, or avoiding overspending!",
-  'en-US': "Hey there! I'm **BeeWise**, your student personal finance co-pilot. Ask me anything about building savings, dividing your allowance, or stopping impulse buying!",
-  'en-IN': "Namaste! 🙏 I'm **BeeWise**, your campus finance guide. Ask me about pocket money management, the 50/30/20 rule, hostel expenses, or emergency funds!",
-  'es-ES': "¡Hola! 🐝 Soy **BeeWise**, tu tutor personal de finanzas estudiantiles. ¡Pregúntame sobre la regla 50/30/20, cómo ahorrar tu mesada o evitar compras impulsivas!",
-  'fr-FR': "Bonjour ! 🐝 Je suis **BeeWise**, votre assistant personnel en finances étudiantes. Posez-moi vos questions sur la règle 50/30/20, vos économies ou la gestion de votre budget !",
-  'ar-SA': "مرحباً بك! 🐝 أنا **BeeWise**، مرشدك المالي الشخصي للطلاب. اسألني عن ميزانيتك، قاعدة 50/30/20، أو كيفية التوفير الذكي!"
+  'en-GB': "Hello there! I'm **BeeWise**, your personal financial tutor. Ask me anything about student savings, being broke, the 50/30/20 rule, hostel rent, or avoiding overspending!",
+  'en-US': "Hey there! I'm **BeeWise**, your student personal finance co-pilot. Ask me anything about building savings, surviving on a tight budget, or stopping impulse buying!",
+  'en-IN': "Namaste! I'm **BeeWise**, your campus finance guide. Ask me about pocket money management, the 50/30/20 rule, hostel expenses, or emergency funds!",
+  'es-ES': "¡Hola! Soy **BeeWise**, tu tutor personal de finanzas estudiantiles. ¡Pregúntame sobre la regla 50/30/20, cómo ahorrar tu mesada o evitar compras impulsivas!",
+  'fr-FR': "Bonjour ! Je suis **BeeWise**, votre assistant personnel en finances étudiantes. Posez-moi vos questions sur la règle 50/30/20, vos économies ou la gestion de votre budget !",
+  'ar-SA': "مرحباً بك! أنا **BeeWise**، مرشدك المالي الشخصي للطلاب. اسألني عن ميزانيتك، قاعدة 50/30/20، أو كيفية التوفير الذكي!"
 };
 
 // Client-side financial assistant: matches keywords against local curated responses with speech synthesis & multilingual support
@@ -45,8 +48,10 @@ export default function Chatbot() {
   const [selectedLang, setSelectedLang] = useState('en-GB');
   const [autoSpeak, setAutoSpeak] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [interimSpeech, setInterimSpeech] = useState('');
   const [speakingMsgId, setSpeakingMsgId] = useState(null);
   const recognitionRef = useRef(null);
+  const messagesBoxRef = useRef(null);
 
   const [messages, setMessages] = useState([
     {
@@ -61,7 +66,6 @@ export default function Chatbot() {
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [lastTopicId, setLastTopicId] = useState(null);
-  const chatEndRef = useRef(null);
 
   const [fullName, setFullName] = useState('');
   const [campusEmail, setCampusEmail] = useState('');
@@ -71,8 +75,14 @@ export default function Chatbot() {
 
   const activeUi = UI_TRANSLATIONS[selectedLang] || UI_TRANSLATIONS['en-GB'];
 
+  // Smooth scroll strictly within the internal messages container to prevent window jumping
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesBoxRef.current) {
+      messagesBoxRef.current.scrollTo({
+        top: messagesBoxRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
   }, [messages, isTyping]);
 
   const cleanTextForSpeech = (raw) => {
@@ -80,7 +90,7 @@ export default function Chatbot() {
     return raw
       .replace(/[*#_~`]/g, '')
       .replace(/•/g, '')
-      .replace(/[🐝💡🎯⭐✨👋🙏]/g, '')
+      .replace(/\p{Extended_Pictographic}/ug, '')
       .replace(/\s+/g, ' ')
       .trim();
   };
@@ -117,35 +127,50 @@ export default function Chatbot() {
     window.speechSynthesis.speak(utterance);
   };
 
+  // Continuous speech recognition with live interim transcription
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       const recognition = new SpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = false;
+      recognition.continuous = true;
+      recognition.interimResults = true;
       const targetLang = SUPPORTED_LANGUAGES.find((l) => l.id === selectedLang)?.speechLang || 'en-GB';
       recognition.lang = targetLang;
 
       recognition.onstart = () => {
         setIsListening(true);
+        setInterimSpeech('');
       };
 
       recognition.onresult = (event) => {
-        const transcript = event.results?.[0]?.[0]?.transcript;
-        if (transcript) {
-          setInputText(transcript);
-          handleSend(transcript);
+        let finalTrans = '';
+        let interimTrans = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          const trans = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTrans += trans + ' ';
+          } else {
+            interimTrans += trans;
+          }
         }
-        setIsListening(false);
+
+        if (finalTrans) {
+          setInputText((prev) => (prev ? `${prev.trim()} ${finalTrans.trim()}` : finalTrans.trim()));
+        }
+        setInterimSpeech(interimTrans);
       };
 
       recognition.onerror = (e) => {
         console.warn('Speech recognition warning/error:', e.error);
-        setIsListening(false);
+        if (e.error !== 'no-speech') {
+          setIsListening(false);
+          setInterimSpeech('');
+        }
       };
 
       recognition.onend = () => {
         setIsListening(false);
+        setInterimSpeech('');
       };
 
       recognitionRef.current = recognition;
@@ -153,6 +178,9 @@ export default function Chatbot() {
 
     return () => {
       window.speechSynthesis?.cancel();
+      try {
+        recognitionRef.current?.abort();
+      } catch (err) {}
     };
   }, [selectedLang]);
 
@@ -169,6 +197,7 @@ export default function Chatbot() {
         console.warn(e);
       }
       setIsListening(false);
+      setInterimSpeech('');
     } else {
       try {
         window.speechSynthesis?.cancel();
@@ -304,9 +333,97 @@ export default function Chatbot() {
     ].includes(norm);
   };
 
+  // Dynamic budget parser: computes accurate 50/30/20 breakdown for any mentioned number
+  const parseDynamicBudget = (rawText) => {
+    const text = rawText.toLowerCase();
+    const amountRegex = /(?:₦|\$|£|€|rs\.?|inr|ngn)?\s*(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)\s*(k|thousand|million|m)?\s*(?:naira|dollars?|pounds?|euros?|cedis?|rand|rs|rupees?)?/i;
+    const match = text.match(amountRegex);
+
+    if (!match) return null;
+
+    let rawNumStr = match[1].replace(/,/g, '');
+    let num = parseFloat(rawNumStr);
+    if (isNaN(num)) return null;
+
+    const multiplier = (match[2] || '').toLowerCase();
+    if (multiplier === 'k' || multiplier === 'thousand') {
+      num *= 1000;
+    } else if (multiplier === 'm' || multiplier === 'million') {
+      num *= 1000000;
+    }
+
+    // Ignore small numbers that are likely not budgets (e.g., "50/30/20", "step 1", "2 months")
+    if (num < 100) return null;
+
+    let symbol = '₦';
+    if (text.includes('$') || text.includes('dollar')) symbol = '$';
+    else if (text.includes('£') || text.includes('pound')) symbol = '£';
+    else if (text.includes('€') || text.includes('euro')) symbol = '€';
+    else if (text.includes('₹') || text.includes('rupee') || text.includes('rs')) symbol = '₹';
+
+    const needs = Math.round(num * 0.5);
+    const wants = Math.round(num * 0.3);
+    const savings = Math.round(num * 0.2);
+    const weeklyTotal = Math.round(num / 4);
+    const weeklyNeeds = Math.round(needs / 4);
+    const weeklyWants = Math.round(wants / 4);
+
+    const formattedTotal = `${symbol}${num.toLocaleString()}`;
+    const formattedNeeds = `${symbol}${needs.toLocaleString()}`;
+    const formattedWants = `${symbol}${wants.toLocaleString()}`;
+    const formattedSavings = `${symbol}${savings.toLocaleString()}`;
+    const formattedWeeklyTotal = `${symbol}${weeklyTotal.toLocaleString()}`;
+    const formattedWeeklyNeeds = `${symbol}${weeklyNeeds.toLocaleString()}`;
+    const formattedWeeklyWants = `${symbol}${weeklyWants.toLocaleString()}`;
+
+    return {
+      answer: `**Here is your personalized 50/30/20 budget breakdown for ${formattedTotal}:**\n\n• **50% Needs (${formattedNeeds})**: Essential campus survival\n  - Core food staples (rice, pasta, oats, beans, seasonings)\n  - Course study packs, printing, and textbooks\n  - Campus transport fares & essential study data bundles\n\n• **30% Wants (${formattedWants})**: Guilt-free comfort & social\n  - Weekend outings with coursemates\n  - Special snacks, treats, and music/video streaming\n  - Non-essential personal care & shopping\n\n• **20% Savings & Safety Buffer (${formattedSavings})**: Emergency fund\n  - Transfer this **immediately on Day 1** to a separate vault or high-yield account so it stays safe from impulse spending.\n\n**Your 4-Week Cash Flow Guide:**\n• Spend no more than **${formattedWeeklyTotal} per week** (${formattedWeeklyNeeds} for essential Needs + ${formattedWeeklyWants} for Wants).\n• Open our **50/30/20 Calculator** in the top navigation menu to adjust sliders and visualize this interactively!`,
+      topicId: 'dynamic_budget'
+    };
+  };
+
+  // Dynamic savings timeline calculator: parses target amount and monthly savings
+  const parseSavingsTimeline = (rawText) => {
+    const text = rawText.toLowerCase();
+    if (!text.includes('save') && !text.includes('goal') && !text.includes('target') && !text.includes('buy')) return null;
+
+    const numbers = text.match(/\b\d{1,3}(?:,\d{3})*(?:k)?\b/gi);
+    if (!numbers || numbers.length < 2) return null;
+
+    const parseNum = (str) => {
+      let clean = str.toLowerCase().replace(/,/g, '');
+      let mult = 1;
+      if (clean.endsWith('k')) {
+        mult = 1000;
+        clean = clean.replace('k', '');
+      }
+      return parseFloat(clean) * mult;
+    };
+
+    const n1 = parseNum(numbers[0]);
+    const n2 = parseNum(numbers[1]);
+    if (isNaN(n1) || isNaN(n2) || n1 <= 0 || n2 <= 0) return null;
+
+    const target = Math.max(n1, n2);
+    const monthly = Math.min(n1, n2);
+    const monthsNeeded = Math.ceil(target / monthly);
+
+    let symbol = '₦';
+    if (text.includes('$') || text.includes('dollar')) symbol = '$';
+    else if (text.includes('£') || text.includes('pound')) symbol = '£';
+    else if (text.includes('€') || text.includes('euro')) symbol = '€';
+
+    return {
+      answer: `**Savings Timeline Calculation:**\n\n• **Target Goal**: ${symbol}${target.toLocaleString()}\n• **Monthly Contribution**: ${symbol}${monthly.toLocaleString()}\n• **Estimated Timeframe**: **${monthsNeeded} month${monthsNeeded === 1 ? '' : 's'}**\n\n**Accelerate Your Goal:**\n1. Cut one non-essential habit to boost your monthly deposit by 15%.\n2. Put any unexpected gifts or side hustle gigs straight into this target fund.\n3. Track your real-time milestone bar on our **Savings Goals** page!`,
+      topicId: 'savings_goals'
+    };
+  };
+
+  // Find the most accurate answer using scored relevance matching and dynamic handlers
   const findAnswer = (query, currentTopicId, activeLang) => {
     const norm = query.toLowerCase().trim().replace(/[?.,!¿¡]/g, '');
 
+    // 1. Follow-up intents ("explain", "break it down")
     if (isFollowUpIntent(norm)) {
       if (currentTopicId) {
         const multiItem = MULTILINGUAL_KNOWLEDGE[currentTopicId];
@@ -325,17 +442,17 @@ export default function Chatbot() {
 
       const generalExplains = {
         'en-GB':
-          "🐝 **I'd love to explain! Which topic would you like me to break down for you?**\n\nYou can ask:\n• *'Explain the 50/30/20 rule'* (How to split your allowance)\n• *'Explain needs vs wants'* (How to make smart campus choices)\n• *'Explain emergency funds'* (Why every student needs a safety cushion)\n• *'Explain how to avoid overspending'* (Simple rules that keep you afloat)",
+          "**I'd love to explain! Which topic would you like me to break down for you?**\n\nYou can ask:\n• *'Explain the 50/30/20 rule'* (How to split your allowance)\n• *'Explain needs vs wants'* (How to make smart campus choices)\n• *'Explain emergency funds'* (Why every student needs a safety cushion)\n• *'Explain how to avoid overspending'* (Simple rules that keep you afloat)",
         'en-US':
-          "🐝 **I'm happy to explain! What topic can I break down for you?**\n\nTry asking:\n• *'Explain the 50/30/20 rule'* (How to allocate your funds)\n• *'Explain needs vs wants'* (Smart college decision making)\n• *'Explain emergency funds'* (Your essential student cushion)\n• *'Explain how to stop overspending'* (Practical tips for your wallet)",
+          "**I'm happy to explain! What topic can I break down for you?**\n\nTry asking:\n• *'Explain the 50/30/20 rule'* (How to allocate your funds)\n• *'Explain needs vs wants'* (Smart college decision making)\n• *'Explain emergency funds'* (Your essential student cushion)\n• *'Explain how to stop overspending'* (Practical tips for your wallet)",
         'en-IN':
-          "🐝 **Main zaroor samjhaunga! Aap kaunsa topic detail me jaan-na chahte hain?**\n\nAap pooch sakte hain:\n• *'50/30/20 rule samjhao'* (Pocket money baantne ka tareeqa)\n• *'Needs vs Wants samjhao'* (Zaroorat aur khwahish ka fark)\n• *'Emergency fund samjhao'* (Bachat ka suraksha kavach)\n• *'Fizool kharchi kaise rokein'* (Overspending rokne ke aasaan tips)",
+          "**Main zaroor samjhaunga! Aap kaunsa topic detail me jaan-na chahte hain?**\n\nAap pooch sakte hain:\n• *'50/30/20 rule samjhao'* (Pocket money baantne ka tareeqa)\n• *'Needs vs Wants samjhao'* (Zaroorat aur khwahish ka fark)\n• *'Emergency fund samjhao'* (Bachat ka suraksha kavach)\n• *'Fizool kharchi kaise rokein'* (Overspending rokne ke aasaan tips)",
         'es-ES':
-          "🐝 **¡Con mucho gusto te lo explico! ¿Qué tema te gustaría que detallemos?**\n\nPuedes preguntarme:\n• *'Explica la regla 50/30/20'* (Cómo dividir tu dinero del mes)\n• *'Explica necesidades vs deseos'* (Decisiones inteligentes en el campus)\n• *'Explica el fondo de emergencia'* (Por qué necesitas un colchón financiero)\n• *'Explica cómo evitar gastar de más'* (Trucos fáciles para no quedarte sin dinero)",
+          "**¡Con mucho gusto te lo explico! ¿Qué tema te gustaría que detallemos?**\n\nPuedes preguntarme:\n• *'Explica la regla 50/30/20'* (Cómo dividir tu dinero del mes)\n• *'Explica necesidades vs deseos'* (Decisiones inteligentes en el campus)\n• *'Explica el fondo de emergencia'* (Por qué necesitas un colchón financiero)\n• *'Explica cómo evitar gastar de más'* (Trucos fáciles para no quedarte sin dinero)",
         'fr-FR':
-          "🐝 **Avec grand plaisir ! Quel sujet souhaitez-vous que je vous explique en détail ?**\n\nVous pouvez me demander :\n• *'Explique la règle 50/30/20'* (Comment répartir votre budget)\n• *'Explique besoins vs envies'* (Faire les bons choix au quotidien)\n• *'Explique le fonds d'urgence'* (Votre matelas de sécurité indispensable)\n• *'Explique comment ne pas trop dépenser'* (Conseils simples pour étudiants)",
+          "**Avec grand plaisir ! Quel sujet souhaitez-vous que je vous explique en détail ?**\n\nVous pouvez me demander :\n• *'Explique la règle 50/30/20'* (Comment répartir votre budget)\n• *'Explique besoins vs envies'* (Faire les bons choix au quotidien)\n• *'Explique le fonds d'urgence'* (Votre matelas de sécurité indispensable)\n• *'Explique comment ne pas trop dépenser'* (Conseils simples pour étudiants)",
         'ar-SA':
-          "🐝 **يسعدني أن أشرح لك بالتفصيل! أي موضوع تود أن أساعدك في فهمه؟**\n\nيمكنك أن تسألني:\n• *'اشرح قاعدة 50/30/20'* (كيف تقسم مصروفك الشهري بذكاء)\n• *'اشرح الاحتياجات مقابل الرغبات'* (كيف تتخذ قرارات مالية صحيحة في الجامعة)\n• *'اشرح صندوق الطوارئ'* (لماذا يحتاج كل طالب إلى رصيد أمان)\n• *'اشرح كيف أتجنب الإسراف'* (خطوات بسيطة للحفاظ على ميزانيتك)"
+          "**يسعدني أن أشرح لك بالتفصيل! أي موضوع تود أن أساعدك في فهمه؟**\n\nيمكنك أن تسألني:\n• *'اشرح قاعدة 50/30/20'* (كيف تقسم مصروفك الشهري بذكاء)\n• *'اشرح الاحتياجات مقابل الرغبات'* (كيف تتخذ قرارات مالية صحيحة في الجامعة)\n• *'اشرح صندوق الطوارئ'* (لماذا يحتاج كل طالب إلى رصيد أمان)\n• *'اشرح كيف أتجنب الإسراف'* (خطوات بسيطة للحفاظ على ميزانيتك)"
       };
 
       return {
@@ -345,6 +462,7 @@ export default function Chatbot() {
       };
     }
 
+    // 2. Greetings
     if (isGreetingIntent(norm)) {
       return {
         answer: INITIAL_MESSAGES_MAP[activeLang] || INITIAL_MESSAGES_MAP['en-GB'],
@@ -353,25 +471,46 @@ export default function Chatbot() {
       };
     }
 
+    // 3. Gratitude
     if (isGratitudeIntent(norm)) {
       const gratitudeAnswers = {
         'en-GB':
-          "You're very welcome! 🐝 Building mindful money habits as a student is one of the best life superpowers you can gain. Feel free to ask more, or explore our calculators above!",
+          "You're very welcome! Building mindful money habits as a student is one of the best life superpowers you can gain. Feel free to ask more, or explore our calculators above!",
         'en-US':
-          "You're totally welcome! 🐝 Mastering money skills early sets you up for life. Let me know if you want to run through any other college budget questions!",
+          "You're totally welcome! Mastering money skills early sets you up for life. Let me know if you want to run through any other college budget questions!",
         'en-IN':
-          "Aapka bahut-bahut swagat hai! 🐝 College time me bachat ki aadat daalna life ka sabse bada asset hai. Koi aur sawaal ho toh be-jhijhak poochhein!",
+          "Aapka bahut-bahut swagat hai! College time me bachat ki aadat daalna life ka sabse bada asset hai. Koi aur sawaal ho toh be-jhijhak poochhein!",
         'es-ES':
-          "¡De nada! 🐝 Aprender a manejar tu dinero en la universidad es una superhabilidad para toda la vida. ¡Pregúntame cualquier otra duda cuando quieras!",
+          "¡De nada! Aprender a manejar tu dinero en la universidad es una superhabilidad para toda la vida. ¡Pregúntame cualquier otra duda cuando quieras!",
         'fr-FR':
-          "Je vous en prie ! 🐝 Gérer son budget étudiant avec sérénité est une compétence précieuse pour l'avenir. N'hésitez pas si vous avez d'autres questions !",
+          "Je vous en prie ! Gérer son budget étudiant avec sérénité est une compétence précieuse pour l'avenir. N'hésitez pas si vous avez d'autres questions !",
         'ar-SA':
-          "على الرحب والسعة دائماً! 🐝 بناء عادات مالية ذكية أثناء دراستك الجامعية هو أعظم استثمار لمستقبلك. اسألني في أي وقت عن أي موضوع آخر!"
+          "على الرحب والسعة دائماً! بناء عادات مالية ذكية أثناء دراستك الجامعية هو أعظم استثمار لمستقبلك. اسألني في أي وقت عن أي موضوع آخر!"
       };
       return {
         answer: gratitudeAnswers[activeLang] || gratitudeAnswers['en-GB'],
         topicId: currentTopicId,
         isRtl: activeLang === 'ar-SA'
+      };
+    }
+
+    // 4. Dynamic budget calculation for custom amounts (e.g., "budget 50000", "split 100k")
+    const dynamicBudget = parseDynamicBudget(norm);
+    if (dynamicBudget) {
+      return {
+        answer: dynamicBudget.answer,
+        topicId: dynamicBudget.topicId,
+        isRtl: false
+      };
+    }
+
+    // 5. Dynamic savings timeline for custom goals
+    const dynamicTimeline = parseSavingsTimeline(norm);
+    if (dynamicTimeline) {
+      return {
+        answer: dynamicTimeline.answer,
+        topicId: dynamicTimeline.topicId,
+        isRtl: false
       };
     }
 
@@ -384,11 +523,25 @@ export default function Chatbot() {
       norm.includes('explique') ||
       norm.includes('اشرح');
 
+    // 6. Ranked relevance scoring across knowledge bases
+    let bestMatch = null;
+    let highestScore = 0;
+
+    // Check multilingual knowledge
     for (const [topicKey, item] of Object.entries(MULTILINGUAL_KNOWLEDGE)) {
-      if (item.keywords.some((kw) => norm.includes(kw))) {
+      let score = 0;
+      for (const kw of item.keywords) {
+        if (norm === kw) {
+          score += 100;
+        } else if (norm.includes(kw)) {
+          score += kw.length > 5 ? 30 : 15;
+        }
+      }
+      if (score > highestScore) {
+        highestScore = score;
         const localized = item[activeLang] || item['en-GB'];
         const text = isExplainQuery ? localized.explanation || localized.response : localized.response;
-        return {
+        bestMatch = {
           answer: text,
           topicId: topicKey,
           isRtl: activeLang === 'ar-SA'
@@ -396,13 +549,48 @@ export default function Chatbot() {
       }
     }
 
+    // Check comprehensive local knowledge base
     for (const item of chatbotKnowledge) {
-      if (item.keywords.some((kw) => norm.includes(kw))) {
+      let score = 0;
+      for (const kw of item.keywords) {
+        if (norm === kw) {
+          score += 100;
+        } else if (norm.includes(kw)) {
+          score += kw.length > 5 ? 30 : 15;
+        }
+      }
+      if (score > highestScore) {
+        highestScore = score;
         const text = isExplainQuery ? item.explanation || item.response : item.response;
-        return { answer: text, topicId: item.id, isRtl: false };
+        bestMatch = {
+          answer: text,
+          topicId: item.id,
+          isRtl: false
+        };
       }
     }
 
+    if (bestMatch && highestScore >= 15) {
+      return bestMatch;
+    }
+
+    // 7. General student financial query synthesis
+    if (
+      norm.includes('invest') ||
+      norm.includes('crypto') ||
+      norm.includes('stock') ||
+      norm.includes('shares') ||
+      norm.includes('trading')
+    ) {
+      return {
+        answer:
+          "**Student Investing Primer:**\n\nBefore investing in stocks or financial markets:\n1. **Build Your Safety Net First**: Ensure you have an emergency fund of at least ₦20,000 to ₦50,000 for unexpected campus costs.\n2. **Avoid High-Risk Promises**: Stay completely away from 'get-rich-quick' schemes, binary trading, or forex pools promising guaranteed daily returns.\n3. **Start Low-Risk & Long-Term**: Regulated mutual funds or dollar-denominated index funds are far safer vehicles for young adults than speculative trading.\n\n*Master budgeting your current allowance first with our 50/30/20 calculator!*",
+        topicId: 'student_investing',
+        isRtl: false
+      };
+    }
+
+    // 8. Empathetic fallback response
     const fallbacks = {
       'en-GB': fallbackChatResponse.response,
       'en-US': fallbackChatResponse.response,
@@ -444,6 +632,7 @@ export default function Chatbot() {
 
     setMessages((prev) => [...prev, userMsg]);
     setInputText('');
+    setInterimSpeech('');
     setIsTyping(true);
 
     setTimeout(() => {
@@ -468,7 +657,7 @@ export default function Chatbot() {
           handleSpeakText(botMsgId, answer, activeLang);
         }, 200);
       }
-    }, 500);
+    }, 450);
   };
 
   const handleResetChat = () => {
@@ -507,8 +696,8 @@ export default function Chatbot() {
           <div className="beewise-chat-card bee-card">
             <div className="beewise-card-header">
               <div className="beewise-header-left">
-                <div className="beewise-mascot-frame">
-                  <img src="/mascot-bee.png" alt="Bee" className="mascot-img" />
+                <div className="beewise-mascot-frame" aria-label="BeeWise Avatar">
+                  <Bot size={22} className="mascot-bot-icon" />
                 </div>
                 <div>
                   <div className="tutor-title-row">
@@ -563,7 +752,7 @@ export default function Chatbot() {
                     onClick={() => handleChangeLanguage(l.id)}
                     title={l.name}
                   >
-                    <span className="lang-flag">{l.flag}</span>
+                    <span className="lang-badge">{l.code}</span>
                     <span className="lang-name">{l.name.split(' ')[0]}</span>
                   </button>
                 ))}
@@ -584,15 +773,15 @@ export default function Chatbot() {
               ))}
             </div>
 
-            <div className="beewise-messages-box">
+            <div className="beewise-messages-box" ref={messagesBoxRef}>
               {messages.map((m) => (
                 <div
                   key={m.id}
                   className={`message-bubble-row ${m.sender === 'user' ? 'row-user' : 'row-bot'} animate-fade-in`}
                 >
                   {m.sender === 'bot' && (
-                    <div className="bot-mini-frame">
-                      <img src="/mascot-bee.png" alt="Bee" className="mini-bee-avatar" />
+                    <div className="bot-mini-frame" aria-label="BeeWise">
+                      <Bot size={15} className="mini-bot-icon" />
                     </div>
                   )}
 
@@ -626,8 +815,8 @@ export default function Chatbot() {
 
               {isTyping && (
                 <div className="message-bubble-row row-bot animate-fade-in">
-                  <div className="bot-mini-frame">
-                    <img src="/mascot-bee.png" alt="Bee" className="mini-bee-avatar" />
+                  <div className="bot-mini-frame" aria-label="BeeWise">
+                    <Bot size={15} className="mini-bot-icon" />
                   </div>
                   <div className="bubble-payload typing-payload">
                     <span className="dot-pulse"></span>
@@ -636,13 +825,52 @@ export default function Chatbot() {
                   </div>
                 </div>
               )}
-              <div ref={chatEndRef} />
             </div>
 
             {isListening && (
-              <div className="chat-listening-banner animate-fade-in">
-                <span className="listening-pulse-dot"></span>
-                <span>{activeUi.listening}</span>
+              <div className="chat-listening-banner animate-fade-in" id="voice-listening-panel">
+                <div className="listening-pulse-group">
+                  <span className="listening-pulse-dot"></span>
+                  <span className="listening-label">{activeUi.listening}</span>
+                </div>
+                {interimSpeech && (
+                  <div className="listening-transcript-preview">
+                    "{interimSpeech}"
+                  </div>
+                )}
+                <div className="listening-actions-group">
+                  <button
+                    type="button"
+                    className="listening-action-btn btn-send-voice"
+                    onClick={() => {
+                      try {
+                        recognitionRef.current?.stop();
+                      } catch (e) {}
+                      setIsListening(false);
+                      const speechText = (inputText + ' ' + interimSpeech).trim();
+                      setInterimSpeech('');
+                      if (speechText) {
+                        handleSend(speechText);
+                      }
+                    }}
+                  >
+                    <span>Done & Ask</span>
+                    <Send size={12} />
+                  </button>
+                  <button
+                    type="button"
+                    className="listening-action-btn btn-cancel-voice"
+                    onClick={() => {
+                      try {
+                        recognitionRef.current?.stop();
+                      } catch (e) {}
+                      setIsListening(false);
+                      setInterimSpeech('');
+                    }}
+                  >
+                    Stop
+                  </button>
+                </div>
               </div>
             )}
 
@@ -788,16 +1016,55 @@ export default function Chatbot() {
               </form>
             )}
 
-            <div className="campus-helpline-box">
-              <span className="helpline-title">Direct Student Lines</span>
-              <div className="helpline-links">
-                <a href="mailto:support@budgetbasics.edu" className="helpline-link">
-                  <Mail size={14} className="text-gold" />
-                  <span>support@budgetbasics.edu</span>
+            {/* Redesigned Direct Student Lines Support Box */}
+            <div className="campus-helpline-box" id="student-helplines">
+              <div className="helpline-header-row">
+                <div className="helpline-title-group">
+                  <div className="helpline-icon-badge">
+                    <Headphones size={15} />
+                  </div>
+                  <div>
+                    <h4 className="helpline-title">Direct Student Lines</h4>
+                    <span className="helpline-subtitle">Campus Financial Advisors & Peer Helpdesk</span>
+                  </div>
+                </div>
+                <span className="helpline-badge-online">
+                  <span className="helpline-pulse-dot"></span>
+                  <span>Live & Free</span>
+                </span>
+              </div>
+
+              <div className="helpline-links-grid">
+                <a
+                  href="mailto:support@budgetbasics.edu"
+                  className="helpline-card-item"
+                  id="helpline-email-link"
+                  title="Send email to student support"
+                >
+                  <div className="helpline-card-icon icon-email">
+                    <Mail size={16} />
+                  </div>
+                  <div className="helpline-card-content">
+                    <span className="helpline-card-label">Campus Email</span>
+                    <span className="helpline-card-value">support@budgetbasics.edu</span>
+                  </div>
+                  <ArrowUpRight size={14} className="helpline-card-arrow" />
                 </a>
-                <a href="tel:+18005552339" className="helpline-link">
-                  <Phone size={14} className="text-emerald" />
-                  <span>1-800-555-BEE9 (Toll Free)</span>
+
+                <a
+                  href="tel:+18005552339"
+                  className="helpline-card-item"
+                  id="helpline-phone-link"
+                  title="Call toll-free student hotline"
+                >
+                  <div className="helpline-card-icon icon-phone">
+                    <Phone size={16} />
+                  </div>
+                  <div className="helpline-card-content">
+                    <span className="helpline-card-label">Toll-Free Hotline</span>
+                    <span className="helpline-card-value">1-800-555-BEE9</span>
+                  </div>
+                  <ArrowUpRight size={14} className="helpline-card-arrow" />
                 </a>
               </div>
             </div>
