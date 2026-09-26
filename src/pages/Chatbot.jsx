@@ -458,6 +458,31 @@ export default function Chatbot() {
   };
 
   const isGreetingIntent = (norm) => {
+    // If the query asks about the project, website, team, problem, or features, it is NOT a greeting
+    if (
+      norm.includes('purpose') ||
+      norm.includes('problem') ||
+      norm.includes('website') ||
+      norm.includes('project') ||
+      norm.includes('site') ||
+      norm.includes('built') ||
+      norm.includes('build') ||
+      norm.includes('about this') ||
+      norm.includes('about the') ||
+      norm.includes('who made') ||
+      norm.includes('who built') ||
+      norm.includes('who created') ||
+      norm.includes('who is') ||
+      norm.includes('who are') ||
+      norm.includes('feature') ||
+      norm.includes('team') ||
+      norm.includes('stack') ||
+      norm.includes('tech')
+    ) {
+      return false;
+    }
+
+    const words = norm.split(' ');
     const greetingWords = [
       'hi', 'hello', 'hey', 'heyy', 'heya', 'good morning', 'morning', 'gm',
       'good afternoon', 'afternoon', 'good evening', 'evening', 'good night',
@@ -465,7 +490,7 @@ export default function Chatbot() {
       'مرحبا', 'السلام عليكم', 'اهلا', 'صباح الخير', 'مساء الخير'
     ];
     return greetingWords.some(
-      (w) => norm === w || norm.startsWith(w + ' ') || norm.endsWith(' ' + w) || norm.includes(w)
+      (w) => norm === w || norm.startsWith(w + ' ') || norm.endsWith(' ' + w) || words.includes(w)
     );
   };
 
@@ -680,47 +705,172 @@ export default function Chatbot() {
     );
   };
 
-  const isProjectOrTeamInquiry = (norm) => {
-    const projectPatterns = [
-      'who made you',
-      'who made this',
-      'who built you',
+  const isProjectPurposeOrProblemInquiry = (norm) => {
+    const patterns = [
+      'purpose of this website',
+      'purpose of the website',
+      'purpose of this site',
+      'purpose of the site',
+      'purpose of budgetbasics',
+      'purpose of this project',
+      'why we build it',
+      'why we built it',
+      'why did we build it',
+      'why was this built',
+      'why did you build this',
+      'why did they build this',
+      'why make this',
+      'why was this made',
+      'why build this',
+      'problem were trying to solve',
+      'problem we are trying to solve',
+      'problem trying to solve',
+      'what problem are you trying to solve',
+      'what problem are we trying to solve',
+      'what problem does this solve',
+      'problem statement',
+      'the problem',
+      'what is the problem',
+      'why this website',
+      'why this site',
+      'why this project',
+      'mission of this website',
+      'mission of budgetbasics',
+      'vision of this website',
+      'what is the purpose',
+      'what is the goal',
+      'who is this for',
+      'who is this site for'
+    ];
+    return patterns.some(
+      (pat) =>
+        norm === pat ||
+        norm.startsWith(pat + ' ') ||
+        norm.endsWith(' ' + pat) ||
+        norm.includes(pat)
+    );
+  };
+
+  const isHowBuiltOrTechStackInquiry = (norm) => {
+    const patterns = [
+      'how we built it',
+      'how did you build this',
+      'how was this built',
+      'how was this website built',
+      'how was the site built',
+      'how did they build this',
+      'how was it made',
+      'how did you make this',
+      'how was this created',
+      'technologies used',
+      'tech stack',
+      'what tech stack',
+      'what technology',
+      'what technologies',
+      'what tech did you use',
+      'what framework',
+      'what libraries',
+      'architecture of this site',
+      'how does the code work',
+      'is this built with react',
+      'is this react'
+    ];
+    return patterns.some(
+      (pat) =>
+        norm === pat ||
+        norm.startsWith(pat + ' ') ||
+        norm.endsWith(' ' + pat) ||
+        norm.includes(pat)
+    );
+  };
+
+  const isTeamInquiry = (norm) => {
+    const patterns = [
       'who built this',
+      'who built the website',
+      'who built this website',
+      'who built you',
+      'who made you',
       'who created you',
+      'who made this',
       'who created this',
       'who is your creator',
       'who are your creators',
       'who is the developer',
       'who are the developers',
       'about the team',
+      'tell me about the team',
+      'the team',
       'team pixelforge',
       'pixelforge',
+      'aptech',
+      'adse',
+      'adse student',
+      'adse students',
+      'who worked on this',
       'who is eni',
+      'who is enioluwafe',
+      'enioluwafe',
+      'enioluwafe gbadamosi',
       'who is hamid',
       'who is tammy',
+      'who is tamilore',
+      'tamilore001',
       'who is lawal',
+      'who is lawal abiodun',
+      'lawal abiodun',
+      'who is abdulhameed',
+      'who is olawale',
       'who is hameed',
-      'what is budgetbasics',
-      'tell me about budgetbasics',
-      'what is this project',
-      'what is this app',
-      'what is this website',
-      'what does this app do',
-      'what does this website do',
-      'how does this website work',
-      'what is cockpit',
-      'what is the cockpit',
-      'what is the planner',
-      'what is planner',
-      'what is the guide',
-      'what is guide',
-      'what is needs vs wants',
-      'what is 50 30 20',
-      'what is the currency converter',
-      'techwiz'
+      'abdulhameed olawale'
     ];
+    return patterns.some(
+      (pat) =>
+        norm === pat ||
+        norm.startsWith(pat + ' ') ||
+        norm.endsWith(' ' + pat) ||
+        norm.includes(pat)
+    );
+  };
 
-    return projectPatterns.some(
+  const isAboutProjectOrGeneralFeaturesInquiry = (norm) => {
+    const patterns = [
+      'tell me about this site',
+      'tell me about the site',
+      'tell me about this website',
+      'tell me about the website',
+      'tell me about this project',
+      'tell me about budgetbasics',
+      'about this site',
+      'about the site',
+      'about this website',
+      'about the website',
+      'about this project',
+      'about budgetbasics',
+      'what is this site',
+      'what is the site',
+      'what is this website',
+      'what is the website',
+      'what is this project',
+      'what is budgetbasics',
+      'what does this site do',
+      'what does this website do',
+      'what does this project do',
+      'what does budgetbasics do',
+      'how does this website work',
+      'how does this site work',
+      'key features',
+      'all features',
+      'what features',
+      'what are the features',
+      'what tools do you have',
+      'what can this site do',
+      'overview of the site',
+      'overview of this website',
+      'site overview',
+      'project overview'
+    ];
+    return patterns.some(
       (pat) =>
         norm === pat ||
         norm.startsWith(pat + ' ') ||
@@ -1142,7 +1292,262 @@ export default function Chatbot() {
       };
     }
 
-    // 0F. Open-ended "explain something to me" / question triage (user hasn't picked a topic yet)
+    // 0F. Dedicated Project, Purpose, Problem, Tech Stack, Team & Features Intelligence
+    // 1. The Purpose & Problem We Are Solving
+    if (isProjectPurposeOrProblemInquiry(norm)) {
+      return {
+        answer:
+          "**🎯 The Purpose of BudgetBasics & The Problem We Solve:**\n\n" +
+          "**The Problem:**\n" +
+          "Students handling allowances, scholarships, stipends, or part-time income often lack a simple way to plan and track money. Small daily expenses (food, snacks, transport, printouts, data) quickly drain funds meant for essentials, learning, transit, and emergency savings. Without practical financial literacy, students easily fall into common campus traps like overspending, impulse buys, unused subscriptions, and late fees.\n\n" +
+          "**Why We Built BudgetBasics:**\n" +
+          "We built **BudgetBasics (NextGen BudgetBee)** to give college students a stress-free, intuitive financial compass. We wanted to eliminate boring spreadsheets, complex banking jargon, and invasive sign-up requirements—giving students 100% private, practical tools to plan allowances, test purchases, and build lifelong money confidence!",
+        topicId: 'project_purpose_problem',
+        isRtl: false
+      };
+    }
+
+    // 2. How We Built It & Technology Stack
+    if (isHowBuiltOrTechStackInquiry(norm)) {
+      return {
+        answer:
+          "**🛠️ How We Built BudgetBasics & Our Technology Stack:**\n\n" +
+          "BudgetBasics was engineered from the ground up as a fast, accessible, privacy-first Single Page Application (SPA):\n\n" +
+          "• **Frontend Architecture**: Built with **React** (v18) and bundled with **Vite** for lightning-fast performance, sub-second loads, and smooth client-side routing.\n" +
+          "• **UI & Styling**: Pure **Vanilla CSS** with a custom design system (CSS custom properties, glassmorphism, responsive grid layout, fluid typography, and mobile-friendly bottom navigation).\n" +
+          "• **100% Client-Side Privacy**: Built entirely on **browser LocalStorage** session persistence (`userSession.js`). Every visitor gets an anonymous Student ID (e.g. `STU-XXXX`) with zero bank logins, no passwords, and zero external tracking.\n" +
+          "• **Voice & Speech AI**: Integrates the native browser **HTML5 Web Speech API** (SpeechSynthesis for high-clarity voice output and SpeechRecognition for voice dictation), powered by a natural language intent engine.\n" +
+          "• **Multi-Currency Engine**: Live currency context supporting **₦ (NGN)**, **$ (USD)**, **£ (GBP)**, **€ (EUR)**, and **₹ (INR)** with real-time conversion rates.\n" +
+          "• **Data Visualizations & Sound**: Interactive SVG progress rings, 50/30/20 breakdown meters, and audio soundbites.",
+        topicId: 'project_tech_stack',
+        isRtl: false
+      };
+    }
+
+    // 3. The Team (ADSE Students at Aptech) & Individual Member Inquiries
+    if (isTeamInquiry(norm)) {
+      if (norm.includes('eni') || norm.includes('enioluwafe')) {
+        return {
+          answer:
+            "**Enioluwafe Gbadamosi — Main Structure & Integration** 🏗️\n\n" +
+            "• **Role**: Project Lead & Structural Engineer (ADSE Student at Aptech)\n" +
+            "• **Core Contributions**:\n" +
+            "  - Initialized and configured the project repository and dependencies\n" +
+            "  - Designed and built the Homepage, responsive Navbar & Footer\n" +
+            "  - Connected and harmonized everyone's individual modules\n" +
+            "  - Managed final application integration and deployment\n" +
+            "• **Quote**: *'I like bringing ideas together and turning them into a working product.'*",
+          topicId: 'team_enioluwafe',
+          isRtl: false
+        };
+      }
+      if (norm.includes('abdulhameed') || norm.includes('olawale') || norm.includes('hameed')) {
+        return {
+          answer:
+            "**Lam Abdulhameed Olawale — AI & Search** 🤖\n\n" +
+            "• **Role**: AI Architect & Search Engineer (ADSE Student at Aptech)\n" +
+            "• **Core Contributions**:\n" +
+            "  - Architected and programmed the **BeeWise AI Chatbot** (that's me!)\n" +
+            "  - Integrated the HTML5 Web Speech API for voice recognition & read-aloud speech\n" +
+            "  - Built the global Search feature across all platform lessons and guides\n" +
+            "  - Developed topic Sort & Filter features for tips and infographics\n" +
+            "• **Quote**: *'I enjoy building smart AI assistance and intuitive search.'*",
+          topicId: 'team_abdulhameed',
+          isRtl: false
+        };
+      }
+      if (norm.includes('hamid')) {
+        return {
+          answer:
+            "**Hamid (handle: hame - 11) — Budgeting** 📚\n\n" +
+            "• **Role**: Financial Content & Gamification Lead (ADSE Student at Aptech)\n" +
+            "• **Core Contributions**:\n" +
+            "  - Researched and designed the **Budgeting Basics** module\n" +
+            "  - Created the interactive **Needs vs. Wants** decision sorting activity\n" +
+            "  - Built interactive questions, quizzes, and knowledge checks\n" +
+            "• **Quote**: *'I enjoy making budgeting ideas clear and practical for students.'*",
+          topicId: 'team_hamid',
+          isRtl: false
+        };
+      }
+      if (norm.includes('tammy') || norm.includes('tamilore')) {
+        return {
+          answer:
+            "**Tammy (@Tamilore001) — Calculators** 📊\n\n" +
+            "• **Role**: Mathematical Logic & Financial Tools Lead (ADSE Student at Aptech)\n" +
+            "• **Core Contributions**:\n" +
+            "  - Engineered the **50/30/20 Budget Calculator**\n" +
+            "  - Developed the **Savings Goals** timeline and speedrun estimator\n" +
+            "  - Built all financial calculation formulas and input validation\n" +
+            "• **Quote**: *'I like keeping numbers accurate and making useful tools.'*",
+          topicId: 'team_tammy',
+          isRtl: false
+        };
+      }
+      if (norm.includes('lawal') || norm.includes('abiodun')) {
+        return {
+          answer:
+            "**Lawal Abiodun — Expenses** 📝\n\n" +
+            "• **Role**: Expense Flow & Practical Fixes Lead (ADSE Student at Aptech)\n" +
+            "• **Core Contributions**:\n" +
+            "  - Built the in-session **Expense Planner**\n" +
+            "  - Engineered the add, edit, and delete real-time expense tracking functionality\n" +
+            "  - Authored the **Money Mistakes** deep-dive section covering impulse spending & late fees\n" +
+            "• **Quote**: *'I focus on tracking details and organizing expenses clearly.'*",
+          topicId: 'team_lawal',
+          isRtl: false
+        };
+      }
+
+      return {
+        answer:
+          "**👥 Meet Team PixelForge — ADSE Students at Aptech:**\n\n" +
+          "BudgetBasics was proudly conceptualized and built by five **ADSE (Advanced Diploma in Software Engineering)** students at **Aptech** for the *NextGen BudgetBee / Web Innovation Unleashed* showcase:\n\n" +
+          "• 🏗️ **Enioluwafe Gbadamosi — Main Structure**\n" +
+          "  *Set up project, Homepage, Navbar & Footer, connected everyone's work, and final integration.*\n\n" +
+          "• 🤖 **Abdulhameed Olawale L. — AI & Search**\n" +
+          "  *AI Chatbot (BeeWise), HTML5 voice/speech, global search, and sort/filter features.*\n\n" +
+          "• 📚 **Hamid (hame - 11) — Budgeting**\n" +
+          "  *Budgeting Basics module, interactive Needs vs. Wants sorting, and knowledge quizzes.*\n\n" +
+          "• 📊 **Tammy (@Tamilore001) — Calculators**\n" +
+          "  *50/30/20 Calculator, Savings Goals timeline speedrun, and financial math validation.*\n\n" +
+          "• 📝 **Lawal Abiodun — Expenses**\n" +
+          "  *Expense Planner (add/edit/delete expenses) and Money Mistakes campus traps section.*",
+        topicId: 'team_overview',
+        isRtl: false
+      };
+    }
+
+    // 4. About the Website, Project Overview & Full Key Features
+    if (isAboutProjectOrGeneralFeaturesInquiry(norm)) {
+      return {
+        answer:
+          "**🌟 Welcome to BudgetBasics (NextGen BudgetBee)!**\n\n" +
+          "BudgetBasics is a student-first personal finance platform built by five ADSE students at Aptech to empower college learners to master their money with complete confidence and zero stress.\n\n" +
+          "**🌟 Key Features Built Into the Platform:**\n\n" +
+          "• 📚 **Budgeting Basics**: Cards and comparison tables on income, fixed vs. variable expenses, needs, wants, and savings, plus a sample student budget and quick knowledge checks.\n" +
+          "• ⚖️ **Needs vs. Wants**: Interactive sorting activity with real-time feedback and our **48-Hour Purchase Delay Guide** to stop buyer's remorse.\n" +
+          "• 📊 **50-30-20 Calculator**: Enter your monthly allowance to calculate 50% Needs, 30% Wants, and 20% Savings, with charts, input validation, and an estimate disclaimer.\n" +
+          "• 🎯 **Savings Goals**: Enter goal, target, current savings, and monthly contribution to see your timeline and remaining amount, with progress bars and tips.\n" +
+          "• 📝 **Expense Planner**: In-session tracker to add, edit, or remove entries and see the remaining balance update in real time.\n" +
+          "• 🚫 **Money Mistakes**: Expandable cards on impulse buying, unused subscriptions, and late fees, with student scenarios and fixes.\n" +
+          "• 🖼️ **Infographics Gallery**: Budget cycles and saving challenges, with audio soundbites, captions, alt text, and topic filters.\n" +
+          "• 🤖 **AI Chatbot (BeeWise - Me!)**: 24/7 AI tutor with voice speech synthesis read-aloud, microphone voice input, and multilingual financial assistance.\n" +
+          "• 🔍 **Search, Sort & Filter**: Global keyword search across materials, plus topic filters for tips and infographics.\n" +
+          "• 🧭 **UI & Navigation**: Anonymous Student ID (`STU-XXXX`), live visitor counter, live date/time, sitemap, contact/feedback forms (client-side validation), back-to-top, optional dark mode, and keyboard accessibility.",
+        topicId: 'project_about_features',
+        isRtl: false
+      };
+    }
+
+    // 5. Direct queries for specific features
+    if (norm.includes('budgeting basics') || norm.includes('budget basics')) {
+      return {
+        answer:
+          "**📚 Budgeting Basics Module (Built by Hamid)**\n\n" +
+          "The Budgeting Basics module gives students a firm foundation in money management:\n\n" +
+          "• **Income Streams**: Breaking down allowances, academic stipends, scholarships, and campus side jobs.\n" +
+          "• **Fixed vs. Variable Expenses**: Learning what you must pay each month (rent, tuition) vs. what fluctuates (groceries, transport, hangouts).\n" +
+          "• **Needs, Wants & Savings**: The bedrock formula for student survival.\n" +
+          "• **Sample Student Budget**: A realistic template showing how to allocate a typical student allowance.\n" +
+          "• **Knowledge Check**: Interactive quizzes to test your money IQ and earn completion badges!\n\n" +
+          "*You can explore this directly by clicking 'Guide' in the navigation menu!*",
+        topicId: 'feature_budgeting_basics',
+        isRtl: false
+      };
+    }
+
+    if (norm.includes('needs vs wants') || norm.includes('need vs want')) {
+      return {
+        answer:
+          "**⚖️ Needs vs. Wants Filter (Built by Hamid)**\n\n" +
+          "The Needs vs. Wants module helps students eliminate impulse purchases and buyer's remorse:\n\n" +
+          "• **Interactive Sorting Activity**: Drag or click common campus items to test whether they belong in your 50% Needs or 30% Wants bucket.\n" +
+          "• **Instant Feedback**: Immediate explanations of why an item is categorized as a need or want.\n" +
+          "• **The 48-Hour Purchase Delay Guide**: A practical decision framework—if you feel an urge to buy an impulse item, wait 48 hours. In 80% of cases, the urge disappears!\n" +
+          "• **Allowance Hour Calculator**: Shows you how many days or hours of your allowance an item actually costs.\n\n" +
+          "*Tap 'Needs vs Wants' in the top menu to run a test on your next purchase!*",
+        topicId: 'feature_needs_wants',
+        isRtl: false
+      };
+    }
+
+    if (norm.includes('50 30 20') || norm.includes('50/30/20') || (norm.includes('calculator') && !norm.includes('savings'))) {
+      return {
+        answer:
+          "**📊 50/30/20 Budget Calculator (Built by Tammy)**\n\n" +
+          "The 50/30/20 Calculator is designed specifically for student income and allowance allocations:\n\n" +
+          "• **50% Needs**: Essential living costs—groceries, hostel rent, textbooks, school transit, and emergency essentials.\n" +
+          "• **30% Wants**: Flexible personal spending—social outings, snacks, hobbies, and entertainment.\n" +
+          "• **20% Savings**: Future financial protection—emergency cushion, laptop replacement fund, or post-grad fund.\n" +
+          "• **Features**: Interactive breakdown charts, weekly allowance splits, strict numerical input validation, and an educational estimate disclaimer.\n\n" +
+          "*Tap '50/30/20' in the top menu to calculate your numbers right now!*",
+        topicId: 'feature_503020',
+        isRtl: false
+      };
+    }
+
+    if (norm.includes('savings goal') || norm.includes('savings goals')) {
+      return {
+        answer:
+          "**🎯 Savings Goals Tool (Built by Tammy)**\n\n" +
+          "The Savings Goals tool helps college learners turn distant financial dreams into actionable weekly milestones:\n\n" +
+          "• **Custom Targets**: Enter your goal name (e.g., *'Semester Tech Fund'* or *'New Laptop'*), target cost, current savings, and monthly contribution.\n" +
+          "• **Timeline Speedrun**: Calculates the exact number of months and weeks needed to reach 100%.\n" +
+          "• **Remaining Amount Gap**: Visual progress bar showing your completed percentage and exact remaining balance.\n" +
+          "• **Student Speedrun Tips**: Practical campus hacks to reach your goal faster (skipping one takeout per week, leveraging student discounts).\n\n" +
+          "*Tap 'Savings Goals' under Calculators to start tracking your goal!*",
+        topicId: 'feature_savings_goals',
+        isRtl: false
+      };
+    }
+
+    if (norm.includes('expense planner') || norm.includes('expense tracker') || (norm.includes('planner') && !norm.includes('week'))) {
+      return {
+        answer:
+          "**📝 Expense Planner (Built by Lawal Abiodun)**\n\n" +
+          "The Expense Planner is our in-session student money ledger:\n\n" +
+          "• **Real-Time Logging**: Add, edit, or remove expense entries with instant total calculation.\n" +
+          "• **Smart Categorization**: Tag purchases under Groceries/Food, Academics/Books, Transportation, Wants/Hangouts, or Miscellaneous.\n" +
+          "• **Remaining Balance Meter**: See your real-time cash balance update immediately after every entry.\n" +
+          "• **100% Client-Side Privacy**: Saved safely in your local browser session—no bank logins, no passwords, and zero external tracking.\n\n" +
+          "*Tap 'Planner' in the top navigation to start logging today's expenses!*",
+        topicId: 'feature_expense_planner',
+        isRtl: false
+      };
+    }
+
+    if (norm.includes('money mistake') || norm.includes('money mistakes')) {
+      return {
+        answer:
+          "**🚫 Money Mistakes Guide (Built by Lawal Abiodun)**\n\n" +
+          "The Money Mistakes section exposes the most common financial pitfalls that drain student bank accounts:\n\n" +
+          "1. **Impulse Buying**: Spending money on spur-of-the-moment cravings and peer pressure.\n" +
+          "2. **Unused Recurring Subscriptions**: Paying for streaming apps, gym passes, or premium software trials you forgot to cancel.\n" +
+          "3. **Late Payment Fees**: Penalties on late hostel payments, tuition deadlines, or book returns.\n" +
+          "• **Structure**: Each card breaks down a realistic student scenario, the true financial damage, and the exact step-by-step fix to protect your wallet!\n\n" +
+          "*Tap 'Money Mistakes' in the navigation menu to review all traps!*",
+        topicId: 'feature_money_mistakes',
+        isRtl: false
+      };
+    }
+
+    if (norm.includes('infographic') || norm.includes('infographics') || norm.includes('gallery')) {
+      return {
+        answer:
+          "**🖼️ Infographics Gallery & Audio Soundbites**\n\n" +
+          "The Infographics Gallery provides visual learners with high-impact financial blueprints:\n\n" +
+          "• **Visual Diagrams**: The 50/30/20 budget cycle, Emergency Fund pyramid, and the 30-Day Student Savings Challenge.\n" +
+          "• **Audio Soundbites**: Built-in voice soundbites you can play and listen to on the go between classes.\n" +
+          "• **Topic Filters & Alt Text**: Filter infographics by budgeting, saving, or debt, with accessible descriptions for screen readers.\n" +
+          "• **Downloadable Cheat Sheets**: Printable PDF guides for campus dorms and study desks.\n\n" +
+          "*Tap 'Infographics' in the navigation menu to explore the visual gallery!*",
+        topicId: 'feature_infographics',
+        isRtl: false
+      };
+    }
+
+    // 0G. Open-ended "explain something to me" / question triage (user hasn't picked a topic yet)
     if (isOpenExplainIntent(norm)) {
       const generalExplains = {
         'en-GB':
