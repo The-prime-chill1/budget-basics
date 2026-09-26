@@ -141,6 +141,119 @@ export default function NeedsVsWants() {
         </p>
       </div>
 
+      {/* Examples of Essential and Optional Categories */}
+      <div className="category-examples-card bee-card">
+        <div className="category-examples-grid">
+          {/* Essential Needs */}
+          <div className="category-example-col col-needs">
+            <div className="category-example-header">
+              <div className="category-icon-bubble bg-needs">
+                <CheckCircle2 size={18} />
+              </div>
+              <div>
+                <span className="cat-badge-pill pill-needs">50% Priority &bull; Non-Negotiable</span>
+                <h3 className="category-col-title text-needs">Essential Needs Examples</h3>
+              </div>
+            </div>
+            <p className="category-col-desc">
+              Mandatory living foundations required to survive, stay healthy, and maintain good academic standing on campus:
+            </p>
+            <ul className="category-items-list">
+              <li>
+                <span className="category-bullet bullet-needs" />
+                <div>
+                  <strong>Core Food Staples:</strong> Rice, pasta, beans, oats, cooking oil, and clean drinking water.
+                </div>
+              </li>
+              <li>
+                <span className="category-bullet bullet-needs" />
+                <div>
+                  <strong>Campus Shelter & Utilities:</strong> Hostel/room accommodation rent, electricity tokens, water, and laundry hygiene.
+                </div>
+              </li>
+              <li>
+                <span className="category-bullet bullet-needs" />
+                <div>
+                  <strong>Daily Commute & Transit:</strong> Campus bus tickets, semester transit reload cards, or commuter train passes.
+                </div>
+              </li>
+              <li>
+                <span className="category-bullet bullet-needs" />
+                <div>
+                  <strong>Academic Materials:</strong> Prescribed departmental lab manuals, core textbook photocopies, and exam calculator.
+                </div>
+              </li>
+              <li>
+                <span className="category-bullet bullet-needs" />
+                <div>
+                  <strong>Health & Prescription Meds:</strong> Doctor copays, allergy tablets, emergency inhaler, and first-aid supplies.
+                </div>
+              </li>
+              <li>
+                <span className="category-bullet bullet-needs" />
+                <div>
+                  <strong>Essential Study Connectivity:</strong> Baseline monthly mobile data bundle to access school portal lectures and submit assignments.
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {/* Optional Wants */}
+          <div className="category-example-col col-wants">
+            <div className="category-example-header">
+              <div className="category-icon-bubble bg-wants">
+                <Coffee size={18} />
+              </div>
+              <div>
+                <span className="cat-badge-pill pill-wants">30% Comfort &bull; Discretionary</span>
+                <h3 className="category-col-title text-wants">Optional Wants Examples</h3>
+              </div>
+            </div>
+            <p className="category-col-desc">
+              Lifestyle boosts, entertainment, and social activities that bring joy but won’t derail graduation if postponed:
+            </p>
+            <ul className="category-items-list">
+              <li>
+                <span className="category-bullet bullet-wants" />
+                <div>
+                  <strong>Dining Out & Takeaway Food:</strong> Food delivery apps, fast food burgers, midnight bubble tea, and café iced lattes.
+                </div>
+              </li>
+              <li>
+                <span className="category-bullet bullet-wants" />
+                <div>
+                  <strong>Streaming & Subscriptions:</strong> Multi-screen 4K video plans, Spotify Premium, YouTube Music, and movie theatre tickets.
+                </div>
+              </li>
+              <li>
+                <span className="category-bullet bullet-wants" />
+                <div>
+                  <strong>Gaming & Gear Upgrades:</strong> In-game cosmetic skins, battle passes, RGB wireless headsets, and console accessories.
+                </div>
+              </li>
+              <li>
+                <span className="category-bullet bullet-wants" />
+                <div>
+                  <strong>Trending Fashion & Drops:</strong> Designer sneakers, branded hoodies, streetwear accessories, and spontaneous closet hauls.
+                </div>
+              </li>
+              <li>
+                <span className="category-bullet bullet-wants" />
+                <div>
+                  <strong>Parties & Nightlife:</strong> Weekend concert tickets, club entrance fees, road trips, and campus festival VIP wristbands.
+                </div>
+              </li>
+              <li>
+                <span className="category-bullet bullet-wants" />
+                <div>
+                  <strong>Convenience Splurges:</strong> Ride-hailing taxi rides (Uber/Bolt) when campus shuttles or a 10-minute walk are freely available.
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       <div className="needs-desktop-layout">
         <div className="needs-col-left">
           <div className="sort-drill-card bee-card">

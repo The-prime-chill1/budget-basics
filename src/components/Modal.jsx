@@ -1,5 +1,6 @@
 // Reusable accessible modal dialog supporting backdrop dismissal, Escape key, and custom actions
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import './Modal.css';
 
@@ -22,7 +23,7 @@ export default function Modal({ isOpen, onClose, title, children, maxWidth = '55
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true">
       <div
         className="modal-content animate-fade-in"
@@ -42,6 +43,7 @@ export default function Modal({ isOpen, onClose, title, children, maxWidth = '55
         </div>
         <div className="modal-body">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

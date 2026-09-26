@@ -119,14 +119,14 @@ export default function BudgetingBasics() {
 
         <div id="concepts-pillars">
           <SectionHeading
-            badge="The 4 Core Elements"
-            title="The Building Blocks of Student Cash Flow"
-            subtitle="Every single penny that passes through your hands falls into one of these four essential categories."
+            badge="Financial Foundations"
+            title="Budgeting Basics for Students"
+            subtitle="Understand how money flows: from incoming allowance to fixed commitments, discretionary spending, and your essential savings cushion."
           />
         </div>
 
         <div className="concepts-grid">
-          <div className="concept-card card interactive">
+          <div className="concept-card card interactive pillar-inflow">
             <div className="concept-icon-box bg-emerald">
               <Coins size={22} />
             </div>
@@ -136,12 +136,12 @@ export default function BudgetingBasics() {
               All incoming financial funds you receive. For students, this includes monthly parental allowances,
               academic stipends, bursaries, part-time campus tutoring, or freelance work.
             </p>
-            <div className="concept-takeaway">
+            <div className="concept-takeaway takeaway-income">
               <strong>Key Rule:</strong> Always calculate your budget based on confirmed net income, not speculative future earnings.
             </div>
           </div>
 
-          <div className="concept-card card interactive">
+          <div className="concept-card card interactive pillar-fixed">
             <div className="concept-icon-box bg-blue">
               <TrendingDown size={22} />
             </div>
@@ -149,14 +149,14 @@ export default function BudgetingBasics() {
             <h3 className="concept-title">2. Fixed Expenses</h3>
             <p className="concept-desc">
               Unavoidable recurring costs with consistent amounts and firm deadlines.
-              Examples include hostel accommodation rent, semester transit passes, and essential prescription medications.
+              Examples include hostel/accommodation rent, semester transit passes, and essential prescription medications.
             </p>
-            <div className="concept-takeaway">
+            <div className="concept-takeaway takeaway-fixed">
               <strong>Key Rule:</strong> Reserve fixed costs on Day 1 before allocating money for any other purpose.
             </div>
           </div>
 
-          <div className="concept-card card interactive">
+          <div className="concept-card card interactive pillar-variable">
             <div className="concept-icon-box bg-amber">
               <RefreshCw size={22} />
             </div>
@@ -166,21 +166,21 @@ export default function BudgetingBasics() {
               Day-to-day costs that fluctuate based on student behavior and academic demands,
               such as research mobile data bundles, stationery, project printing, and canteen meals.
             </p>
-            <div className="concept-takeaway">
+            <div className="concept-takeaway takeaway-variable">
               <strong>Key Rule:</strong> Set weekly spending limits to avoid running out of cash mid-semester.
             </div>
           </div>
 
-          <div className="concept-card card interactive">
+          <div className="concept-card card interactive pillar-savings">
             <div className="concept-icon-box bg-rose">
               <ShieldCheck size={22} />
             </div>
             <div className="concept-badge-tag tag-savings">Financial Security</div>
-            <h3 className="concept-title">4. Savings Buffer</h3>
+            <h3 className="concept-title">4. Savings/Buffer</h3>
             <p className="concept-desc">
               Money intentionally set aside for future objectives or unexpected emergencies (laptop repairs, urgent travel, medical copays).
             </p>
-            <div className="concept-takeaway">
+            <div className="concept-takeaway takeaway-savings">
               <strong>Key Rule:</strong> "Pay Yourself First"—transfer savings before spending on discretionary wants.
             </div>
           </div>
@@ -257,6 +257,106 @@ export default function BudgetingBasics() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </section>
+
+        {/* The 50/30/20 Rule Anatomy Section */}
+        <section className="section-spacing anatomy-box-section">
+          <div className="anatomy-card card">
+            <div className="anatomy-tags-bar">
+              <span className="anatomy-tag tag-category">BUDGETING</span>
+              <span className="anatomy-tag tag-sub">Core Framework</span>
+              <span className="anatomy-tag tag-meta">3 min read</span>
+              <span className="anatomy-tag tag-pill">Diagram/Grid</span>
+            </div>
+
+            <div className="anatomy-grid">
+              {/* Left Column: Visual Ratio Breakdown & Core Pillars */}
+              <div className="anatomy-left-col">
+                <div className="anatomy-headline-group">
+                  <h3 className="anatomy-title">The 50/30/20 Rule Anatomy</h3>
+                  <p className="anatomy-lead">
+                    A proven guideline for balanced financial distribution that ensures you cover obligations while enjoying life responsibly and building savings.
+                  </p>
+                </div>
+
+                <div className="anatomy-ratio-bar">
+                  <div className="ratio-seg seg-needs" style={{ width: '50%' }}>50% Needs</div>
+                  <div className="ratio-seg seg-wants" style={{ width: '30%' }}>30% Wants</div>
+                  <div className="ratio-seg seg-savings" style={{ width: '20%' }}>20% Savings</div>
+                </div>
+
+                <div className="anatomy-cards-stack">
+                  <div className="anatomy-pillar-item pillar-needs">
+                    <div className="pillar-header">
+                      <span className="pillar-pct">50%</span>
+                      <strong>Needs &amp; Survival</strong>
+                    </div>
+                    <p className="pillar-p">
+                      Rent, groceries, semester transit, core academic course materials, utilities, and emergency medication.
+                    </p>
+                  </div>
+
+                  <div className="anatomy-pillar-item pillar-wants">
+                    <div className="pillar-header">
+                      <span className="pillar-pct">30%</span>
+                      <strong>Wants &amp; Lifestyle</strong>
+                    </div>
+                    <p className="pillar-p">
+                      Campus dining out, streaming services, social outings with coursemates, gaming, and non-essential fashion.
+                    </p>
+                  </div>
+
+                  <div className="anatomy-pillar-item pillar-savings">
+                    <div className="pillar-header">
+                      <span className="pillar-pct">20%</span>
+                      <strong>Savings &amp; Safety Cushion</strong>
+                    </div>
+                    <p className="pillar-p">
+                      Emergency cash reserve, tech gadget replacement fund, and a post-graduation starting buffer.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Key Educational Takeaways Box */}
+              <div className="anatomy-right-col">
+                <div className="takeaways-box">
+                  <div className="takeaways-header">
+                    <Sparkles size={18} className="text-gold" />
+                    <h4>Key Educational Takeaways</h4>
+                  </div>
+
+                  <ul className="takeaways-list">
+                    <li>
+                      <CheckCircle2 size={16} className="takeaway-check text-emerald" />
+                      <div>
+                        <strong>50% Needs:</strong> Housing, food staples, transit, medicine, academic textbooks, and course materials.
+                      </div>
+                    </li>
+                    <li>
+                      <CheckCircle2 size={16} className="takeaway-check text-emerald" />
+                      <div>
+                        <strong>30% Wants:</strong> Dining out with peers, gaming, campus social events, video streaming subscriptions.
+                      </div>
+                    </li>
+                    <li>
+                      <CheckCircle2 size={16} className="takeaway-check text-emerald" />
+                      <div>
+                        <strong>20% Savings:</strong> Emergency fund, gadget replacement, and life-after-graduation cushion.
+                      </div>
+                    </li>
+                  </ul>
+
+                  <div className="takeaways-footer-action">
+                    <Link to="/50-30-20" className="btn btn-primary btn-block btn-attention-pulse">
+                      <span>Open 50/30/20 Calculator</span>
+                      <ArrowRight size={16} />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 

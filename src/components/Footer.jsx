@@ -88,9 +88,15 @@ export default function Footer() {
               <span className="footer-meta-pill">Zero Server Storage</span>
             </div>
             <div className="footer-sub-links-row">
-              <Link to="/about" className="footer-sub-link">About Project</Link>
+              <Link to="/about" className="footer-sub-link">
+                <Info size={13} />
+                <span>About Project</span>
+              </Link>
               <span className="footer-sep-dot">&bull;</span>
-              <Link to="/privacy" className="footer-sub-link">Privacy &amp; Security</Link>
+              <Link to="/privacy" className="footer-sub-link">
+                <ShieldCheck size={13} />
+                <span>Privacy &amp; Security</span>
+              </Link>
             </div>
           </div>
 

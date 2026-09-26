@@ -1,4 +1,4 @@
-// Privacy Policy detailing student-centric client-side privacy, zero financial credentials, and local storage rights
+// Data & Security Charter: student-centric client-side privacy, zero financial credentials, and local storage rights
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -17,9 +17,9 @@ import {
 } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading';
 import BrandLogo from '../components/BrandLogo';
-import './PrivacyPolicy.css';
+import './SecurityCharter.css';
 
-export default function PrivacyPolicy() {
+export default function SecurityCharter() {
   const [storedItemsCount, setStoredItemsCount] = useState(0);
   const [clearedToast, setClearedToast] = useState(false);
 
@@ -45,44 +45,44 @@ export default function PrivacyPolicy() {
   };
 
   return (
-    <div className="privacy-page page-wrapper animate-fade-in">
+    <div className="charter-page page-wrapper animate-fade-in">
       <div className="app-container">
         {/* Back Link */}
-        <div className="privacy-top-nav">
-          <Link to="/" className="privacy-back-btn">
+        <div className="charter-top-nav">
+          <Link to="/" className="charter-back-btn">
             <ArrowLeft size={16} />
             <span>Back to Home</span>
           </Link>
-          <span className="privacy-last-updated">Effective: September 2026 &bull; Version 2.4</span>
+          <span className="charter-last-updated">Effective: September 2026 &bull; Version 2.4</span>
         </div>
 
         {/* Hero Banner */}
-        <header className="privacy-hero-banner">
-          <div className="privacy-hero-emblem-wrap">
-            <div className="privacy-shield-pulse">
-              <ShieldCheck size={36} className="privacy-shield-icon" />
+        <header className="charter-hero-banner">
+          <div className="charter-hero-emblem-wrap">
+            <div className="charter-shield-pulse">
+              <ShieldCheck size={36} className="charter-shield-icon" />
             </div>
-            <BrandLogo variant="mark" height={44} className="privacy-logo-mark" />
+            <BrandLogo variant="mark" height={44} className="charter-logo-mark" />
           </div>
 
-          <span className="privacy-badge">Zero-Jargon &bull; Transparent Protection</span>
-          <h1 className="privacy-title">Privacy & Data Security Charter</h1>
-          <p className="privacy-lead">
+          <span className="charter-badge">Zero-Jargon &bull; Transparent Protection</span>
+          <h1 className="charter-title">Privacy & Data Security Charter</h1>
+          <p className="charter-lead">
             BudgetBasics is engineered with a strict <strong>Privacy-by-Design</strong> ethos. We believe financial literacy should empower students without demanding personal data, banking credentials, or intrusive surveillance.
           </p>
 
-          <div className="privacy-quick-facts-grid">
-            <div className="privacy-fact-card">
+          <div className="charter-quick-facts-grid">
+            <div className="charter-fact-card">
               <Lock size={20} className="fact-icon text-gold" />
               <strong className="fact-title">0 Bank Credentials</strong>
               <span className="fact-desc">Never connects to banking APIs, card numbers, or BVN/SSN</span>
             </div>
-            <div className="privacy-fact-card">
+            <div className="charter-fact-card">
               <Cpu size={20} className="fact-icon text-emerald" />
               <strong className="fact-title">100% Client-Side</strong>
               <span className="fact-desc">All math, 50/30/20 logic, and calculators execute in your browser</span>
             </div>
-            <div className="privacy-fact-card">
+            <div className="charter-fact-card">
               <EyeOff size={20} className="fact-icon text-blue" />
               <strong className="fact-title">Zero Ad Trackers</strong>
               <span className="fact-desc">No third-party marketing pixels or tracking scripts</span>
@@ -91,8 +91,8 @@ export default function PrivacyPolicy() {
         </header>
 
         {/* Core Principles */}
-        <section className="privacy-content-grid">
-          <article className="privacy-section-card">
+        <section className="charter-content-grid">
+          <article className="charter-section-card">
             <div className="section-card-head">
               <div className="section-icon-box bg-gold-tint">
                 <Database size={22} className="text-gold" />
@@ -105,7 +105,7 @@ export default function PrivacyPolicy() {
             <p className="section-card-text">
               BudgetBasics does <strong>not require any account registration</strong>. You never provide your legal name, physical address, national identity numbers, debit/credit card CVVs, or bank login tokens.
             </p>
-            <ul className="privacy-points-list">
+            <ul className="charter-points-list">
               <li>
                 <CheckCircle2 size={16} className="text-emerald point-check" />
                 <span><strong>No Account Mandate:</strong> Browse guides, test calculations, and chat with BeeWise anonymously.</span>
@@ -121,7 +121,7 @@ export default function PrivacyPolicy() {
             </ul>
           </article>
 
-          <article className="privacy-section-card">
+          <article className="charter-section-card">
             <div className="section-card-head">
               <div className="section-icon-box bg-emerald-tint">
                 <Cpu size={22} className="text-emerald" />
@@ -134,7 +134,7 @@ export default function PrivacyPolicy() {
             <p className="section-card-text">
               To make your experience seamless between browser visits, we use your browser's private <code>localStorage</code> API for device-only convenience:
             </p>
-            <ul className="privacy-points-list">
+            <ul className="charter-points-list">
               <li>
                 <CheckCircle2 size={16} className="text-emerald point-check" />
                 <span><strong>Display Theme:</strong> Remembering whether you prefer Light or Dark mode (<code>budgetbee_theme</code>).</span>
@@ -150,7 +150,7 @@ export default function PrivacyPolicy() {
             </ul>
           </article>
 
-          <article className="privacy-section-card">
+          <article className="charter-section-card">
             <div className="section-card-head">
               <div className="section-icon-box bg-blue-tint">
                 <ShieldCheck size={22} className="text-blue" />
@@ -168,7 +168,7 @@ export default function PrivacyPolicy() {
             </p>
           </article>
 
-          <article className="privacy-section-card interactive-data-manager">
+          <article className="charter-section-card interactive-data-manager">
             <div className="section-card-head">
               <div className="section-icon-box bg-amber-tint">
                 <Trash2 size={22} className="text-amber" />
@@ -200,7 +200,7 @@ export default function PrivacyPolicy() {
             </div>
 
             {clearedToast && (
-              <div className="privacy-toast-success animate-fade-in">
+              <div className="charter-toast-success animate-fade-in">
                 <CheckCircle2 size={18} />
                 <span>Local storage successfully wiped! Your device memory is completely clean.</span>
               </div>
@@ -209,8 +209,8 @@ export default function PrivacyPolicy() {
         </section>
 
         {/* Footer Support Notice */}
-        <div className="privacy-contact-card">
-          <div className="privacy-contact-text">
+        <div className="charter-contact-card">
+          <div className="charter-contact-text">
             <Sparkles size={20} className="text-gold" />
             <div>
               <strong className="contact-heading">Questions Regarding Security?</strong>

@@ -3,6 +3,10 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgba(10, 25, 30, 0.75);
@@ -12,7 +16,7 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  z-index: 1000;
+  z-index: 999999;
   overflow: hidden; /* Overlay does not scroll; only modal body scrolls */
   animation: modalBackdropFadeIn 0.2s ease-out;
 }
