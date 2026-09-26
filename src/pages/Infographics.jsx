@@ -173,15 +173,15 @@ export default function Infographics() {
 
   const handlePrevDiagram = () => {
     if (currentIndex > 0) {
-      setSelectedInfographic(filteredItems[currentIndex - 1]);
+      setSelectedInfographic(filteredDiagrams[currentIndex - 1]);
       setZoomLevel(1);
       setCanvasPos({ x: 0, y: 0 });
     }
   };
 
   const handleNextDiagram = () => {
-    if (currentIndex >= 0 && currentIndex < filteredItems.length - 1) {
-      setSelectedInfographic(filteredItems[currentIndex + 1]);
+    if (currentIndex >= 0 && currentIndex < filteredDiagrams.length - 1) {
+      setSelectedInfographic(filteredDiagrams[currentIndex + 1]);
       setZoomLevel(1);
       setCanvasPos({ x: 0, y: 0 });
     }
@@ -223,7 +223,7 @@ export default function Infographics() {
       document.body.classList.remove('studio-modal-active');
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedInfographic, currentIndex, filteredItems, isVisualFullscreen]);
+  }, [selectedInfographic, currentIndex, filteredDiagrams, isVisualFullscreen]);
 
   // Interactive Pan / Drag handlers
   const handleMouseDown = (e) => {
@@ -509,7 +509,7 @@ export default function Infographics() {
                     <span>{selectedInfographic.readingTime}</span>
                   </span>
                   <span className="studio-counter-pill">
-                    Diagram {currentIndex + 1} of {filteredItems.length}
+                    Diagram {currentIndex + 1} of {filteredDiagrams.length}
                   </span>
                 </div>
 
@@ -705,7 +705,7 @@ export default function Infographics() {
                           type="button"
                           className="nav-arrow-btn"
                           onClick={handleNextDiagram}
-                          disabled={currentIndex >= filteredItems.length - 1}
+                          disabled={currentIndex >= filteredDiagrams.length - 1}
                           title="Next Infographic (→)"
                           aria-label="Next diagram"
                         >
