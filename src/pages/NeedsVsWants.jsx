@@ -359,9 +359,9 @@ export default function NeedsVsWants() {
 
           <div className="mindful-banner-card bee-card">
             <div className="mindful-card-top">
-              <div className="banner-visual-box">
-                <img src="/human.jpg" alt="Student Studying" className="banner-img" />
-                <div className="banner-overlay-tag">Mindful Spending &bull; Zero Stress Finals</div>
+              <div className="mindful-visual-box">
+                <img src="/human.jpg" alt="Student Studying" className="mindful-study-photo" />
+                <div className="mindful-overlay-tag">Mindful Spending &bull; Zero Stress Finals</div>
               </div>
 
               <div className="mindful-guide-content">
@@ -386,9 +386,9 @@ export default function NeedsVsWants() {
               </div>
             </div>
 
-            <div className="banner-footer-row">
-              <span className="banner-prompt-text">Need an AI verdict on a purchase?</span>
-              <Link to="/chatbot" className="banner-link">
+            <div className="mindful-action-footer">
+              <span className="mindful-prompt-label">Need an AI verdict on a purchase?</span>
+              <Link to="/chatbot" className="mindful-action-link">
                 <span>Ask BeeWise AI</span>
                 <ArrowRight size={14} />
               </Link>

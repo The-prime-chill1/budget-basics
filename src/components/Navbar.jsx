@@ -47,6 +47,8 @@ const TITLE_SUBTITLE_MAP = {
   '/money-mistakes': 'Common Student Money Mistakes',
   '/search': 'Search & Filter Learning Resources',
   '/about': 'About BudgetBasics & TechWiz 7',
+  '/privacy': 'Privacy & Data Security Charter',
+  '/privacy-policy': 'Privacy & Data Security Charter',
   '/sitemap': 'BudgetBasics Information Architecture',
   '/landing': 'Platform Showcase & Overview',
   '/welcome': 'Platform Showcase & Overview'
@@ -88,6 +90,7 @@ export const NAV_SECTIONS = [
     icon: MessageSquare,
     links: [
       { name: 'About BudgetBasics', path: '/about', desc: 'Project mission, educational standards & audience' },
+      { name: 'Privacy Policy', path: '/privacy', desc: 'Zero credentials & 100% client-side data charter' },
       { name: 'Student Feedback', path: '/feedback', desc: 'Client-side evaluation and platform rating form' },
       { name: 'Contact Campus Help', path: '/contact', desc: 'Student support directory & academic hotline' },
       { name: 'Visual Sitemap Flow', path: '/sitemap', desc: 'Interactive flowchart of the complete platform' }

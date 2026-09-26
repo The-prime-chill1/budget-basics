@@ -14,7 +14,8 @@ import {
   ShieldCheck,
   RefreshCw,
   Wallet,
-  Coins
+  Coins,
+  Sparkles
 } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading';
 import ProgressBar from '../components/ProgressBar';
@@ -52,11 +53,77 @@ export default function BudgetingBasics() {
   return (
     <div className="budgeting-basics-page page-wrapper animate-fade-in">
       <div className="app-container">
-        <SectionHeading
-          badge="Financial Foundations"
-          title="Budgeting Basics for Students"
-          subtitle="Understand how money flows: from incoming allowance to fixed commitments, discretionary spending, and your essential savings cushion."
-        />
+        
+        {/* Engaging Hero Section with High-Resolution Student Imagery */}
+        <section className="budgeting-hero-card">
+          <div className="budgeting-hero-content">
+            <div className="budgeting-hero-badge-pill">
+              <Sparkles size={14} className="text-gold" />
+              <span>Financial Foundations 101 &bull; Student Blueprint</span>
+            </div>
+            
+            <h1 className="budgeting-hero-heading">
+              Master the Flow of Every Dollar on Campus
+            </h1>
+            
+            <p className="budgeting-hero-lead">
+              Learn how student money really moves: from monthly parental allowances and campus wages to fixed hostel rent, daily meals, lifestyle choices, and building an untouchable emergency cushion.
+            </p>
+
+            <div className="budgeting-hero-feature-tags">
+              <span className="hero-feature-tag">
+                <CheckCircle2 size={13} className="text-emerald" />
+                <span>4 Cash Flow Pillars</span>
+              </span>
+              <span className="hero-feature-tag">
+                <CheckCircle2 size={13} className="text-emerald" />
+                <span>Realistic Allocation Model</span>
+              </span>
+              <span className="hero-feature-tag">
+                <CheckCircle2 size={13} className="text-emerald" />
+                <span>Interactive Knowledge Quiz</span>
+              </span>
+            </div>
+
+            <div className="budgeting-hero-actions-row">
+              <a href="#concepts-pillars" className="btn btn-primary budgeting-cta-btn btn-attention-pulse">
+                <span>Explore Budget Pillars</span>
+                <ArrowRight size={15} />
+              </a>
+              <Link to="/50-30-20" className="btn btn-secondary budgeting-secondary-btn">
+                <span>Try 50/30/20 Calculator</span>
+              </Link>
+            </div>
+          </div>
+
+          <div className="budgeting-hero-media-wrapper">
+            <div className="budgeting-hero-image-frame">
+              <img
+                src="/student-budgeting-hero.jpg"
+                alt="Student thoughtfully reviewing monthly budget on campus"
+                className="budgeting-hero-photo"
+              />
+              <div className="budgeting-hero-photo-gradient"></div>
+              <div className="budgeting-hero-floating-card">
+                <div className="floating-badge-icon">
+                  <ShieldCheck size={18} className="text-emerald" />
+                </div>
+                <div>
+                  <strong className="floating-card-title">100% Student-Crafted</strong>
+                  <span className="floating-card-sub">Zero jargon, pure real-world application</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div id="concepts-pillars">
+          <SectionHeading
+            badge="The 4 Core Elements"
+            title="The Building Blocks of Student Cash Flow"
+            subtitle="Every single penny that passes through your hands falls into one of these four essential categories."
+          />
+        </div>
 
         <div className="concepts-grid">
           <div className="concept-card card interactive">
@@ -143,6 +210,10 @@ export default function BudgetingBasics() {
               <span className="source-name">Combined Budget Base</span>
               <strong className="source-amount total-highlight">{formatCurrency(studentMonthlyBudgetExample.monthlyIncome)}</strong>
             </div>
+          </div>
+
+          <div className="table-swipe-hint-bar" aria-hidden="true">
+            <span>&larr; Swipe horizontally to view all budget columns &rarr;</span>
           </div>
 
           <div className="table-responsive">

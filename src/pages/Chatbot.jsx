@@ -303,6 +303,21 @@ export default function Chatbot() {
   };
 
   const isFollowUpIntent = (norm) => {
+    // If the query mentions specific topics or is a full question (>4 words), it is NOT a generic follow-up
+    const specificTopics = [
+      '50', '30', '20', 'rent', 'hostel', 'food', 'broke', 'sapa', 'debt',
+      'loan', 'fee', 'tuition', 'save', 'saving', 'savings', 'overspend', 'overspending',
+      'invest', 'investing', 'crypto', 'side hustle', 'afford', 'ticket', 'concert',
+      'emergency', 'allowance', 'scholarship', 'black tax', 'family', 'shopping',
+      'needs', 'wants', 'budget', 'rule', 'cockpit', 'planner', 'infographic'
+    ];
+    if (specificTopics.some((t) => norm.includes(t))) {
+      return false;
+    }
+    if (norm.split(' ').length > 4) {
+      return false;
+    }
+
     const phrases = [
       'explain',
       'explain further',

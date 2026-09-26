@@ -87,6 +87,11 @@ export default function Footer() {
               <span className="footer-meta-pill">100% Client-Side SPA</span>
               <span className="footer-meta-pill">Zero Server Storage</span>
             </div>
+            <div className="footer-sub-links-row">
+              <Link to="/about" className="footer-sub-link">About Project</Link>
+              <span className="footer-sep-dot">&bull;</span>
+              <Link to="/privacy" className="footer-sub-link">Privacy &amp; Security</Link>
+            </div>
           </div>
 
           <div className="footer-col">
@@ -165,24 +170,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="footer-trust-box">
-          <div className="trust-item">
-            <ShieldCheck size={18} className="trust-icon text-blue" />
-            <div>
-              <strong>Strictly Educational:</strong> BudgetBasics does not connect to real banking accounts, payment processors, or transaction APIs. All calculations and simulations are strictly client-side educational models for collegiate learning.
-            </div>
-          </div>
-          <div className="trust-item">
-            <Sparkles size={18} className="trust-icon text-gold" />
-            <div>
-              <strong>Client-Side Data Privacy:</strong> No sensitive financial credentials or cookies are stored on or sent to remote servers. All session calculations remain entirely private in your local browser window.
-            </div>
-          </div>
-        </div>
-
         <div className="footer-bottom-bar">
           <div className="footer-copy-text">
-            &copy; {new Date().getFullYear()} <strong>BudgetBasics</strong> &bull; Built and powered by <strong>Team PixelForge</strong> &bull; Aptech TechWiz 7.
+            &copy; {new Date().getFullYear()} <strong>BudgetBasics</strong> &bull; Built and powered by <strong>Team PixelForge</strong> &bull; <Link to="/privacy" className="footer-copy-link">Privacy Policy</Link>
           </div>
 
           <div className="footer-metrics-group">

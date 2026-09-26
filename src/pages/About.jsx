@@ -1,5 +1,5 @@
 // About page covering the BudgetBasics mission, educational principles, and Team PixelForge credits
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Sparkles,
@@ -25,11 +25,34 @@ import './About.css';
 
 export default function About() {
   const { currency } = useCurrency();
+  const [activeTab, setActiveTab] = useState('mission');
+
   return (
     <div className="about-page page-wrapper animate-fade-in">
       <div className="app-container">
+        {/* Emblem Showcase with Live Attention Pulse */}
         <div className="about-brand-emblem-showcase">
-          <BrandLogo variant="full" height={58} className="about-hero-logo" />
+          <div className="about-emblem-left">
+            <BrandLogo variant="full" height={54} className="about-hero-logo" />
+            <div className="about-live-status-pill">
+              <span className="live-pulse-dot" />
+              <span>100% Student-Crafted &bull; Zero Commercial Tracking</span>
+            </div>
+          </div>
+          <div className="about-emblem-quick-actions">
+            <Link to="/50-30-20" className="emblem-quick-pill" title="Explore the 50/30/20 Formula">
+              <Calculator size={14} />
+              <span>50/30/20 Formula</span>
+            </Link>
+            <Link to="/planner" className="emblem-quick-pill" title="Open the Expense Planner">
+              <FileSpreadsheet size={14} />
+              <span>Expense Planner</span>
+            </Link>
+            <Link to="/privacy" className="emblem-quick-pill" title="View Privacy & Security Charter">
+              <ShieldCheck size={14} />
+              <span>Privacy Charter</span>
+            </Link>
+          </div>
         </div>
 
         <SectionHeading
@@ -40,8 +63,12 @@ export default function About() {
 
         <div className="about-hero-card card">
           <div className="about-hero-content">
+            <div className="about-hero-badge-row">
+              <span className="about-theme-pill">Theme: NextGen BudgetBee</span>
+              <span className="about-competition-pill">Web Innovation Unleashed</span>
+            </div>
             <h2 className="about-hero-title">
-              Theme: <span className="text-highlight">NextGen BudgetBee</span> &bull; Web Innovation Unleashed
+              Smart Financial Literacy <span className="text-highlight">Without the Stress</span>
             </h2>
             <p className="about-hero-p">
               Many students start handling pocket money, allowances, internship stipends, or campus job wages
@@ -50,22 +77,35 @@ export default function About() {
             </p>
             <p className="about-hero-p">
               <strong>BudgetBasics</strong> was conceived as an academic web innovation project that transforms
-              abstract personal finance principles into engaging, relatable, visual experiences.
+              abstract personal finance principles into engaging, relatable, visual experiences with 100% client-side computations.
             </p>
+            <div className="about-hero-cta-row">
+              <Link to="/50-30-20" className="btn btn-primary btn-attention-pulse">
+                <span>Start Budgeting</span>
+                <ArrowRight size={16} />
+              </Link>
+              <Link to="/needs-vs-wants" className="btn btn-outline">
+                <Sparkles size={16} />
+                <span>Needs vs. Wants Challenge</span>
+              </Link>
+            </div>
           </div>
 
           <div className="about-stats-side">
-            <div className="about-stat-box">
+            <div className="about-stat-box interactive-stat-box">
               <strong className="stat-number">100%</strong>
               <span className="stat-desc">Educational & Safe</span>
+              <span className="stat-sub">Zero banking credentials required</span>
             </div>
-            <div className="about-stat-box">
+            <div className="about-stat-box interactive-stat-box">
               <strong className="stat-number">0</strong>
               <span className="stat-desc">Sign-up Barriers</span>
+              <span className="stat-sub">Instant browser-only access</span>
             </div>
-            <div className="about-stat-box">
+            <div className="about-stat-box interactive-stat-box">
               <strong className="stat-number">{currency.symbol}</strong>
-              <span className="stat-desc">Active: {currency.code} ({currency.name})</span>
+              <span className="stat-desc">Active: {currency.code}</span>
+              <span className="stat-sub">{currency.name} &bull; Real-time</span>
             </div>
           </div>
         </div>

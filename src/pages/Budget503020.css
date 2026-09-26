@@ -828,3 +828,33 @@
 [data-theme='dark'] .btn-icon-done {
   color: #34d399;
 }
+
+.steps-completion-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 0.9rem;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(245, 158, 11, 0.12) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: var(--radius-md);
+  margin-top: 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--secondary-emerald);
+}
+
+[data-theme='dark'] .steps-completion-banner {
+  color: #34d399;
+  border-color: rgba(52, 211, 153, 0.4);
+}
+
+.sparkle-pulse {
+  animation: sparkleSpinPulse 2s infinite ease-in-out;
+}
+
+@keyframes sparkleSpinPulse {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.25) rotate(15deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+

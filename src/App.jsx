@@ -22,6 +22,7 @@ import MoneyMistakes from './pages/MoneyMistakes';
 import About from './pages/About';
 import Search from './pages/Search';
 import Sitemap from './pages/Sitemap';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import Landing from './pages/Landing';
 
 import { CurrencyProvider } from './context/CurrencyContext';
@@ -97,6 +98,8 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/search" element={<Search />} />
           <Route path="/sitemap" element={<Sitemap />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
           <Route path="*" element={<Landing />} />
         </Routes>

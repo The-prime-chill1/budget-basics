@@ -344,6 +344,13 @@ Generated on BudgetBasics: https://budgetbasics.org`;
               </label>
             </div>
 
+            {actionSteps.step1 && actionSteps.step2 && actionSteps.step3 && (
+              <div className="steps-completion-banner animate-fade-in">
+                <Sparkles size={16} className="text-gold sparkle-pulse" />
+                <span>Goal Mastered! All 3 habits are locked in. Your budget shield is 100% active.</span>
+              </div>
+            )}
+
             <div className="action-weekly-envelopes">
               <div className="weekly-envelopes-header">
                 <div className="weekly-head-left">
