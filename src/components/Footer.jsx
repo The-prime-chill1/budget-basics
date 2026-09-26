@@ -89,12 +89,11 @@ export default function Footer() {
             </div>
             <div className="footer-sub-links-row">
               <Link to="/about" className="footer-sub-link">
-                <Info size={13} />
+                <Info size={13} className="sub-link-icon" />
                 <span>About Project</span>
               </Link>
-              <span className="footer-sep-dot">&bull;</span>
               <Link to="/privacy" className="footer-sub-link">
-                <ShieldCheck size={13} />
+                <ShieldCheck size={13} className="sub-link-icon" />
                 <span>Privacy &amp; Security</span>
               </Link>
             </div>
