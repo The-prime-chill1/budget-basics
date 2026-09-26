@@ -221,7 +221,7 @@ export default function Feedback() {
                 <div style={{ background: 'var(--surface-low)', padding: '0.85rem', borderRadius: 'var(--radius-md)', fontSize: '0.85rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700', marginBottom: '0.25rem' }}>
                     <span>Hamid (Year 1)</span>
-                    <span style={{ color: '#f59e0b' }}>★★★★★</span>
+                    <span style={{ color: '#f59e0b' }}></span>
                   </div>
                   <p style={{ margin: 0, color: 'var(--text-secondary)', fontStyle: 'italic' }}>
                     "The Needs vs Wants quiz makes budgeting fun instead of stressful. Love the immediate feedback!"
@@ -231,7 +231,7 @@ export default function Feedback() {
                 <div style={{ background: 'var(--surface-low)', padding: '0.85rem', borderRadius: 'var(--radius-md)', fontSize: '0.85rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700', marginBottom: '0.25rem' }}>
                     <span>Tammy (Year 2)</span>
-                    <span style={{ color: '#f59e0b' }}>★★★★★</span>
+                    <span style={{ color: '#f59e0b' }}></span>
                   </div>
                   <p style={{ margin: 0, color: 'var(--text-secondary)', fontStyle: 'italic' }}>
                     "The 50/30/20 formula breakdown gave me clarity on how to allocate hostel groceries vs savings."
@@ -241,7 +241,7 @@ export default function Feedback() {
                 <div style={{ background: 'var(--surface-low)', padding: '0.85rem', borderRadius: 'var(--radius-md)', fontSize: '0.85rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700', marginBottom: '0.25rem' }}>
                     <span>Lawal (Year 3)</span>
-                    <span style={{ color: '#f59e0b' }}>★★★★★</span>
+                    <span style={{ color: '#f59e0b' }}></span>
                   </div>
                   <p style={{ margin: 0, color: 'var(--text-secondary)', fontStyle: 'italic' }}>
                     "Expense logging is quick and lightweight. Doesn't feel like complicated spreadsheet software."

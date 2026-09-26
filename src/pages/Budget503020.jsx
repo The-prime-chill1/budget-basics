@@ -81,7 +81,7 @@ export default function Budget503020() {
     const weeklyNeeds = Math.round(calc.needs / 4);
     const weeklyWants = Math.round(calc.wants / 4);
     const weeklySavings = Math.round(calc.savings / 4);
-    const text = `📋 My Student 50/30/20 Budget Plan (${currency.code})
+    const text = ` My Student 50/30/20 Budget Plan (${currency.code})
 Total Monthly Income: ${format(numericIncome)}
 
 • 50% Needs (Rent, Groceries, Transit, Course Materials):
@@ -93,7 +93,7 @@ Total Monthly Income: ${format(numericIncome)}
 • 20% Savings & Debt (Emergency Fund, Target Savings):
   ${format(calc.savings)} / month (~${format(weeklySavings)} / week)
 
-🎯 1-Year Projected Savings: ${format(calc.savings * 12)}
+ 1-Year Projected Savings: ${format(calc.savings * 12)}
 Generated on BudgetBasics: https://budgetbasics.org`;
 
     navigator.clipboard.writeText(text).then(() => {
