@@ -17,8 +17,8 @@ export function getOrCreateStudentSession() {
     const randomNum = Math.floor(1000 + Math.random() * 9000);
     session = {
       userId: `STU-${randomNum}`,
-      displayName: `Student #${randomNum}`,
-      name: 'Abdulhameed',
+      displayName: `Student STU-${randomNum}`,
+      name: null,
       createdAt: new Date().toISOString(),
       role: 'Campus Learner'
     };
@@ -29,16 +29,16 @@ export function getOrCreateStudentSession() {
     }
   }
 
-  // Ensure student name is available
+  // Check if a custom name was explicitly declared by the user
   try {
     const storedName = localStorage.getItem(NAME_KEY);
-    if (storedName) {
-      session.name = storedName;
-    } else if (!session.name) {
-      session.name = 'Abdulhameed';
+    if (storedName && storedName.trim()) {
+      session.name = storedName.trim();
+    } else {
+      session.name = null;
     }
   } catch {
-    if (!session.name) session.name = 'Abdulhameed';
+    session.name = null;
   }
 
   return session;

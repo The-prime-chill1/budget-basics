@@ -51,7 +51,7 @@ const INITIAL_MESSAGES_MAP = {
 export default function Chatbot() {
   const { currency, format, convertFromNgn } = useCurrency();
   const [session, setSession] = useState(() => getOrCreateStudentSession());
-  const studentName = session?.name || 'Abdulhameed';
+  const studentName = session?.name || null;
   const [selectedLang, setSelectedLang] = useState('en-GB');
   const [autoSpeak, setAutoSpeak] = useState(false);
   const [isListening, setIsListening] = useState(false);
@@ -306,6 +306,21 @@ export default function Chatbot() {
   };
 
   const isFollowUpIntent = (norm) => {
+    // If the query is a greeting, small talk, or asks "how are you", it is NOT a follow-up
+    if (
+      norm.includes('how are you') ||
+      norm.includes('how are you doing') ||
+      norm.includes('how do you do') ||
+      norm.includes('how is it going') ||
+      norm.includes('how are you today') ||
+      norm.startsWith('how are') ||
+      norm.startsWith('who are') ||
+      norm.startsWith('what are') ||
+      norm.startsWith('good ')
+    ) {
+      return false;
+    }
+
     // If the query mentions specific topics or is a full question (>4 words), it is NOT a generic follow-up
     const specificTopics = [
       '50', '30', '20', 'rent', 'hostel', 'food', 'broke', 'sapa', 'debt',
@@ -346,11 +361,11 @@ export default function Chatbot() {
       'elaborate',
       'tell me more',
       'how does that work',
+      'how so',
+      'why so',
       'confused',
       'clarify',
       'what does that mean',
-      'why',
-      'how',
       'samjhao',
       'batao',
       'samajh nahi aaya',
@@ -370,6 +385,75 @@ export default function Chatbot() {
     ];
     return phrases.some(
       (phrase) => norm === phrase || norm.startsWith(phrase + ' ') || norm.endsWith(' ' + phrase)
+    );
+  };
+
+  const isHowAreYouIntent = (norm) => {
+    const patterns = [
+      'how are you',
+      'how r u',
+      'how are u',
+      'how are you doing',
+      'how you doing',
+      'how do you do',
+      'how is it going',
+      'hows it going',
+      'how is everything',
+      'how are things',
+      'how are you today',
+      'how have you been',
+      'hows your day',
+      'how is your day',
+      'how do you feel'
+    ];
+    return patterns.some(
+      (pat) =>
+        norm === pat ||
+        norm.startsWith(pat + ' ') ||
+        norm.endsWith(' ' + pat) ||
+        norm.includes(pat)
+    );
+  };
+
+  const isUserStatusIntent = (norm) => {
+    const statusPatterns = [
+      'i am fine',
+      'im fine',
+      'am fine',
+      'i am good',
+      'im good',
+      'am good',
+      'doing well',
+      'doing good',
+      'all good',
+      'pretty good',
+      'im alright',
+      'i am alright',
+      'doing great',
+      'im great',
+      'i am great',
+      'not bad',
+      'im stressed',
+      'i am stressed',
+      'feeling stressed',
+      'im broke',
+      'i am broke',
+      'im tired',
+      'i am tired',
+      'not good',
+      'not doing well',
+      'not great',
+      'struggling',
+      'feeling overwhelmed',
+      'im overwhelmed'
+    ];
+    return statusPatterns.some(
+      (pat) =>
+        norm === pat ||
+        norm.startsWith(pat + ' ') ||
+        norm.endsWith(' ' + pat) ||
+        norm === 'yes ' + pat ||
+        norm === 'yeah ' + pat
     );
   };
 
@@ -893,7 +977,172 @@ export default function Chatbot() {
 
     const norm = cleanNorm(query);
 
-    // 0. Open-ended "explain something to me" / question triage (user hasn't picked a topic yet)
+    // 0A. Natural Conversational Small Talk ("how are you", "how are you doing", "how is it going")
+    if (isHowAreYouIntent(norm)) {
+      const howAreYouGreetings = {
+        'en-GB': `I'm doing really well, thank you for asking! 😊 Hope your day is going smoothly.\n\nHow are you doing today? Whether you'd like to check your campus allowance, plan your weekly budget, or test an upcoming purchase, I'm right here in your corner. What would you like to work on?`,
+        'en-US': `I'm doing great, thanks for asking! 😊 Hope you're having a good day.\n\nHow are things with you today? Let me know if you want to calculate your 50/30/20 budget, test if you can afford a purchase, or check in on your savings goals!`,
+        'en-IN': `Main bilkul theek hoon, poochne ke liye shukriya! 😊 Aapka din kaisa chal raha hai?\n\nAaj pocket money ya bachat ke baare me kya discuss karna chahte hain?`,
+        'es-ES': `¡Estoy muy bien, muchas gracias por preguntar! 😊 ¿Cómo va tu día?\n\nCuéntame si quieres revisar tu presupuesto, calcular tus ahorros o ver la regla 50/30/20.`,
+        'fr-FR': `Je vais très bien, merci de demander ! 😊 J'espère que votre journée se passe à merveille.\n\nComment allez-vous ? N'hésitez pas si vous voulez vérifier votre budget ou planifier vos dépenses !`,
+        'ar-SA': `أنا بخير والحمد لله، شكراً لسؤالك اللطيف! 😊 أتمنى أن يكون يومك رائعاً ومثمراً.\n\nكيف حالك اليوم؟ أخبرني إذا كنت تريد مراجعة ميزانيتك أو التخطيط لمصروفك!`
+      };
+      return {
+        answer: howAreYouGreetings[activeLang] || howAreYouGreetings['en-GB'],
+        topicId: 'small_talk_how_are_you',
+        isRtl: activeLang === 'ar-SA'
+      };
+    }
+
+    // 0B. User Status & Mood ("i am fine", "im fine", "doing well", "stressed", "tired", "broke")
+    if (isUserStatusIntent(norm)) {
+      const isPositive = [
+        'fine', 'good', 'well', 'great', 'awesome', 'cool', 'alright',
+        'all good', 'doing good', 'doing well', 'not bad'
+      ].some((w) => norm.includes(w));
+
+      if (isPositive) {
+        return {
+          answer: `Glad to hear you're doing well! 😊 That's always great to hear.\n\nWhenever you're ready, we can check your daily campus expenses, test a purchase with the 50/30/20 rule, or look into growing your emergency fund. What's on your agenda today?`,
+          topicId: 'user_status_positive',
+          isRtl: false
+        };
+      } else {
+        return {
+          answer: `I hear you, and it's completely valid to feel that way. College and student life can get overwhelming, especially when balancing expenses, classes, and unexpected costs.\n\nTake a deep breath—I'm right here with you with zero judgment. We can take things one simple step at a time. What's pressing on your mind right now?`,
+          topicId: 'user_status_empathy',
+          isRtl: false
+        };
+      }
+    }
+
+    // 0C. Student Identity & Recognition ("who am i", "what is my id", "my id", "do you know me")
+    if (isIdentityIntent(norm)) {
+      const studentId = session?.userId || 'STU-Guest';
+      const customName = session?.name;
+      if (customName) {
+        return {
+          answer: `**You are recognized as ${customName}** (Student ID: **${studentId}**)! 🎓\n\nI keep your session active right here in your browser with 100% client-side privacy (no banking passwords or tracking required).\n\nHow is your budget or campus spending looking today, ${customName}?`,
+          topicId: 'user_identity',
+          isRtl: false
+        };
+      }
+      return {
+        answer: `**You are currently connected as Student ${studentId}!** 🎓\n\nBudgetBasics automatically assigns an anonymous ID to every learner so you have 100% privacy with zero sign-ups or banking logins needed.\n\nIf you'd like me to address you by your preferred name, just say: *"My name is [Your Name]"*, and I will remember it for your session! What can I help you calculate or plan today?`,
+        topicId: 'user_identity',
+        isRtl: false
+      };
+    }
+
+    // 0D. Name Declaration ("my name is ...", "call me ...")
+    if (isNameDeclarationIntent(norm)) {
+      const rawName = norm.replace(/^(my name is|i am|call me|name is)\s+/i, '').trim();
+      const firstWord = rawName.split(' ')[0];
+      if (firstWord && firstWord.length >= 2) {
+        const formatted = firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
+        setStudentName(formatted);
+        setSession((prev) => ({ ...prev, name: formatted, displayName: formatted }));
+        return {
+          answer: `**Wonderful to meet you, ${formatted}!** 🤝\n\nI have updated your student profile. Your active Student ID remains **${session?.userId || 'STU-Guest'}**. I'll remember to call you **${formatted}** throughout our chats!\n\nWhat financial question or calculation can I help you with today?`,
+          topicId: 'user_identity',
+          isRtl: false
+        };
+      }
+    }
+
+    // 0E. Greetings (Morning, Afternoon, Evening, and General)
+    if (isGreetingIntent(norm)) {
+      const isMorning =
+        norm.includes('morning') ||
+        norm === 'gm' ||
+        norm.includes('buenos dias') ||
+        norm.includes('buenos días') ||
+        norm.includes('shubh prabhat') ||
+        norm.includes('bonjour') ||
+        norm.includes('صباح الخير');
+
+      if (isMorning) {
+        const studentGreetingTarget = session?.name ? `, **${session.name}**` : '';
+        const morningGreetings = {
+          'en-GB': `Good morning${studentGreetingTarget}! 🌅 How are you doing this morning? Hope you're doing well.\n\nHow is your campus allowance or spending looking today? Let me know if you want to check the 50/30/20 rule, test if you can afford an upcoming purchase, or plan today's expenses!`,
+          'en-US': `Good morning${studentGreetingTarget}! 🌅 How are you doing this morning? Hope you're doing well.\n\nHow is your budget looking today? Let me know if you'd like to calculate savings, check the 50/30/20 rule, or log any expenses!`,
+          'en-IN': `Shubh prabhat${studentGreetingTarget}! 🌅 Aap subah kaise hain? Ummeed hai aapka din bohot achha shuru hua hoga.\n\nAaj pocket money ya bachat ke baare me kya discuss karein?`,
+          'es-ES': `¡Buenos días${studentGreetingTarget}! 🌅 ¿Cómo estás esta mañana? Espero que tu día empiece genial.\n\n¿Qué podemos calcular o planificar hoy con tu presupuesto universitario?`,
+          'fr-FR': `Bonjour${studentGreetingTarget} ! 🌅 Comment allez-vous ce matin ? J'espère que vous passez une excellente matinée.\n\nQue souhaitez-vous calculer ou organiser aujourd'hui dans votre budget étudiant ?`,
+          'ar-SA': `صباح الخير${session?.name ? ` يا **${session.name}**` : ''}! 🌅 كيف حالك هذا الصباح؟ أتمنى لك يوماً رائعاً ومثمراً.\n\nكيف تسير ميزانيتك اليوم؟ هل تود حساب قاعدة 50/30/20 أو مراجعة مصاريفك؟`
+        };
+        return {
+          answer: morningGreetings[activeLang] || morningGreetings['en-GB'],
+          topicId: 'greeting_morning',
+          isRtl: activeLang === 'ar-SA'
+        };
+      }
+
+      const isAfternoon =
+        norm.includes('afternoon') ||
+        norm.includes('buenas tardes') ||
+        norm.includes('bon apres-midi') ||
+        norm.includes('bon après-midi') ||
+        norm.includes('مساء الخير');
+
+      if (isAfternoon) {
+        const studentGreetingTarget = session?.name ? `, **${session.name}**` : '';
+        const afternoonGreetings = {
+          'en-GB': `Good afternoon${studentGreetingTarget}! ☀️ How is your day going? Hope your classes and routine are running smoothly.\n\nWhat can I help you calculate or navigate with your allowance this afternoon?`,
+          'en-US': `Good afternoon${studentGreetingTarget}! ☀️ How is your day going? Hope your classes and day are going smoothly.\n\nWhat can I help you calculate or navigate with your budget this afternoon?`,
+          'en-IN': `Namaste${studentGreetingTarget}! ☀️ Dopahar kaisi chal rahi hai? Ummeed hai sab theek hoga.\n\nAaj bachat ya allowance ke baare me kya jaanna chahte hain?`,
+          'es-ES': `¡Buenas tardes${studentGreetingTarget}! ☀️ ¿Cómo va tu día? Espero que las clases y todo vayan genial.\n\n¿En qué te puedo ayudar con tu dinero hoy?`,
+          'fr-FR': `Bon après-midi${studentGreetingTarget} ! ☀️ Comment se passe votre journée ? J'espère que tout se déroule au mieux.\n\nQue puis-je faire pour vous aider avec votre budget cet après-midi ?`,
+          'ar-SA': `مساء الخير${session?.name ? ` يا **${session.name}**` : ''}! ☀️ كيف يسير يومك الدراسي؟ أتمنى أن تكون بأفضل حال.\n\nكيف يمكنني مساعدتك في إدارة مصروفك اليوم؟`
+        };
+        return {
+          answer: afternoonGreetings[activeLang] || afternoonGreetings['en-GB'],
+          topicId: 'greeting_afternoon',
+          isRtl: activeLang === 'ar-SA'
+        };
+      }
+
+      const isEvening =
+        norm.includes('evening') ||
+        norm.includes('buenas noches') ||
+        norm.includes('bonsoir');
+
+      if (isEvening) {
+        const studentGreetingTarget = session?.name ? `, **${session.name}**` : '';
+        const eveningGreetings = {
+          'en-GB': `Good evening${studentGreetingTarget}! 🌙 Hope you had a productive day. Are you checking in to review today's expenses, or planning your allowance for tomorrow?`,
+          'en-US': `Good evening${studentGreetingTarget}! 🌙 Hope you had a great day. Are you checking in to review today's spending or plan ahead for tomorrow?`,
+          'en-IN': `Shubh sandhya${studentGreetingTarget}! 🌙 Din kaisa raha? Aaj ke kharche review karne hain ya kal ki planning karni hai?`,
+          'es-ES': `¡Buenas noches${studentGreetingTarget}! 🌙 Espero que hayas tenido un día productivo. ¿Revisamos tus gastos de hoy o planificamos mañana?`,
+          'fr-FR': `Bonsoir${studentGreetingTarget} ! 🌙 J'espère que votre journée a été enrichissante. Souhaitez-vous enregistrer vos dépenses du jour ou préparer demain ?`,
+          'ar-SA': `مساء الخير${session?.name ? ` يا **${session.name}**` : ''}! 🌙 أتمنى أنك قضيت يوماً مثمراً وموفقاً. هل تود تسجيل مصاريف اليوم أو التخطيط لمصروف الغد؟`
+        };
+        return {
+          answer: eveningGreetings[activeLang] || eveningGreetings['en-GB'],
+          topicId: 'greeting_evening',
+          isRtl: activeLang === 'ar-SA'
+        };
+      }
+
+      // General Greeting (Hi, Hello, Hey)
+      const studentId = session?.userId || 'STU-Guest';
+      const userTag = session?.name ? `**${session.name}** (Student ID: **${studentId}**)` : `(Student ID: **${studentId}**)`;
+      const generalGreetings = {
+        'en-GB': `Hello, ${userTag}! 👋 Great to see you. How are you doing today? What's on your mind regarding your student savings, allowance, or campus budget?`,
+        'en-US': `Hey, ${userTag}! 👋 Great to connect with you. How are you doing today? What's on your mind regarding your college savings or budget?`,
+        'en-IN': `Namaste, ${userTag}! 👋 Kaise hain aap? Aaj campus budget ya pocket money me kis cheez par madad chahiye?`,
+        'es-ES': `¡Hola, ${userTag}! 👋 ¡Qué gusto saludarte! ¿Cómo estás hoy? ¿Qué duda o cálculo sobre tu presupuesto universitario resolvemos?`,
+        'fr-FR': `Bonjour ${userTag} ! 👋 Ravi de vous retrouver ! Comment allez-vous aujourd'hui ? Sur quoi puis-je vous éclairer concernant votre budget ?`,
+        'ar-SA': `أهلاً بك${session?.name ? ` يا **${session.name}**` : ''} (رقم الطالب: **${studentId}**)! 👋 يسعدني التواصل معك دائماً. كيف حالك اليوم؟ ما هو الموضوع أو الحساب المالي الذي تحب أن نبدأ به؟`
+      };
+      return {
+        answer: generalGreetings[activeLang] || generalGreetings['en-GB'],
+        topicId: 'greeting_general',
+        isRtl: activeLang === 'ar-SA'
+      };
+    }
+
+    // 0F. Open-ended "explain something to me" / question triage (user hasn't picked a topic yet)
     if (isOpenExplainIntent(norm)) {
       const generalExplains = {
         'en-GB':
@@ -1069,118 +1318,6 @@ export default function Chatbot() {
           "**I'm buzzing with energy, thank you for asking! 😄**\n\nI'm **BeeWise**, the AI financial tutor built specifically for BudgetBasics. I'm programmed to think like an empathetic student mentor—helping you handle being broke, allocating your allowance, cutting overspending, or calculating savings goals without any boring banking lectures!\n\nHow is your semester and money looking today? Anything I can help you solve?",
         topicId: 'personality',
         isRtl: false
-      };
-    }
-
-    // 3. User Identity & Recognition Intent ("who am I", "what is my id", "do you know me")
-    if (isIdentityIntent(norm)) {
-      return {
-        answer: `**Of course I recognize you!** You are **${studentName}**, chatting with Student ID **${session.userId}** (Campus Learner). 🎓\n\nI keep your session active right here in your browser with 100% client-side privacy (no banking passwords or external tracking required).\n\nHow is your budget, pocket money, or allowance looking today, ${studentName}?`,
-        topicId: 'user_identity',
-        isRtl: false
-      };
-    }
-
-    // 3.1. Name Declaration Intent ("my name is ...", "call me ...")
-    if (isNameDeclarationIntent(norm)) {
-      const rawName = norm.replace(/^(my name is|i am|call me|name is)\s+/i, '').trim();
-      const firstWord = rawName.split(' ')[0];
-      if (firstWord && firstWord.length >= 2) {
-        const formatted = firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
-        setStudentName(formatted);
-        setSession((prev) => ({ ...prev, name: formatted, displayName: formatted }));
-        return {
-          answer: `**Wonderful to meet you, ${formatted}!** 🤝\n\nI have updated your student profile. Your active Student ID remains **${session.userId}**. I'll remember to call you **${formatted}** throughout our chats!\n\nWhat financial question or calculation can I help you with today?`,
-          topicId: 'user_identity',
-          isRtl: false
-        };
-      }
-    }
-
-    // 3.2. Greetings (Morning, Afternoon, Evening, and General with Name Recognition)
-    if (isGreetingIntent(norm)) {
-      const isMorning =
-        norm.includes('morning') ||
-        norm === 'gm' ||
-        norm.includes('buenos dias') ||
-        norm.includes('buenos días') ||
-        norm.includes('shubh prabhat') ||
-        norm.includes('bonjour') ||
-        norm.includes('صباح الخير');
-
-      if (isMorning) {
-        const morningGreetings = {
-          'en-GB': `Good morning, **${studentName}**! 🌅 How are you doing this morning? Hope you're doing well.\n\nHow is your campus allowance or spending looking today? Let me know if you want to check the 50/30/20 rule, test if you can afford an upcoming purchase, or plan today's expenses!`,
-          'en-US': `Good morning, **${studentName}**! 🌅 How are you doing this morning? Hope you're doing well.\n\nHow is your budget looking today? Let me know if you'd like to calculate savings, check the 50/30/20 rule, or log any expenses!`,
-          'en-IN': `Shubh prabhat, **${studentName}**! 🌅 Aap subah kaise hain? Ummeed hai aapka din bohot achha shuru hua hoga.\n\nAaj pocket money ya bachat ke baare me kya discuss karein?`,
-          'es-ES': `¡Buenos días, **${studentName}**! 🌅 ¿Cómo estás esta mañana? Espero que tu día empiece genial.\n\n¿Qué podemos calcular o planificar hoy con tu presupuesto universitario?`,
-          'fr-FR': `Bonjour **${studentName}** ! 🌅 Comment allez-vous ce matin ? J'espère que vous passez une excellente matinée.\n\nQue souhaitez-vous calculer ou organiser aujourd'hui dans votre budget étudiant ?`,
-          'ar-SA': `صباح الخير يا **${studentName}**! 🌅 كيف حالك هذا الصباح؟ أتمنى لك يوماً رائعاً ومثمراً.\n\nكيف تسير ميزانيتك اليوم؟ هل تود حساب قاعدة 50/30/20 أو مراجعة مصاريفك؟`
-        };
-        return {
-          answer: morningGreetings[activeLang] || morningGreetings['en-GB'],
-          topicId: 'greeting_morning',
-          isRtl: activeLang === 'ar-SA'
-        };
-      }
-
-      const isAfternoon =
-        norm.includes('afternoon') ||
-        norm.includes('buenas tardes') ||
-        norm.includes('bon apres-midi') ||
-        norm.includes('bon après-midi') ||
-        norm.includes('مساء الخير');
-
-      if (isAfternoon) {
-        const afternoonGreetings = {
-          'en-GB': `Good afternoon, **${studentName}**! ☀️ How is your day going? Hope your classes and routine are running smoothly.\n\nWhat can I help you calculate or navigate with your allowance this afternoon?`,
-          'en-US': `Good afternoon, **${studentName}**! ☀️ How is your day going? Hope your classes and day are going smoothly.\n\nWhat can I help you calculate or navigate with your budget this afternoon?`,
-          'en-IN': `Namaste **${studentName}**! ☀️ Dopahar kaisi chal rahi hai? Ummeed hai sab theek hoga.\n\nAaj bachat ya allowance ke baare me kya jaanna chahte hain?`,
-          'es-ES': `¡Buenas tardes, **${studentName}**! ☀️ ¿Cómo va tu día? Espero que las clases y todo vayan genial.\n\n¿En qué te puedo ayudar con tu dinero hoy?`,
-          'fr-FR': `Bon après-midi **${studentName}** ! ☀️ Comment se passe votre journée ? J'espère que tout se déroule au mieux.\n\nQue puis-je faire pour vous aider avec votre budget cet après-midi ?`,
-          'ar-SA': `مساء الخير يا **${studentName}**! ☀️ كيف يسير يومك الدراسي؟ أتمنى أن تكون بأفضل حال.\n\nكيف يمكنني مساعدتك في إدارة مصروفك اليوم؟`
-        };
-        return {
-          answer: afternoonGreetings[activeLang] || afternoonGreetings['en-GB'],
-          topicId: 'greeting_afternoon',
-          isRtl: activeLang === 'ar-SA'
-        };
-      }
-
-      const isEvening =
-        norm.includes('evening') ||
-        norm.includes('buenas noches') ||
-        norm.includes('bonsoir');
-
-      if (isEvening) {
-        const eveningGreetings = {
-          'en-GB': `Good evening, **${studentName}**! 🌙 Hope you had a productive day. Are you checking in to review today's expenses, or planning your allowance for tomorrow?`,
-          'en-US': `Good evening, **${studentName}**! 🌙 Hope you had a great day. Are you checking in to review today's spending or plan ahead for tomorrow?`,
-          'en-IN': `Shubh sandhya, **${studentName}**! 🌙 Din kaisa raha? Aaj ke kharche review karne hain ya kal ki planning karni hai?`,
-          'es-ES': `¡Buenas noches, **${studentName}**! 🌙 Espero que hayas tenido un día productivo. ¿Revisamos tus gastos de hoy o planificamos mañana?`,
-          'fr-FR': `Bonsoir **${studentName}** ! 🌙 J'espère que votre journée a été enrichissante. Souhaitez-vous enregistrer vos dépenses du jour ou préparer demain ?`,
-          'ar-SA': `مساء الخير يا **${studentName}**! 🌙 أتمنى أنك قضيت يوماً مثمراً وموفقاً. هل تود تسجيل مصاريف اليوم أو التخطيط لمصروف الغد؟`
-        };
-        return {
-          answer: eveningGreetings[activeLang] || eveningGreetings['en-GB'],
-          topicId: 'greeting_evening',
-          isRtl: activeLang === 'ar-SA'
-        };
-      }
-
-      // General Greeting (Hi, Hello, Hey)
-      const generalGreetings = {
-        'en-GB': `Hello, **${studentName}** (Student ID: **${session.userId}**)! 👋 Great to see you. How are you doing today? What's on your mind regarding your student savings, allowance, or campus budget?`,
-        'en-US': `Hey, **${studentName}** (Student ID: **${session.userId}**)! 👋 Great to connect with you. How are you doing today? What's on your mind regarding your college savings or budget?`,
-        'en-IN': `Namaste, **${studentName}** (Student ID: **${session.userId}**)! 👋 Kaise hain aap? Aaj campus budget ya pocket money me kis cheez par madad chahiye?`,
-        'es-ES': `¡Hola, **${studentName}** (ID: **${session.userId}**)! 👋 ¡Qué gusto saludarte! ¿Cómo estás hoy? ¿Qué duda o cálculo sobre tu presupuesto universitario resolvemos?`,
-        'fr-FR': `Bonjour **${studentName}** (ID: **${session.userId}**) ! 👋 Ravi de vous retrouver ! Comment allez-vous aujourd'hui ? Sur quoi puis-je vous éclairer concernant votre budget ?`,
-        'ar-SA': `أهلاً بك يا **${studentName}** (رقم الطالب: **${session.userId}**)! 👋 يسعدني التواصل معك دائماً. كيف حالك اليوم؟ ما هو الموضوع أو الحساب المالي الذي تحب أن نبدأ به؟`
-      };
-      return {
-        answer: generalGreetings[activeLang] || generalGreetings['en-GB'],
-        topicId: 'greeting_general',
-        isRtl: activeLang === 'ar-SA'
       };
     }
 
