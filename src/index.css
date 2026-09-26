@@ -161,7 +161,6 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   background-color: var(--bg-canvas);
-  overflow-x: hidden;
   max-width: 100%;
 }
 
@@ -173,7 +172,6 @@ body {
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   margin: 0;
-  overflow-x: hidden;
   max-width: 100%;
 }
 
@@ -186,7 +184,6 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow-x: clip;
 }
 
 .main-content-flow {

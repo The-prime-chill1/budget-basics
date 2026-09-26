@@ -1,5 +1,5 @@
 // Unified planning workspace combining the savings goals forecaster and session expense logger
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Flag,
   Plus,
@@ -30,22 +30,30 @@ const ICON_MAP = {
   Miscellaneous: ShoppingBag
 };
 
-const INITIAL_EXPENSES = [
-  { id: '1', name: 'Campus Bento Box & Snacks', category: 'Food', date: '2026-02-14', amount: 14.50 },
-  { id: '2', name: 'Calculus Study PDF & Print', category: 'Education', date: '2026-02-13', amount: 28.00 },
-  { id: '3', name: 'Subway Reload Pass', category: 'Transport', date: '2026-02-11', amount: 35.00 },
-  { id: '4', name: 'Noise-Canceling Earphones', category: 'Shopping', date: '2026-02-09', amount: 91.00 }
+const RAW_INITIAL_EXPENSES = [
+  { id: '1', name: 'Campus Bento Box & Snacks', category: 'Food', date: '2026-02-14', ngnAmount: 20000 },
+  { id: '2', name: 'Calculus Study PDF & Print', category: 'Education', date: '2026-02-13', ngnAmount: 38000 },
+  { id: '3', name: 'Subway Reload Pass', category: 'Transport', date: '2026-02-11', ngnAmount: 48000 },
+  { id: '4', name: 'Noise-Canceling Earphones', category: 'Shopping', date: '2026-02-09', ngnAmount: 125000 }
 ];
 
 export default function Planner() {
-  const { currency, format, convertFromNgn } = useCurrency();
+  const { currency, format, convertFromNgn, convert } = useCurrency();
   const sym = currency.symbol;
   const [goalName, setGoalName] = useState('Emergency Laptop Fund');
   const [targetAmount, setTargetAmount] = useState(() => convertFromNgn(300000).toString());
   const [currentSaved, setCurrentSaved] = useState(() => convertFromNgn(60000).toString());
   const [monthlySavings, setMonthlySavings] = useState(() => convertFromNgn(30000));
 
-  const [expenses, setExpenses] = useState(INITIAL_EXPENSES);
+  const [expenses, setExpenses] = useState(() =>
+    RAW_INITIAL_EXPENSES.map((item) => ({
+      id: item.id,
+      name: item.name,
+      category: item.category,
+      date: item.date,
+      amount: convertFromNgn(item.ngnAmount)
+    }))
+  );
   const [monthlyAllowance, setMonthlyAllowance] = useState(() => convertFromNgn(150000));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -56,13 +64,31 @@ export default function Planner() {
     amount: ''
   });
 
-  // Sync default values when active currency changes
+  const prevCurrencyRef = useRef(currency.code);
+
+  // Smoothly convert existing values when active currency changes
   useEffect(() => {
-    setTargetAmount(convertFromNgn(300000).toString());
-    setCurrentSaved(convertFromNgn(60000).toString());
-    setMonthlySavings(convertFromNgn(30000));
-    setMonthlyAllowance(convertFromNgn(150000));
-  }, [currency.code]);
+    if (prevCurrencyRef.current !== currency.code) {
+      const prevCode = prevCurrencyRef.current;
+      setTargetAmount((prev) => {
+        const val = Number(prev.replace(/,/g, ''));
+        return isNaN(val) || val <= 0 ? convertFromNgn(300000).toString() : convert(val, prevCode, currency.code).toString();
+      });
+      setCurrentSaved((prev) => {
+        const val = Number(prev.replace(/,/g, ''));
+        return isNaN(val) || val <= 0 ? convertFromNgn(60000).toString() : convert(val, prevCode, currency.code).toString();
+      });
+      setMonthlySavings((prev) => convert(prev, prevCode, currency.code));
+      setMonthlyAllowance((prev) => convert(prev, prevCode, currency.code));
+      setExpenses((prev) =>
+        prev.map((item) => ({
+          ...item,
+          amount: convert(item.amount, prevCode, currency.code)
+        }))
+      );
+      prevCurrencyRef.current = currency.code;
+    }
+  }, [currency.code, convert, convertFromNgn]);
 
   const targetNum = Math.max(0, Number(targetAmount) || 0);
   const savedNum = Math.max(0, Number(currentSaved) || 0);

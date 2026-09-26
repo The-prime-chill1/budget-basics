@@ -20,10 +20,11 @@ import {
 import SectionHeading from '../components/SectionHeading';
 import ProgressBar from '../components/ProgressBar';
 import { studentMonthlyBudgetExample, budgetingKnowledgeQuiz } from '../data/budgetExamples';
-import { formatCurrency } from '../utils/formatters';
+import { useCurrency } from '../context/CurrencyContext';
 import './BudgetingBasics.css';
 
 export default function BudgetingBasics() {
+  const { currency, format, convertFromNgn } = useCurrency();
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [submittedQuiz, setSubmittedQuiz] = useState(false);
 
@@ -192,7 +193,7 @@ export default function BudgetingBasics() {
               <span className="section-badge">Practical Case Study</span>
               <h2 className="section-title">Sample Student Monthly Budget</h2>
               <p className="section-subtitle">
-                A realistic demonstration of how a student managing <strong>{formatCurrency(studentMonthlyBudgetExample.monthlyIncome)}</strong> total monthly income balances obligations, personal life, and savings.
+                A realistic demonstration of how a student managing <strong>{format(convertFromNgn(studentMonthlyBudgetExample.monthlyIncome))}</strong> total monthly income balances obligations, personal life, and savings.
               </p>
             </div>
           </div>
@@ -202,13 +203,13 @@ export default function BudgetingBasics() {
               <div key={idx} className="income-source-card card">
                 <span className="source-type">{source.type}</span>
                 <span className="source-name">{source.name}</span>
-                <strong className="source-amount">{formatCurrency(source.amount)}</strong>
+                <strong className="source-amount">{format(convertFromNgn(source.amount))}</strong>
               </div>
             ))}
             <div className="income-source-card card total-income-card">
               <span className="source-type">Total Monthly Inflow</span>
               <span className="source-name">Combined Budget Base</span>
-              <strong className="source-amount total-highlight">{formatCurrency(studentMonthlyBudgetExample.monthlyIncome)}</strong>
+              <strong className="source-amount total-highlight">{format(convertFromNgn(studentMonthlyBudgetExample.monthlyIncome))}</strong>
             </div>
           </div>
 
@@ -239,7 +240,7 @@ export default function BudgetingBasics() {
                       </span>
                     </td>
                     <td>
-                      <strong className="cat-table-amount">{formatCurrency(cat.amount)}</strong>
+                      <strong className="cat-table-amount">{format(convertFromNgn(cat.amount))}</strong>
                     </td>
                     <td>
                       <div className="table-pct-cell">

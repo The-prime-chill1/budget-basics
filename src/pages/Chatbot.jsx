@@ -38,6 +38,7 @@ import { getOrCreateStudentSession, setStudentName } from '../utils/userSession'
 import FormattedChatMessage from '../components/FormattedChatMessage';
 import './Chatbot.css';
 
+//templates for messaging the ai bot
 const INITIAL_MESSAGES_MAP = {
  'en-GB': "Hello there! I'm **BeeWise**, your personal financial tutor. Ask me anything about student savings, being broke, the 50/30/20 rule, hostel rent, or avoiding overspending!",
  'en-US': "Hey there! I'm **BeeWise**, your student personal finance co-pilot. Ask me anything about building savings, surviving on a tight budget, or stopping impulse buying!",
@@ -47,7 +48,7 @@ const INITIAL_MESSAGES_MAP = {
  'ar-SA': "مرحباً بك! أنا **BeeWise**، مرشدك المالي الشخصي للطلاب. اسألني عن ميزانيتك، قاعدة 50/30/20، أو كيفية التوفير الذكي!"
 };
 
-// Client-side financial assistant: matches keywords against local curated responses with speech synthesis & multilingual support
+// AI chatbot: matches keywords against local curated responses with speech synthesis & multilingual support
 export default function Chatbot() {
  const { currency, format, convertFromNgn } = useCurrency();
  const [session, setSession] = useState(() => getOrCreateStudentSession());
@@ -59,6 +60,7 @@ export default function Chatbot() {
  const [speakingMsgId, setSpeakingMsgId] = useState(null);
  const recognitionRef = useRef(null);
  const messagesBoxRef = useRef(null);
+
 
  const [messages, setMessages] = useState([
  {
@@ -104,6 +106,7 @@ export default function Chatbot() {
 
  const handleSpeakText = (msgId, text, langCode) => {
  if (!('speechSynthesis' in window)) {
+
  alert('Speech synthesis is not supported on this browser.');
  return;
  }
@@ -845,7 +848,7 @@ export default function Chatbot() {
  'about the site',
  'about this website',
  'about the website',
- 'about this project',
+      'about this project',
  'about budgetbasics',
  'what is this site',
  'what is the site',
@@ -2386,7 +2389,7 @@ export default function Chatbot() {
  </form>
  )}
 
- {/* Redesigned Direct Student Lines Support Box */}
+ {/*The Direct Student Lines Support Box */}
  <div className="campus-helpline-box" id="student-helplines">
  <div className="helpline-header-row">
  <div className="helpline-title-group">

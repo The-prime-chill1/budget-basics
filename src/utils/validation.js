@@ -1,6 +1,6 @@
 
 // Sanitizes user input: strips formatted commas, prevents NaN/Infinity, and validates ranges
-export function validateAmount(value, { allowZero = false, min = 0, max = 100000000 } = {}) {
+export function validateAmount(value, { allowZero = false, min = 0, max = 100000000, currencySymbol = '' } = {}) {
   if (value === undefined || value === null || value === '') {
     return { isValid: false, error: 'Please enter an amount.', value: 0 };
   }
@@ -16,12 +16,13 @@ export function validateAmount(value, { allowZero = false, min = 0, max = 100000
     return { isValid: false, error: 'Amount must be greater than zero.', value: 0 };
   }
 
+  const sym = currencySymbol || '';
   if (num < min) {
-    return { isValid: false, error: `Amount cannot be less than ₦${min.toLocaleString()}.`, value: 0 };
+    return { isValid: false, error: `Amount cannot be less than ${sym}${min.toLocaleString()}.`, value: 0 };
   }
 
   if (num > max) {
-    return { isValid: false, error: `Amount cannot exceed ₦${max.toLocaleString()}.`, value: 0 };
+    return { isValid: false, error: `Amount cannot exceed ${sym}${max.toLocaleString()}.`, value: 0 };
   }
 
   return { isValid: true, error: null, value: num };

@@ -38,7 +38,7 @@
     ],
     "savingsGoalsTestVectors": [
       {
-        "goalName": "Campus Refurbished Laptop",
+        "goalName": "Campus Laptop",
         "targetAmount": 180000,
         "currentSavings": 45000,
         "monthlyContribution": 15000,

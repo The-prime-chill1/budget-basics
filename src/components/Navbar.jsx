@@ -28,6 +28,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import BrandLogo from './BrandLogo';
+import CurrencySelector from './CurrencySelector';
 import { getOrCreateStudentSession } from '../utils/userSession';
 import { useVisitorCount } from '../utils/visitorCounter';
 import './Navbar.css';
@@ -377,6 +378,7 @@ export default function Navbar({ theme, toggleTheme }) {
               </div>
             </div>
             <div className="drawer-profile-actions">
+              <CurrencySelector className="drawer-currency-selector" />
               <Link
                 to="/cockpit"
                 className="drawer-profile-btn drawer-profile-btn-primary"
@@ -489,6 +491,8 @@ export default function Navbar({ theme, toggleTheme }) {
               <span className="live-indicator-dot" style={{ backgroundColor: '#10B981' }}></span>
               <span>{session.userId}</span>
             </span>
+
+            <CurrencySelector compact={true} className="navbar-currency-selector" />
 
             <button
               type="button"

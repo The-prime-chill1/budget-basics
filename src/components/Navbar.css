@@ -4,7 +4,7 @@
 .bee-navbar-root {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   background-color: var(--surface-card);
   border-bottom: 1px solid var(--border-subtle);
   backdrop-filter: blur(14px);
@@ -889,6 +889,16 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
+}
+
+.drawer-currency-selector {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.navbar-currency-selector {
+  display: inline-flex;
+  align-items: center;
 }
 
 .drawer-profile-btn {

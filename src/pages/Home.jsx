@@ -1,4 +1,3 @@
-// Student cockpit dashboard featuring daily motivation quotes, quick tool access, and visitor metrics
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -30,6 +29,7 @@ import {
 } from 'lucide-react';
 import { getOrCreateStudentSession } from '../utils/userSession';
 import { useVisitorCount } from '../utils/visitorCounter';
+import { useCurrency } from '../context/CurrencyContext';
 import './Home.css';
 
 const MOTIVATIONAL_QUOTES = [
@@ -56,12 +56,21 @@ const MOTIVATIONAL_QUOTES = [
 ];
 
 export default function Home() {
+  const { currency, format, convertFromNgn } = useCurrency();
   const [session] = useState(() => getOrCreateStudentSession());
   const { liveCount } = useVisitorCount();
   const [quoteIndex, setQuoteIndex] = useState(0);
   const [isQuoteFading, setIsQuoteFading] = useState(false);
   const [isTipSaved, setIsTipSaved] = useState(false);
   const [saveToast, setSaveToast] = useState(null);
+
+  const baseBudget = currency.defaultAmount || convertFromNgn(60000);
+  const spentAmount = Math.round(baseBudget * 0.39);
+  const remainingAmount = baseBudget - spentAmount;
+  const safeDailySpend = Math.round(remainingAmount / 16);
+  const needsCap = Math.round(baseBudget * 0.5);
+  const wantsCap = Math.round(baseBudget * 0.3);
+  const savingsCap = Math.round(baseBudget * 0.2);
 
   const handleCycleQuote = () => {
     setIsQuoteFading(true);
@@ -168,7 +177,7 @@ export default function Home() {
           <div className="metric-stat-card">
             <span className="stat-label">Allocated / Spent</span>
             <div className="stat-value-row">
-              <strong className="stat-value">$468.50</strong>
+              <strong className="stat-value">{format(spentAmount)}</strong>
             </div>
             <div className="stat-meta text-emerald">
               <TrendingUp size={14} />
@@ -179,7 +188,7 @@ export default function Home() {
           <div className="metric-stat-card">
             <span className="stat-label">Safe Daily Spend</span>
             <div className="stat-value-row">
-              <strong className="stat-value text-emerald">$24.50</strong>
+              <strong className="stat-value text-emerald">{format(safeDailySpend)}</strong>
             </div>
             <div className="stat-meta text-muted">
               <Calendar size={14} />
@@ -190,25 +199,25 @@ export default function Home() {
 
         <div className="budget-bar-section">
           <div className="bar-header-row">
-            <span className="bar-title">Budget Distribution (Target: $1,200)</span>
-            <span className="bar-remaining-pill">$731.50 remaining</span>
+            <span className="bar-title">Budget Distribution (Target: {format(baseBudget)})</span>
+            <span className="bar-remaining-pill">{format(remainingAmount)} remaining</span>
           </div>
 
           <div className="segmented-progress-track" role="progressbar" aria-valuenow={39} aria-valuemin={0} aria-valuemax={100}>
             <div
               className="segment-bar seg-needs"
               style={{ width: '50%' }}
-              title="50% Needs Cap ($600)"
+              title={`50% Needs Cap (${format(needsCap)})`}
             ></div>
             <div
               className="segment-bar seg-wants"
               style={{ width: '30%' }}
-              title="30% Wants Cap ($360)"
+              title={`30% Wants Cap (${format(wantsCap)})`}
             ></div>
             <div
               className="segment-bar seg-savings"
               style={{ width: '20%' }}
-              title="20% Savings Target ($240)"
+              title={`20% Savings Target (${format(savingsCap)})`}
             ></div>
           </div>
 
@@ -217,7 +226,7 @@ export default function Home() {
               <span className="legend-dot dot-needs"></span>
               <div className="legend-texts">
                 <strong className="legend-title">Needs (50%)</strong>
-                <span className="legend-sub">$600 cap</span>
+                <span className="legend-sub">{format(needsCap)} cap</span>
               </div>
             </div>
 
@@ -225,7 +234,7 @@ export default function Home() {
               <span className="legend-dot dot-wants"></span>
               <div className="legend-texts">
                 <strong className="legend-title">Wants (30%)</strong>
-                <span className="legend-sub">$360 cap</span>
+                <span className="legend-sub">{format(wantsCap)} cap</span>
               </div>
             </div>
 
@@ -233,7 +242,7 @@ export default function Home() {
               <div className="legend-dot dot-savings"></div>
               <div className="legend-texts">
                 <strong className="legend-title">Savings (20%)</strong>
-                <span className="legend-sub">$240 auto</span>
+                <span className="legend-sub">{format(savingsCap)} auto</span>
               </div>
             </div>
           </div>

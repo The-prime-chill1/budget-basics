@@ -1,5 +1,5 @@
 // Milestone savings calculator estimating completion dates and visual progress toward target goals
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Target,
@@ -31,7 +31,7 @@ import './SavingsGoals.css';
 
 const SAMPLE_GOAL_PRESETS = [
   {
-    name: 'Refurbished Study Laptop',
+    name: 'Study Laptop',
     target: 180000,
     current: 45000,
     monthly: 22500,
@@ -61,20 +61,34 @@ export const SAVINGS_TIPS_BY_TIMELINE = [
 ];
 
 export default function SavingsGoals() {
-  const { currency, format, convertFromNgn } = useCurrency();
-  const [goalName, setGoalName] = useState('Refurbished Study Laptop');
+  const { currency, format, convertFromNgn, convert } = useCurrency();
+  const [goalName, setGoalName] = useState('Study Laptop');
   const [targetAmount, setTargetAmount] = useState(() => convertFromNgn(180000).toString());
   const [currentSavings, setCurrentSavings] = useState(() => convertFromNgn(45000).toString());
   const [monthlyContribution, setMonthlyContribution] = useState(() => convertFromNgn(22500).toString());
 
   const [errors, setErrors] = useState({});
+  const prevCurrencyRef = useRef(currency.code);
 
-  // Sync inputs when the user changes active currency
+  // Smoothly convert inputs when the user changes active currency without wiping data
   useEffect(() => {
-    setTargetAmount(convertFromNgn(180000).toString());
-    setCurrentSavings(convertFromNgn(45000).toString());
-    setMonthlyContribution(convertFromNgn(22500).toString());
-  }, [currency.code]);
+    if (prevCurrencyRef.current !== currency.code) {
+      const prevCode = prevCurrencyRef.current;
+      setTargetAmount((prev) => {
+        const val = Number(prev.replace(/,/g, ''));
+        return isNaN(val) || val <= 0 ? convertFromNgn(180000).toString() : convert(val, prevCode, currency.code).toString();
+      });
+      setCurrentSavings((prev) => {
+        const val = Number(prev.replace(/,/g, ''));
+        return isNaN(val) || val <= 0 ? convertFromNgn(45000).toString() : convert(val, prevCode, currency.code).toString();
+      });
+      setMonthlyContribution((prev) => {
+        const val = Number(prev.replace(/,/g, ''));
+        return isNaN(val) || val <= 0 ? convertFromNgn(22500).toString() : convert(val, prevCode, currency.code).toString();
+      });
+      prevCurrencyRef.current = currency.code;
+    }
+  }, [currency.code, convert, convertFromNgn]);
 
   const numTarget = Number(targetAmount.replace(/,/g, '')) || 0;
   const numCurrent = Number(currentSavings.replace(/,/g, '')) || 0;
@@ -98,13 +112,13 @@ export default function SavingsGoals() {
       const v = validateRequiredText(value, 'Goal Name', 2);
       if (!v.isValid) error = v.error;
     } else if (field === 'targetAmount') {
-      const v = validateAmount(value, { allowZero: false, min: 1, max: 100000000 });
+      const v = validateAmount(value, { allowZero: false, min: 1, max: 100000000, currencySymbol: currency.symbol });
       if (!v.isValid) error = v.error;
     } else if (field === 'currentSavings') {
-      const v = validateAmount(value, { allowZero: true, min: 0, max: 100000000 });
+      const v = validateAmount(value, { allowZero: true, min: 0, max: 100000000, currencySymbol: currency.symbol });
       if (!v.isValid) error = v.error;
     } else if (field === 'monthlyContribution') {
-      const v = validateAmount(value, { allowZero: false, min: 1, max: 100000000 });
+      const v = validateAmount(value, { allowZero: false, min: 1, max: 100000000, currencySymbol: currency.symbol });
       if (!v.isValid) error = v.error;
     }
 

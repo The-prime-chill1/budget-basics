@@ -19,10 +19,11 @@ import {
 import SectionHeading from '../components/SectionHeading';
 import { useCurrency } from '../context/CurrencyContext';
 import { moneyMistakes } from '../data/mistakes';
+import { localizeCurrencyText } from '../utils/formatters';
 import './MoneyMistakes.css';
 
 export default function MoneyMistakes() {
-  const { currency, format } = useCurrency();
+  const { currency, format, convertFromNgn } = useCurrency();
   const [openAccordionId, setOpenAccordionId] = useState('mistake-1');
 
   const [checkedRisks, setCheckedRisks] = useState({});
@@ -56,7 +57,7 @@ AUDIT CHECKLIST BREAKDOWN:
    Risk: Spending large allowance portions within the first 72 hours.
    Action: Apply the 48-Hour Cooling Off Rule before discretionary buys.
 
-2. [${checkedRisks['micro'] ? 'FLAGGED' : 'CLEAN'}] Untracked Micro-Transactions (Under ${currency.symbol}1,000)
+2. [${checkedRisks['micro'] ? 'FLAGGED' : 'CLEAN'}] Untracked Micro-Transactions (Under ${format(convertFromNgn(1000))})
    Risk: Small unlogged snacks and rides accumulate to over 30% of funds.
    Action: Log daily outlays into the BudgetBasics Expense Planner.
 
@@ -117,7 +118,7 @@ Live Platform: https://budgetbasics-two.vercel.app/
                     <span className="mistake-number-badge">0{index + 1}</span>
                     <div>
                       <h3 className="mistake-title">{mistake.title}</h3>
-                      <p className="mistake-subtitle">{mistake.subtitle}</p>
+                      <p className="mistake-subtitle">{localizeCurrencyText(mistake.subtitle, currency, convertFromNgn, format)}</p>
                     </div>
                   </div>
                   <div className="trigger-arrow">
@@ -129,7 +130,7 @@ Live Platform: https://budgetbasics-two.vercel.app/
                   <div className="accordion-content animate-fade-in">
                     <div className="scenario-block">
                       <span className="block-label">Campus Scenario</span>
-                      <p className="scenario-text">{mistake.scenario}</p>
+                      <p className="scenario-text">{localizeCurrencyText(mistake.scenario, currency, convertFromNgn, format)}</p>
                     </div>
 
                     <div className="signs-action-grid">
@@ -142,7 +143,7 @@ Live Platform: https://budgetbasics-two.vercel.app/
                           {mistake.warningSigns.map((sign, i) => (
                             <li key={i} className="sign-item">
                               <span className="sign-bullet">&bull;</span>
-                              <span>{sign}</span>
+                              <span>{localizeCurrencyText(sign, currency, convertFromNgn, format)}</span>
                             </li>
                           ))}
                         </ul>
@@ -154,7 +155,7 @@ Live Platform: https://budgetbasics-two.vercel.app/
                           <span>Concrete Corrective Action</span>
                         </div>
                         <div className="action-box">
-                          <p className="action-text">{mistake.correctiveAction}</p>
+                          <p className="action-text">{localizeCurrencyText(mistake.correctiveAction, currency, convertFromNgn, format)}</p>
                         </div>
                       </div>
                     </div>

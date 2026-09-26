@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   FileSpreadsheet,
   Plus,
@@ -18,9 +18,11 @@ import {
 import SectionHeading from '../components/SectionHeading';
 import EmptyState from '../components/EmptyState';
 import Modal from '../components/Modal';
+import Alert from '../components/Alert';
+import { useCurrency } from '../context/CurrencyContext';
 import { calculateExpenseSummary } from '../utils/budgetCalculations';
 import { validateAmount, validateRequiredText } from '../utils/validation';
-import { formatCurrency, formatDate } from '../utils/formatters';
+import { formatDate } from '../utils/formatters';
 import './ExpensePlanner.css';
 
 const EXPENSE_CATEGORIES = [
@@ -33,37 +35,46 @@ const EXPENSE_CATEGORIES = [
   'Miscellaneous'
 ];
 
-const INITIAL_SAMPLE_EXPENSES = [
+const RAW_SAMPLE_EXPENSES = [
   {
     id: 'exp-1',
     date: '2026-09-21',
     category: 'Food',
     description: 'Hostel Groceries (Rice, Beans & Cooking Oil)',
-    amount: 14500
+    ngnAmount: 14500
   },
   {
     id: 'exp-2',
     date: '2026-09-22',
     category: 'Transport',
     description: 'Weekly Campus Shuttle Passes',
-    amount: 4000
+    ngnAmount: 4000
   },
   {
     id: 'exp-3',
     date: '2026-09-23',
     category: 'Education',
     description: 'Semester Course Materials & Color Printing',
-    amount: 3200
+    ngnAmount: 3200
   }
 ];
 
-// In-memory student expense tracker initialized with realistic campus costs for interactive practice
-export default function ExpensePlanner() {
-  const [budgetBase, setBudgetBase] = useState(50000);
-  const [isEditingBudget, setIsEditingBudget] = useState(false);
-  const [tempBudgetInput, setTempBudgetInput] = useState('50000');
 
-  const [expenses, setExpenses] = useState(INITIAL_SAMPLE_EXPENSES);
+export default function ExpensePlanner() {
+  const { currency, format, convertFromNgn, convert } = useCurrency();
+  const [budgetBase, setBudgetBase] = useState(() => convertFromNgn(50000));
+  const [isEditingBudget, setIsEditingBudget] = useState(false);
+  const [tempBudgetInput, setTempBudgetInput] = useState(() => convertFromNgn(50000).toString());
+
+  const [expenses, setExpenses] = useState(() =>
+    RAW_SAMPLE_EXPENSES.map((item) => ({
+      id: item.id,
+      date: item.date,
+      category: item.category,
+      description: item.description,
+      amount: convertFromNgn(item.ngnAmount)
+    }))
+  );
   const [categoryFilter, setCategoryFilter] = useState('All');
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,6 +86,27 @@ export default function ExpensePlanner() {
     amount: ''
   });
   const [formErrors, setFormErrors] = useState({});
+
+  const prevCurrencyRef = useRef(currency.code);
+
+  // Proportional conversion when active currency changes
+  useEffect(() => {
+    if (prevCurrencyRef.current !== currency.code) {
+      const prevCode = prevCurrencyRef.current;
+      setBudgetBase((prev) => convert(prev, prevCode, currency.code));
+      setTempBudgetInput((prev) => {
+        const val = Number(prev.replace(/,/g, ''));
+        return isNaN(val) ? '' : convert(val, prevCode, currency.code).toString();
+      });
+      setExpenses((prev) =>
+        prev.map((item) => ({
+          ...item,
+          amount: convert(item.amount, prevCode, currency.code)
+        }))
+      );
+      prevCurrencyRef.current = currency.code;
+    }
+  }, [currency.code, convert]);
 
   const summary = calculateExpenseSummary(budgetBase, expenses);
 
@@ -113,7 +145,12 @@ export default function ExpensePlanner() {
     const descValid = validateRequiredText(formData.description, 'Description', 2);
     if (!descValid.isValid) errors.description = descValid.error;
 
-    const amtValid = validateAmount(formData.amount, { allowZero: false, min: 50, max: 10000000 });
+    const amtValid = validateAmount(formData.amount, {
+      allowZero: false,
+      min: 1,
+      max: 100000000,
+      currencySymbol: currency.symbol
+    });
     if (!amtValid.isValid) errors.amount = amtValid.error;
 
     if (!formData.date) errors.date = 'Please select a date.';
@@ -156,13 +193,28 @@ export default function ExpensePlanner() {
   };
 
   const handleResetPlanner = () => {
-    setExpenses(INITIAL_SAMPLE_EXPENSES);
-    setBudgetBase(50000);
+    setExpenses(
+      RAW_SAMPLE_EXPENSES.map((item) => ({
+        id: item.id,
+        date: item.date,
+        category: item.category,
+        description: item.description,
+        amount: convertFromNgn(item.ngnAmount)
+      }))
+    );
+    const defBase = convertFromNgn(50000);
+    setBudgetBase(defBase);
+    setTempBudgetInput(defBase.toString());
     setCategoryFilter('All');
   };
 
   const handleSaveBudgetBase = () => {
-    const valid = validateAmount(tempBudgetInput, { allowZero: false, min: 1000, max: 50000000 });
+    const valid = validateAmount(tempBudgetInput, {
+      allowZero: false,
+      min: 1,
+      max: 500000000,
+      currencySymbol: currency.symbol
+    });
     if (valid.isValid) {
       setBudgetBase(valid.value);
       setIsEditingBudget(false);
@@ -201,14 +253,14 @@ export default function ExpensePlanner() {
                   value={tempBudgetInput}
                   onChange={(e) => setTempBudgetInput(e.target.value)}
                   className="form-input form-input-sm"
-                  min="1000"
+                  min="1"
                 />
                 <button type="button" className="btn btn-primary btn-sm" onClick={handleSaveBudgetBase}>
                   Save
                 </button>
               </div>
             ) : (
-              <strong className="metric-amount-display">{formatCurrency(budgetBase)}</strong>
+              <strong className="metric-amount-display">{format(budgetBase)}</strong>
             )}
             <span className="metric-helper-text">Starting allowance for this demo session</span>
           </div>
@@ -218,7 +270,7 @@ export default function ExpensePlanner() {
               <span className="metric-label">Total Planned Outlays</span>
               <span className="badge badge-want">{summary.spentPercentage}% of budget</span>
             </div>
-            <strong className="metric-amount-display text-spent">{formatCurrency(summary.totalExpenses)}</strong>
+            <strong className="metric-amount-display text-spent">{format(summary.totalExpenses)}</strong>
             <span className="metric-helper-text">{expenses.length} logged student transactions</span>
           </div>
 
@@ -230,20 +282,23 @@ export default function ExpensePlanner() {
               </span>
             </div>
             <strong className={`metric-amount-display ${summary.isOverBudget ? 'text-danger' : 'text-safe'}`}>
-              {formatCurrency(summary.remainingBalance)}
+              {format(summary.remainingBalance)}
             </strong>
             <span className="metric-helper-text">Available before next allowance date</span>
           </div>
         </div>
 
         {summary.isOverBudget && (
-          <div className="alert alert-warning animate-fade-in" role="alert">
-            <AlertTriangle size={20} className="alert-icon" />
-            <div>
-              <strong>Budget Warning:</strong> You have exceeded your sample starting allowance by{' '}
-              <strong>{formatCurrency(Math.abs(summary.remainingBalance))}</strong>. Consider trimming discretionary categories like Entertainment or Shopping.
-            </div>
-          </div>
+          <Alert
+            variant="warning"
+            title="Budget Warning:"
+            message={
+              <>
+                You have exceeded your sample starting allowance by{' '}
+                <strong>{format(Math.abs(summary.remainingBalance))}</strong>. Consider trimming discretionary categories like Entertainment or Shopping.
+              </>
+            }
+          />
         )}
 
         <div className="table-controls-bar">
@@ -323,7 +378,7 @@ export default function ExpensePlanner() {
                       <strong className="table-desc-text">{expense.description}</strong>
                     </td>
                     <td>
-                      <strong className="table-amount-cell">{formatCurrency(expense.amount)}</strong>
+                      <strong className="table-amount-cell">{format(expense.amount)}</strong>
                     </td>
                     <td style={{ textAlign: 'right' }}>
                       <div className="table-row-actions">
@@ -403,18 +458,18 @@ export default function ExpensePlanner() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="expense-amount" className="form-label">Amount (₦)</label>
+              <label htmlFor="expense-amount" className="form-label">Amount ({currency.symbol})</label>
               <div className="input-with-symbol">
-                <span className="currency-prefix">₦</span>
+                <span className="currency-prefix">{currency.symbol}</span>
                 <input
                   id="expense-amount"
                   type="number"
                   value={formData.amount}
                   onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                  placeholder="e.g. 3500"
+                  placeholder={`e.g. ${convertFromNgn(3500)}`}
                   className={`form-input ${formErrors.amount ? 'input-error' : ''}`}
-                  min="50"
-                  step="50"
+                  min="1"
+                  step="any"
                 />
               </div>
               {formErrors.amount && <div className="form-error-msg">{formErrors.amount}</div>}

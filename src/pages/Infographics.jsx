@@ -1,4 +1,3 @@
-// Visual learning gallery displaying financial diagrams, high-res infographics, and student blueprints
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';

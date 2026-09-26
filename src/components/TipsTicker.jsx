@@ -1,56 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { useCurrency } from '../context/CurrencyContext';
 import './TipsTicker.css';
-
-const FINANCIAL_TICKER_TIPS = [
-  {
-    tag: 'Golden Rule',
-    text: '“A budget is telling your money where to go instead of wondering where it went.” — John C. Maxwell'
-  },
-  {
-    tag: 'Impulse Defense',
-    text: 'The 24-Hour Cooling Rule: Waiting a single day cools 70% of impulse purchase urges.'
-  },
-  {
-    tag: 'Warren Formula',
-    text: '50/30/20 Blueprint: 50% for Needs, 30% for Lifestyle Wants, 20% locked for Savings.'
-  },
-  {
-    tag: 'Campus Hack',
-    text: 'Check university libraries and academic club depots for free textbooks and course software licenses.'
-  },
-  {
-    tag: 'Latte Factor',
-    text: 'A $5 daily incidental takeout equals $150/month. Brewing coffee in a thermos saves $1,800/year.'
-  },
-  {
-    tag: 'Savings Velocity',
-    text: 'Automate your 20% savings on the 1st of every month before discretionary weekend spending starts.'
-  }
-];
 
 // Rotates quick finance tips every 5s; pauses on hover so users have time to read
 export default function TipsTicker() {
+  const { currency, format, convertFromNgn } = useCurrency();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+
+  const tips = [
+    {
+      tag: 'Golden Rule',
+      text: '“A budget is telling your money where to go instead of wondering where it went.” — John C. Maxwell'
+    },
+    {
+      tag: 'Impulse Defense',
+      text: 'The 24-Hour Cooling Rule: Waiting a single day cools 70% of impulse purchase urges.'
+    },
+    {
+      tag: 'Warren Formula',
+      text: '50/30/20 Blueprint: 50% for Needs, 30% for Lifestyle Wants, 20% locked for Savings.'
+    },
+    {
+      tag: 'Campus Hack',
+      text: 'Check university libraries and academic club depots for free textbooks and course software licenses.'
+    },
+    {
+      tag: 'Latte Factor',
+      text: `A ${format(convertFromNgn(5000))} daily incidental takeout equals ${format(convertFromNgn(150000))}/month. Brewing drinks at home saves ${format(convertFromNgn(1800000))}/year.`
+    },
+    {
+      tag: 'Savings Velocity',
+      text: 'Automate your 20% savings on the 1st of every month before discretionary weekend spending starts.'
+    }
+  ];
 
   useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % FINANCIAL_TICKER_TIPS.length);
+      setCurrentIndex((prev) => (prev + 1) % tips.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, [isPaused]);
+  }, [isPaused, tips.length]);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + FINANCIAL_TICKER_TIPS.length) % FINANCIAL_TICKER_TIPS.length);
+    setCurrentIndex((prev) => (prev - 1 + tips.length) % tips.length);
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % FINANCIAL_TICKER_TIPS.length);
+    setCurrentIndex((prev) => (prev + 1) % tips.length);
   };
 
-  const currentTip = FINANCIAL_TICKER_TIPS[currentIndex];
+  const currentTip = tips[currentIndex];
 
   return (
     <div

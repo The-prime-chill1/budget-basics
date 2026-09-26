@@ -501,10 +501,10 @@ export const chatbotKnowledge = [
   },
   {
     id: 'pixelforge',
-    keywords: ['pixelforge', 'team', 'creator', 'creators', 'budgetbee', 'budgetbasics', 'about', 'who made', 'author', 'developer'],
+    keywords: ['pixelforge', 'team', 'creator', 'creators', 'budgetbee', 'budgetbasics', 'about', 'who made', 'author', 'developer', 'opeyemi'],
     title: 'About Team PixelForge',
     response:
-      'BudgetBasics (NextGen BudgetBee) is **built and powered by Team PixelForge**!\n\n• **Eni**: Main Structure, Homepage, Navigation & Integration\n• **Hamid**: Budgeting Basics & Needs vs Wants Quizzes\n• **Tammy**: 50/30/20 & Savings Goals Calculators\n• **Lawal**: Expense Planner & Money Mistakes Guide\n• **Hameed**: AI Chatbot, Search & Filter Features\n\nOur mission is to empower college students and beginners with stress-free personal finance literacy!',
+      'BudgetBasics (NextGen BudgetBee) is **built and powered by Team PixelForge**!\n\n• **Eni**: Main Structure, Homepage, Navigation & Integration\n• **Hamid**: Budgeting Basics & Needs vs Wants Quizzes\n• **Tammy**: 50/30/20 & Savings Goals Calculators\n• **Lawal**: Expense Planner & Money Mistakes Guide\n• **Hameed**: AI Chatbot, Search & Filter Features\n• **Opeyemi**: Learning Content, Infographics & Testing\n\nOur mission is to empower college students and beginners with stress-free personal finance literacy!',
     explanation:
       '**Team PixelForge is a student-first developer team:**\n\nWe designed BudgetBasics to bridge the gap between intimidating financial math and everyday campus life. Every feature is 100% client-side, privacy-first (no banking logins or sensitive data stored), and tailored to real college spending realities!'
   }

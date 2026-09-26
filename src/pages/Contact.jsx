@@ -1,4 +1,3 @@
-// Campus support directory with financial aid contacts, counseling hotlines, and inquiry form
 import React, { useState } from 'react';
 import {
   Mail,
@@ -24,7 +23,7 @@ export default function Contact() {
     subject: '',
     message: ''
   });
-
+// Campus support directory with financial aid contacts, counseling hotlines, and inquiry form
   const [errors, setErrors] = useState({});
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 

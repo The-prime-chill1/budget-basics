@@ -102,6 +102,23 @@ const TEAM_MEMBERS = [
       'Search feature',
       'Sort & Filter features'
     ]
+  },
+  {
+    id: 'opeyemi',
+    name: 'Opeyemi',
+    role: 'LEARNING CONTENT & TESTING',
+    icon: Sparkles,
+    badgeColor: 'bg-emerald-tint',
+    iconColor: 'text-emerald',
+    quote: 'I enjoy creating visual learning content and checking that everything works.',
+    handle: null,
+    photoUrl: null,
+    tasks: [
+      'Infographics/Learning Gallery',
+      'About Us',
+      'Feedback & Contact forms',
+      'Basic testing'
+    ]
   }
 ];
 

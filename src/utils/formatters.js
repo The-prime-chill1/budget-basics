@@ -1,7 +1,7 @@
 // Formatting helpers for multi-currency values and localized dates
 import { CURRENCIES } from '../context/CurrencyContext';
 
-export function formatCurrency(amount, showDecimals = false, isBaseNgn = true) {
+export function formatCurrency(amount, showDecimals = false, isBaseNgn = false, overrideCurrency = null) {
   const num = Number(amount);
   if (isNaN(num) || num === null || num === undefined) {
     return '₦0';
@@ -10,8 +10,11 @@ export function formatCurrency(amount, showDecimals = false, isBaseNgn = true) {
   let symbol = '₦';
   let converted = num;
   try {
-    const savedCode = localStorage.getItem('budgetbasics_currency') || 'NGN';
-    const curr = CURRENCIES.find((c) => c.code === savedCode) || CURRENCIES[0];
+    let curr = overrideCurrency;
+    if (!curr) {
+      const savedCode = localStorage.getItem('budgetbasics_currency') || 'NGN';
+      curr = CURRENCIES.find((c) => c.code === savedCode) || CURRENCIES[0];
+    }
     symbol = curr.symbol;
     if (isBaseNgn && curr.code !== 'NGN' && curr.rateFromNgn) {
       converted = Math.round(num * curr.rateFromNgn);
@@ -26,6 +29,18 @@ export function formatCurrency(amount, showDecimals = false, isBaseNgn = true) {
   }).format(converted);
 
   return `${symbol}${formattedNum}`;
+}
+
+// Automatically detects embedded currency amounts (e.g. ₦45,000, ₦1,000) and converts them to active currency
+export function localizeCurrencyText(text, currency, convertFromNgn, format) {
+  if (!text || typeof text !== 'string') return text;
+  return text.replace(/₦\s*([0-9,]+)/g, (match, rawNum) => {
+    const num = Number(rawNum.replace(/,/g, ''));
+    if (isNaN(num)) return match;
+    if (!currency || currency.code === 'NGN') return `₦${num.toLocaleString()}`;
+    const converted = convertFromNgn ? convertFromNgn(num) : Math.round(num * (currency.rateFromNgn || 1));
+    return format ? format(converted) : `${currency.symbol}${converted.toLocaleString()}`;
+  });
 }
 
 export function formatPercentage(value, isAlreadyPercentage = true) {

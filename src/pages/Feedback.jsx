@@ -1,4 +1,3 @@
-// Student feedback portal for submitting ratings, platform suggestions, and feature evaluations
 import React, { useState } from 'react';
 import {
   MessageSquare,
