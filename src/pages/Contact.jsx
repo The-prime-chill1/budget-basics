@@ -98,7 +98,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <span className="channel-label">Campus Demonstration Helpline</span>
-                    <strong className="channel-val">+234 (0) 800-BUDGET-BEE</strong>
+                    <strong className="channel-val">+2349137632195</strong>
                   </div>
                 </div>
 

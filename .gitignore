@@ -33,3 +33,6 @@ dist-ssr
 vite.config.js.timestamp*
 *.timestamp-*.mjs
 
+# Serverless API functions (not for public repo)
+/api
+

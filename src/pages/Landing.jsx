@@ -1086,7 +1086,7 @@ export default function Landing() {
               <span className="stitch-col-title">Crisis Hotline</span>
               <p className="stitch-crisis-desc">Campus Financial Emergency Assistance &amp; Guidance line:</p>
               <div className="stitch-hotline-box">
-                <strong className="stitch-hotline-num text-gold">1-800-BEE-WISE</strong>
+                <strong className="stitch-hotline-num text-gold">+2349137632195</strong>
                 <span className="stitch-hotline-sub">24/7 Collegiate Advisory Line</span>
                 <span className="stitch-hotline-email">budgetbasic58@gmail.com</span>
               </div>

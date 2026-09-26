@@ -34,7 +34,7 @@ const TEAM_MEMBERS = [
     iconColor: 'text-gold',
     quote: 'I like bringing ideas together and turning them into a working product.',
     handle: null,
-    photoUrl: null,
+    photoUrl: '/team-eni.jpg',
     tasks: [
       'Set up the project',
       'Homepage, Navbar & Footer',
@@ -43,14 +43,14 @@ const TEAM_MEMBERS = [
   },
   {
     id: 'hamid',
-    name: 'Hamid',
+    name: 'Abdulhamid Kasim',
     role: 'Budgeting',
     icon: BookOpen,
     badgeColor: 'bg-emerald-tint',
     iconColor: 'text-emerald',
     quote: 'I enjoy making budgeting ideas clear and practical for students.',
     handle: 'hame - 11',
-    photoUrl: null,
+    photoUrl: '/team-hamid.jpg',
     tasks: [
       'Budgeting Basics',
       'Needs vs Wants'
@@ -58,14 +58,14 @@ const TEAM_MEMBERS = [
   },
   {
     id: 'tammy',
-    name: 'Tammy',
+    name: 'Clinton Tamilore Akande',
     role: 'Calculators',
     icon: Calculator,
     badgeColor: 'bg-blue-tint',
     iconColor: 'text-blue',
     quote: 'I like keeping numbers accurate and making useful tools.',
     handle: 'Tamilore001',
-    photoUrl: null,
+    photoUrl: '/team-tammy.jpg',
     tasks: [
       '50/30/20 Calculator',
       'Savings Goals'
@@ -80,7 +80,7 @@ const TEAM_MEMBERS = [
     iconColor: 'text-amber',
     quote: 'I focus on tracking details and organizing expenses clearly.',
     handle: null,
-    photoUrl: null,
+    photoUrl: '/team-lawal.jpg',
     tasks: [
       'Expense Planner',
       'Add/edit/delete expenses',
@@ -96,7 +96,7 @@ const TEAM_MEMBERS = [
     iconColor: 'text-purple',
     quote: 'I enjoy building smart AI assistance and intuitive search.',
     handle: null,
-    photoUrl: null,
+    photoUrl: '/team-lam.jpg',
     tasks: [
       'AI Chatbot',
       'Search feature',
@@ -105,14 +105,14 @@ const TEAM_MEMBERS = [
   },
   {
     id: 'opeyemi',
-    name: 'Opeyemi',
+    name: 'Ojo Opeyemi Isaac',
     role: 'LEARNING CONTENT & TESTING',
     icon: Sparkles,
     badgeColor: 'bg-emerald-tint',
     iconColor: 'text-emerald',
     quote: 'I enjoy creating visual learning content and checking that everything works.',
     handle: null,
-    photoUrl: null,
+    photoUrl: '/team-opeyemi.jpg',
     tasks: [
       'Infographics/Learning Gallery',
       'About Us',

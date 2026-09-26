@@ -480,28 +480,45 @@
 /* Photo Placeholder / Photo Frame Styles matching Enih Ap's design */
 .role-photo-frame {
   width: 100%;
-  aspect-ratio: 1.15 / 1;
-  min-height: 190px;
+  aspect-ratio: 3 / 4;
+  min-height: 240px;
   background-color: var(--surface-low);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
+  border: 2px solid var(--border-subtle);
+  border-radius: 18px;
   overflow: hidden;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.role-photo-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.18) 0%, transparent 100%);
+  pointer-events: none;
+  border-radius: 0 0 16px 16px;
+}
+
+.role-card:hover .role-photo-frame {
+  border-color: rgba(245, 158, 11, 0.55);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
 }
 
 [data-theme='light'] .role-photo-frame {
-  background: #ffffff;
+  background: #f8fafc;
   border-color: rgba(226, 232, 240, 0.9);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 [data-theme='dark'] .role-photo-frame {
   background: rgba(15, 23, 42, 0.6);
-  border-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.09);
 }
 
 .role-photo-placeholder {
@@ -516,14 +533,14 @@
 }
 
 .role-photo-icon-box {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-muted);
-  opacity: 0.65;
+  opacity: 0.6;
   transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
@@ -550,7 +567,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: inherit;
+  object-position: center top;
+  transition: transform 0.4s ease;
+}
+
+.role-card:hover .role-photo-img {
+  transform: scale(1.04);
 }
 
 .role-member-quote {
